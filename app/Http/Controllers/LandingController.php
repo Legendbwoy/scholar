@@ -56,9 +56,11 @@ class LandingController extends Controller
             'message' => 'required|string|max:1000',
         ]);
 
+        $interest = $validated['interest'] ?? 'General Admissions';
+
         AuditTrail::log(
             'ADMISSION_INQUIRY',
-            "Prospective student/parent inquiry received from {$validated['name']} ({$validated['email']}) for {$validated['interest']}.",
+            "Prospective student/parent inquiry received from {$validated['name']} ({$validated['email']}) for {$interest}.",
             'Inquiry',
             null,
             $validated

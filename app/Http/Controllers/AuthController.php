@@ -126,6 +126,10 @@ class AuthController extends Controller
 
     public function switchRole($role)
     {
+        if ($role === 'super_admin') {
+            $role = 'admin';
+        }
+
         $allowed = ['admin', 'teacher', 'student', 'parent'];
         if (!in_array($role, $allowed)) {
             abort(400, 'Invalid role');

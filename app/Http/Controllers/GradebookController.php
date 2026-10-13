@@ -138,9 +138,16 @@ class GradebookController extends Controller
     {
         $assessment = Assessment::findOrFail($id);
         $scoresData = $request->input('grades', []);
+        if (is_string($scoresData)) {
+            $scoresData = json_decode($scoresData, true) ?? [];
+        }
+        if (!is_array($scoresData)) {
+            $scoresData = [];
+        }
 
         $savedCount = 0;
         foreach ($scoresData as $studentId => $data) {
+            if (!is_array($data)) continue;
             $score = isset($data['score']) && $data['score'] !== '' ? (float) $data['score'] : 0.0;
             if ($score > $assessment->max_marks) $score = (float) $assessment->max_marks;
             if ($score < 0) $score = 0.0;

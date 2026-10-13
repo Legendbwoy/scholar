@@ -162,11 +162,19 @@ class AttendanceController extends Controller
 
     public function verifyQr(Request $request)
     {
-        $request->validate([
-            'student_id' => 'required|exists:students,id',
-        ]);
+        $idOrCode = $request->input('student_id') ?? $request->input('student_code');
+        if (!$idOrCode) {
+            return response()->json(['success' => false, 'message' => 'Student ID or pass code is required.'], 422);
+        }
 
-        $student = Student::with('user', 'schoolClass')->findOrFail($request->student_id);
+        $student = Student::with('user', 'schoolClass')
+            ->where('id', $idOrCode)
+            ->orWhere('admission_number', $idOrCode)
+            ->first();
+
+        if (!$student) {
+            return response()->json(['success' => false, 'message' => 'Student pass not found in institutional registry.'], 404);
+        }
         $date = now()->toDateString();
 
         $att = Attendance::updateOrCreate(
