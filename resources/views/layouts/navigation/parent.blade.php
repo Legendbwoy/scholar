@@ -11,7 +11,12 @@
     @foreach(auth()->user()->guardian->students as $child)
     <li>
         <a href="{{ route('students.show', $child->id) }}" class="{{ request()->is('students/' . $child->id) ? 'active' : '' }}">
-            <i class="fa-solid fa-user-graduate"></i> <span>{{ $child->user->name }}</span>
+            <i class="fa-solid fa-user-graduate"></i> <span>{{ $child->user->name }} (360)</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('gradebook.report-card', $child->id) }}" class="" target="_blank">
+            <i class="fa-solid fa-award text-warning"></i> <span>{{ $child->user->name }}'s Report Card <i class="fa-solid fa-arrow-up-right-from-square small ms-1" style="font-size: 10px;"></i></span>
         </a>
     </li>
     @endforeach

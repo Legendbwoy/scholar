@@ -11,6 +11,11 @@
         <i class="fa-solid fa-id-card"></i> <span>My Student 360</span>
     </a>
 </li>
+<li>
+    <a href="{{ route('gradebook.report-card', auth()->user()->student->id) }}" class="{{ request()->routeIs('gradebook.report-card') ? 'active' : '' }}" target="_blank">
+        <i class="fa-solid fa-award text-warning"></i> <span>My Report Card <i class="fa-solid fa-arrow-up-right-from-square small ms-1" style="font-size: 10px;"></i></span>
+    </a>
+</li>
 @endif
 
 <li class="nav-category">Learning & LMS</li>

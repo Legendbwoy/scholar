@@ -557,6 +557,28 @@
                     <div id="commandPaletteDefaults">
                         <div class="text-uppercase text-muted fw-bold px-2 mb-2" style="font-size: 11px; letter-spacing: 0.5px;">Recommended Quick Actions</div>
                         <div class="list-group list-group-flush rounded-3">
+                          @if(auth()->user()->isAdmin() || auth()->user()->isTeacher())
+                          <a href="{{ route('gradebook.index') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                              <div class="d-flex align-items-center gap-3">
+                                  <div class="p-2 rounded-2 bg-primary-subtle text-primary"><i class="fa-solid fa-file-signature"></i></div>
+                                  <div>
+                                      <div class="fw-semibold text-dark">Academic Gradebook & Matrix</div>
+                                      <small class="text-muted">Evaluate students, enter test marks & compute weighted GPAs</small>
+                                  </div>
+                              </div>
+                              <span class="badge bg-primary-subtle text-primary">Grades</span>
+                          </a>
+                          <a href="{{ route('gradebook.reports') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                              <div class="d-flex align-items-center gap-3">
+                                  <div class="p-2 rounded-2 bg-warning-subtle text-warning"><i class="fa-solid fa-award"></i></div>
+                                  <div>
+                                      <div class="fw-semibold text-dark">Class Report Cards Registry</div>
+                                      <small class="text-muted">Print authenticated term transcripts & class standings</small>
+                                  </div>
+                              </div>
+                              <span class="badge bg-warning-subtle text-dark">Report Cards</span>
+                          </a>
+                          @endif
                             @if(auth()->user()->isAdmin())
                             <a href="{{ route('students.create') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
                                 <div class="d-flex align-items-center gap-3">

@@ -18,6 +18,9 @@
             <span class="badge bg-{{ $student->status === 'active' ? 'success' : 'danger' }}-subtle text-{{ $student->status === 'active' ? 'success' : 'danger' }} fs-6 px-3 py-2 border">
                 Status: {{ ucfirst($student->status) }}
             </span>
+            <a href="{{ route('gradebook.report-card', $student->id) }}" class="btn btn-outline-primary rounded-pill px-3 fw-bold" target="_blank">
+                <i class="fa-solid fa-print me-1"></i> Print Official Report Card
+            </a>
             @if(auth()->user()->isAdmin())
             <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning rounded-pill px-4 fw-bold">
                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Profile

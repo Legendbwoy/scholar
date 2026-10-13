@@ -11,6 +11,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\CommunicationController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\GradebookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,15 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::get('/attendance/qr', [AttendanceController::class, 'qrScanner'])->name('attendance.qr');
     Route::post('/attendance/qr/verify', [AttendanceController::class, 'verifyQr'])->name('attendance.qr.verify');
 
+    // Academic Gradebook & Continuous Assessments (Admin & Teacher)
+    Route::get('/gradebook', [GradebookController::class, 'index'])->name('gradebook.index');
+    Route::post('/gradebook/assessments', [GradebookController::class, 'store'])->name('gradebook.assessments.store');
+    Route::delete('/gradebook/assessments/{id}', [GradebookController::class, 'destroy'])->whereNumber('id')->name('gradebook.assessments.destroy');
+    Route::get('/gradebook/assessments/{id}/sheet', [GradebookController::class, 'sheet'])->whereNumber('id')->name('gradebook.sheet');
+    Route::post('/gradebook/assessments/{id}/grades', [GradebookController::class, 'updateBatch'])->whereNumber('id')->name('gradebook.grades.batch');
+    Route::get('/gradebook/reports', [GradebookController::class, 'reportsIndex'])->name('gradebook.reports');
+    Route::post('/gradebook/reports/{studentId}/remarks', [GradebookController::class, 'updateRemarks'])->whereNumber('studentId')->name('gradebook.reports.remarks');
+
     // Institutional Broadcast Dispatch
     Route::get('/broadcasts/create', [CommunicationController::class, 'create'])->name('broadcasts.create');
     Route::post('/broadcasts', [CommunicationController::class, 'send'])->name('broadcasts.send');
@@ -123,6 +133,9 @@ Route::middleware('auth')->group(function () {
     // Communications & Campus Bulletins
     Route::get('/broadcasts', [CommunicationController::class, 'index'])->name('broadcasts.index');
     Route::get('/broadcasts/{id}', [CommunicationController::class, 'show'])->whereNumber('id')->name('broadcasts.show');
+
+    // Student Official Academic Report Card (Accessible to Student, Guardian, or Faculty)
+    Route::get('/gradebook/report-card/{studentId}', [GradebookController::class, 'reportCard'])->whereNumber('studentId')->name('gradebook.report-card');
 
     // Student 360 Profile (Student self-view, Guardian ward-view, or Staff oversight)
     Route::get('/students/{id}', [StudentController::class, 'show'])->whereNumber('id')->name('students.show');

@@ -33,6 +33,18 @@
     </a>
 </li>
 
+<li class="nav-category">Assessments & Grading</li>
+<li>
+    <a href="{{ route('gradebook.index') }}" class="{{ request()->routeIs('gradebook.index', 'gradebook.sheet') ? 'active' : '' }}">
+        <i class="fa-solid fa-file-signature"></i> <span>Gradebook & Matrix</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('gradebook.reports') }}" class="{{ request()->routeIs('gradebook.reports*') ? 'active' : '' }}">
+        <i class="fa-solid fa-award"></i> <span>Class Report Cards</span>
+    </a>
+</li>
+
 <li class="nav-category">Cohorts & Curriculum</li>
 <li>
     <a href="{{ route('academic.classes') }}" class="{{ request()->routeIs('academic.classes') ? 'active' : '' }}">
