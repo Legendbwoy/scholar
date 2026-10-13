@@ -39,6 +39,11 @@ Route::get('/auth/demo/{role}', [AuthController::class, 'switchRole'])->name('au
 */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     // Student Enrollment, Editing & Archiving
+    // Bulk Student Excel Onboarding & Template
+    Route::get('/students/bulk', [StudentController::class, 'bulkCreate'])->name('students.bulk');
+    Route::get('/students/bulk/template', [StudentController::class, 'downloadTemplate'])->name('students.bulk.template');
+    Route::post('/students/bulk/upload', [StudentController::class, 'bulkUpload'])->name('students.bulk.upload');
+
     Route::get('/students/create', [StudentController::class, 'create'])->name('students.create');
     Route::post('/students', [StudentController::class, 'store'])->name('students.store');
     Route::get('/students/{id}/edit', [StudentController::class, 'edit'])->whereNumber('id')->name('students.edit');

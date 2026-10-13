@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Students Roster — Scholar SMS')
+@section('title', 'Students Roster â€” Scholar SMS')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -9,9 +9,14 @@
         <p class="text-muted mb-0">Institutional Enrolled Students, Academic Records & Standing</p>
     </div>
     @if(auth()->user()->isAdmin())
-    <a href="{{ route('students.create') }}" class="btn btn-portal-primary rounded-pill px-4">
-        <i class="fa-solid fa-user-plus me-1"></i> Enroll New Student
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ route('students.bulk') }}" class="btn btn-outline-success rounded-pill px-3 fw-bold">
+            <i class="fa-solid fa-file-excel me-1"></i> Bulk Excel Import
+        </a>
+        <a href="{{ route('students.create') }}" class="btn btn-portal-primary rounded-pill px-4">
+            <i class="fa-solid fa-user-plus me-1"></i> Enroll New Student
+        </a>
+    </div>
     @endif
 </div>
 
@@ -69,7 +74,7 @@
                         <td><span class="badge bg-light text-dark border fw-bold">{{ $s->admission_number }}</span></td>
                         <td>
                             <div class="fw-semibold small">{{ $s->schoolClass->name ?? 'Unassigned' }}</div>
-                            <small class="text-muted">Section {{ $s->schoolClass->section ?? 'N/A' }} • Roll {{ $s->roll_number }}</small>
+                            <small class="text-muted">Section {{ $s->schoolClass->section ?? 'N/A' }} â€¢ Roll {{ $s->roll_number }}</small>
                         </td>
                         <td>
                             @if($s->guardian)

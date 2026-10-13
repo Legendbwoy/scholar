@@ -1,4 +1,4 @@
-﻿{{-- ================= SUPER ADMIN NAVIGATION ================= --}}
+{{-- ================= SUPER ADMIN NAVIGATION ================= --}}
 <li class="nav-category">Executive Console</li>
 <li>
     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -15,6 +15,11 @@
 <li>
     <a href="{{ route('students.create') }}" class="{{ request()->routeIs('students.create') ? 'active' : '' }}">
         <i class="fa-solid fa-user-plus"></i> <span>Enroll Student</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('students.bulk') }}" class="{{ request()->routeIs('students.bulk*') ? 'active' : '' }}">
+        <i class="fa-solid fa-file-excel"></i> <span>Bulk Excel Import</span>
     </a>
 </li>
 <li>

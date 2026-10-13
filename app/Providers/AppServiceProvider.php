@@ -11,7 +11,26 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        spl_autoload_register(function ($class) {
+            $prefixes = [
+                'PhpOffice\\PhpSpreadsheet\\' => base_path('vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/'),
+                'ZipStream\\' => base_path('vendor/maennchen/zipstream-php/src/'),
+                'Matrix\\' => base_path('vendor/markbaker/matrix/classes/src/'),
+                'Complex\\' => base_path('vendor/markbaker/complex/classes/src/'),
+                'Composer\\Pcre\\' => base_path('vendor/composer/pcre/src/'),
+            ];
+
+            foreach ($prefixes as $prefix => $baseDir) {
+                if (str_starts_with($class, $prefix)) {
+                    $relativeClass = substr($class, strlen($prefix));
+                    $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+                    if (file_exists($file)) {
+                        require_once $file;
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     /**
