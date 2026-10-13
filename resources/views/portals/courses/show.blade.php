@@ -121,11 +121,11 @@
 <div class="modal fade" id="uploadMaterialModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
-            <form action="{{ route('courses.materials.store', $course->id) }}" method="POST" id="uploadLmsMaterialForm">
+            <form action="{{ route('courses.materials.store', $course->id) }}" method="POST" enctype="multipart/form-data" id="uploadLmsMaterialForm">
                 @csrf
-                <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
+                <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #0b1a13 0%, #152c20 100%); border-bottom: 2px solid #009961 !important;">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="p-2 rounded-3 bg-success text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center;">
+                        <div class="p-2 rounded-3 text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #009961;">
                             <i class="fa-solid fa-cloud-arrow-up fs-5"></i>
                         </div>
                         <div>
@@ -136,37 +136,68 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body p-4 bg-light">
+                    <!-- Digital Asset Dropzone -->
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold small text-dark d-flex justify-content-between align-items-center">
+                            <span>Upload Material Document / Media Asset</span>
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">Supported: PDF, PPTX, DOCX, ZIP, MP4 (Max 50MB)</span>
+                        </label>
+                        <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-white shadow-sm position-relative transition" 
+                             id="materialDropArea"
+                             style="border-color: #009961 !important; cursor: pointer; transition: all 0.25s ease;" 
+                             onclick="document.getElementById('materialFileInput').click()">
+                            <input type="file" name="material_file" id="materialFileInput" class="d-none" 
+                                   accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,.rar,.mp4,.mov,.txt,.png,.jpg" 
+                                   onchange="handleMaterialFileSelected(this)">
+                            
+                            <div id="dropPromptState">
+                                <i class="fa-solid fa-cloud-arrow-up fs-1 text-success mb-2"></i>
+                                <div class="fw-bold text-dark fs-6">Click to browse or drag and drop course file here</div>
+                                <small class="text-muted d-block">Automatic format parsing, metadata detection & indexing</small>
+                            </div>
+
+                            <div id="dropSelectedState" class="d-none">
+                                <div class="p-3 rounded-3 bg-light border border-success d-inline-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-3 bg-success text-white">
+                                        <i class="fa-solid fa-file-circle-check fs-4"></i>
+                                    </div>
+                                    <div class="text-start">
+                                        <div class="fw-bold text-dark" id="dispFileName">sample.pdf</div>
+                                        <div class="d-flex align-items-center gap-2 small text-muted">
+                                            <span class="badge bg-success text-white" id="dispFileSize">0 KB</span>
+                                            <span id="dispFileType">Document</span>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-outline-danger rounded-circle p-1 ms-2" onclick="clearMaterialFile(event)" title="Choose another file">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold small text-dark">Resource Title <span class="text-danger">*</span></label>
-                        <input type="text" name="title" class="form-control border-light shadow-sm" placeholder="e.g. Unit 4: Kinetic Molecular Theory — Lecture Slides & Problem Set" required>
+                        <input type="text" name="title" id="materialTitleInput" class="form-control border-light shadow-sm" placeholder="e.g. Unit 4: Kinetic Molecular Theory — Lecture Slides & Problem Set" required>
                     </div>
 
                     <div class="row g-3 mb-3">
                         <div class="col-md-6">
                             <label class="form-label fw-semibold small text-dark">Material Category <span class="text-danger">*</span></label>
-                            <select name="file_type" class="form-select border-light shadow-sm" required>
+                            <select name="file_type" id="materialTypeSelect" class="form-select border-light shadow-sm" required>
                                 <option value="pdf">📄 PDF Document (.pdf)</option>
-                                <option value="slides">📊 Slide Deck (.pptx)</option>
-                                <option value="document">📦 Worksheet / Archive (.zip/.docx)</option>
-                                <option value="video">🎥 Multimedia Video Stream</option>
+                                <option value="slides">📊 Slide Deck (.pptx / .ppt)</option>
+                                <option value="document">📦 Worksheet / Document / Archive (.docx / .zip)</option>
+                                <option value="video">🎥 Multimedia Video Stream (.mp4)</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold small text-dark">File Size</label>
-                            <input type="text" name="file_size" class="form-control border-light shadow-sm" value="5.2 MB">
+                            <input type="text" name="file_size" id="materialSizeInput" class="form-control border-light shadow-sm" value="5.2 MB">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold small text-dark">Syllabus Version</label>
                             <input type="text" name="version" class="form-control border-light shadow-sm" value="v2.1">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold small text-dark">Digital Asset Dropzone Preview</label>
-                        <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-white shadow-sm" style="border-color: #009961 !important;">
-                            <i class="fa-solid fa-file-arrow-up fs-2 text-primary mb-2"></i>
-                            <div class="fw-semibold text-dark">Drag and drop course material here, or browse</div>
-                            <small class="text-muted d-block">Supported formats: PDF, PPTX, DOCX, ZIP, MP4 (Max institutional payload: 50 MB)</small>
                         </div>
                     </div>
 
@@ -177,7 +208,7 @@
                 </div>
                 <div class="modal-footer border-0 p-4 pt-0 bg-light">
                     <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" onclick="Swal.fire({title: 'Publishing Material...', text: 'Encrypting and indexing learning asset in course catalog...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});">
+                    <button type="submit" class="btn rounded-pill px-4 fw-bold shadow-sm text-white" style="background-color: #009961;" id="publishMaterialSubmitBtn">
                         <i class="fa-solid fa-check me-1"></i> Publish to LMS
                     </button>
                 </div>
@@ -185,4 +216,102 @@
         </div>
     </div>
 </div>
+
+@section('scripts')
+<script>
+    function handleMaterialFileSelected(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const dropPrompt = document.getElementById('dropPromptState');
+            const dropSelected = document.getElementById('dropSelectedState');
+            
+            dropPrompt.classList.add('d-none');
+            dropSelected.classList.remove('d-none');
+
+            document.getElementById('dispFileName').innerText = file.name;
+            
+            // Format size
+            const sizeStr = file.size >= 1048576 
+                ? (file.size / 1048576).toFixed(1) + ' MB' 
+                : (file.size / 1024).toFixed(1) + ' KB';
+            document.getElementById('dispFileSize').innerText = sizeStr;
+            document.getElementById('materialSizeInput').value = sizeStr;
+
+            // Title autofill if empty
+            const titleInput = document.getElementById('materialTitleInput');
+            if (!titleInput.value || titleInput.value.trim() === '') {
+                const cleanName = file.name.substring(0, file.name.lastIndexOf('.')) || file.name;
+                titleInput.value = cleanName.replace(/[_-]/g, ' ');
+            }
+
+            // Auto-detect Category
+            const ext = file.name.split('.').pop().toLowerCase();
+            const typeSelect = document.getElementById('materialTypeSelect');
+            if (['pdf'].includes(ext)) {
+                typeSelect.value = 'pdf';
+                document.getElementById('dispFileType').innerText = 'PDF Document';
+            } else if (['ppt', 'pptx', 'key'].includes(ext)) {
+                typeSelect.value = 'slides';
+                document.getElementById('dispFileType').innerText = 'Slide Deck';
+            } else if (['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(ext)) {
+                typeSelect.value = 'video';
+                document.getElementById('dispFileType').innerText = 'Video Multimedia';
+            } else {
+                typeSelect.value = 'document';
+                document.getElementById('dispFileType').innerText = 'Worksheet / Archive';
+            }
+        }
+    }
+
+    function clearMaterialFile(e) {
+        if (e) e.stopPropagation();
+        const input = document.getElementById('materialFileInput');
+        input.value = '';
+        document.getElementById('dropPromptState').classList.remove('d-none');
+        document.getElementById('dropSelectedState').classList.add('d-none');
+    }
+
+    // Drag and Drop listeners
+    const dropArea = document.getElementById('materialDropArea');
+    if (dropArea) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropArea.style.backgroundColor = 'rgba(0, 153, 97, 0.08)';
+                dropArea.style.borderColor = '#007a4d';
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropArea.style.backgroundColor = '#ffffff';
+                dropArea.style.borderColor = '#009961';
+            }, false);
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                const input = document.getElementById('materialFileInput');
+                input.files = files;
+                handleMaterialFileSelected(input);
+            }
+        }, false);
+    }
+
+    // Submission spinner
+    const lmsForm = document.getElementById('uploadLmsMaterialForm');
+    if (lmsForm) {
+        lmsForm.addEventListener('submit', function() {
+            const btn = document.getElementById('publishMaterialSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Encrypting & Publishing Asset...';
+        });
+    }
+</script>
+@endsection
 @endsection

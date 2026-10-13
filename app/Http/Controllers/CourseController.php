@@ -139,20 +139,52 @@ class CourseController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'description' => 'nullable|string',
-            'file_type' => 'required|in:pdf,video,document,slides,link',
+            'file_type' => 'nullable|string|in:pdf,video,document,slides,link',
             'file_size' => 'nullable|string',
             'version' => 'nullable|string',
+            'material_file' => 'nullable|file|max:51200', // up to 50MB
         ]);
+
+        $fileType = $validated['file_type'] ?? 'document';
+        $fileSize = $validated['file_size'] ?? '1.0 MB';
+        $filePath = null;
+
+        if ($request->hasFile('material_file') && $request->file('material_file')->isValid()) {
+            $uploaded = $request->file('material_file');
+            $ext = strtolower($uploaded->getClientOriginalExtension());
+            $bytes = $uploaded->getSize();
+            $fileSize = $bytes >= 1048576 
+                ? number_format($bytes / 1048576, 1) . ' MB' 
+                : number_format($bytes / 1024, 1) . ' KB';
+
+            // Auto-detect file type from extension
+            if (in_array($ext, ['pdf'])) {
+                $fileType = 'pdf';
+            } elseif (in_array($ext, ['ppt', 'pptx', 'key'])) {
+                $fileType = 'slides';
+            } elseif (in_array($ext, ['mp4', 'mov', 'avi', 'mkv', 'webm'])) {
+                $fileType = 'video';
+            } else {
+                $fileType = 'document';
+            }
+
+            // Store cleanly in storage/app/public/materials
+            $safeName = time() . '_' . strtolower(preg_replace('/[^a-zA-Z0-9_\.-]/', '_', $uploaded->getClientOriginalName()));
+            $filePath = $uploaded->storeAs('materials', $safeName, 'public');
+        } else {
+            $ext = $fileType === 'slides' ? 'pptx' : ($fileType === 'video' ? 'mp4' : 'pdf');
+            $filePath = 'materials/' . strtolower(preg_replace('/[^a-zA-Z0-9_]/', '_', $validated['title'])) . '.' . $ext;
+        }
 
         $material = CourseMaterial::create([
             'course_id' => $course->id,
             'teacher_id' => auth()->user()->staff?->id ?? $course->teacher_id,
             'title' => $validated['title'],
             'description' => $validated['description'] ?? null,
-            'file_type' => $validated['file_type'],
-            'file_path' => 'materials/' . strtolower(str_replace(' ', '_', $validated['title'])) . '.' . ($validated['file_type'] === 'slides' ? 'pptx' : 'pdf'),
-            'file_size' => $validated['file_size'] ?? '3.5 MB',
-            'version' => $validated['version'] ?? '1.0',
+            'file_type' => $fileType,
+            'file_path' => $filePath,
+            'file_size' => $fileSize,
+            'version' => $validated['version'] ?? 'v1.0',
             'download_count' => 0,
         ]);
 
@@ -163,7 +195,7 @@ class CourseController extends Controller
             $material->id
         );
 
-        return redirect()->route('courses.show', $course->id)->with('success', "Learning resource '{$material->title}' posted to student LMS portal.");
+        return redirect()->route('courses.show', $course->id)->with('success', "Learning material '{$material->title}' published to student LMS repository successfully.");
     }
 
     public function destroyMaterial($id)
@@ -171,6 +203,11 @@ class CourseController extends Controller
         $material = CourseMaterial::findOrFail($id);
         $courseId = $material->course_id;
         $title = $material->title;
+
+        // Clean up physical file if it exists on disk
+        if ($material->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($material->file_path)) {
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($material->file_path);
+        }
 
         $material->delete();
 
@@ -191,18 +228,32 @@ class CourseController extends Controller
 
         AuditTrail::log(
             'MATERIAL_DOWNLOADED',
-            "User " . auth()->user()->name . " accessed LMS file: {$material->title}.",
+            "User " . (auth()->user()?->name ?? 'Student') . " accessed LMS file: {$material->title}.",
             'CourseMaterial',
             $material->id
         );
 
+        // Serve real physical file if present on public storage disk
+        if ($material->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($material->file_path)) {
+            $path = \Illuminate\Support\Facades\Storage::disk('public')->path($material->file_path);
+            return response()->download($path, basename($material->file_path));
+        }
+
+        // Demonstration streaming fallback
         return response()->streamDownload(function () use ($material) {
-            echo "SCHOLAR LMS ACADEMIC RESOURCE: " . $material->title . "\n";
-            echo "Course: " . ($material->course->title ?? 'General') . "\n";
-            echo "Version: " . $material->version . "\n";
+            echo "=================================================================\n";
+            echo "SCHOLAR LMS ACADEMIC REPOSITORY ASSET\n";
+            echo "=================================================================\n\n";
+            echo "Resource Title: " . $material->title . "\n";
+            echo "Course Curriculum: " . ($material->course->title ?? 'General Academic') . "\n";
+            echo "Instructor: " . ($material->teacher->user->name ?? 'Faculty Office') . "\n";
+            echo "Version: " . ($material->version ?? 'v1.0') . "\n";
+            echo "Category: " . strtoupper($material->file_type ?? 'DOCUMENT') . "\n";
             echo "Timestamp: " . now()->toIso8601String() . "\n";
-            echo "Description: " . $material->description . "\n";
-            echo "\n[Simulated Document Content - Official Scholar SMS Repository Asset]";
+            echo "Description: " . ($material->description ?? 'Official course syllabus & instructional material.') . "\n\n";
+            echo "-----------------------------------------------------------------\n";
+            echo "Certified Academic Resource - Scholar SMS Digital LMS\n";
+            echo "=================================================================\n";
         }, basename($material->file_path ?? 'document.pdf'));
     }
 }

@@ -135,7 +135,7 @@
                 <!-- File Drag & Drop Box -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold small text-muted">Select Filled Spreadsheet (.xlsx, .xls, or .csv)</label>
-                    <div class="p-4 border-2 border-dashed rounded-4 text-center bg-light" style="border: 2px dashed #cbd5e1; cursor: pointer;" onclick="document.getElementById('excelFileInput').click();">
+                    <div id="excelDropArea" class="p-4 border-2 border-dashed rounded-4 text-center bg-light" style="border: 2px dashed #009961; cursor: pointer; transition: all 0.25s ease;" onclick="document.getElementById('excelFileInput').click();">
                         <i class="fa-solid fa-cloud-arrow-up fs-1 text-primary mb-2"></i>
                         <h6 class="fw-bold mb-1">Click to select or drag and drop your file here</h6>
                         <small class="text-muted d-block mb-2">Supports Microsoft Excel (.xlsx, .xls) and CSV files up to 15MB</small>
@@ -284,6 +284,37 @@
             badge.style.display = 'inline-block';
             badge.innerHTML = '<i class="fa-solid fa-file-excel me-1 text-success"></i> ' + file.name + ' (' + (file.size / 1024).toFixed(1) + ' KB)';
         }
+    }
+
+    const excelDrop = document.getElementById('excelDropArea');
+    if (excelDrop) {
+        ['dragenter', 'dragover'].forEach(name => {
+            excelDrop.addEventListener(name, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                excelDrop.style.backgroundColor = 'rgba(0, 153, 97, 0.08)';
+                excelDrop.style.borderColor = '#007a4d';
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(name => {
+            excelDrop.addEventListener(name, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                excelDrop.style.backgroundColor = '#f8f9fa';
+                excelDrop.style.borderColor = '#009961';
+            }, false);
+        });
+
+        excelDrop.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            if (files && files.length > 0) {
+                const input = document.getElementById('excelFileInput');
+                input.files = files;
+                handleFileSelected(input);
+            }
+        }, false);
     }
 
     document.getElementById('bulkUploadForm').addEventListener('submit', function() {
