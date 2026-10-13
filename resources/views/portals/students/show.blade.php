@@ -22,7 +22,11 @@
             <a href="{{ route('students.edit', $student->id) }}" class="btn btn-warning rounded-pill px-4 fw-bold">
                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Profile
             </a>
-            <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Archive or suspend this student?');">
+            <form action="{{ route('students.destroy', $student->id) }}" method="POST" class="d-inline confirm-action" 
+                  data-confirm-title="Suspend Student Dossier?" 
+                  data-confirm-text="Deactivating {{ $student->user->name }} ({{ $student->admission_number }}) will restrict portal login and archive attendance tracking." 
+                  data-confirm-btn="Suspend Student" 
+                  data-confirm-color="#dc3545">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-outline-danger rounded-pill px-3">

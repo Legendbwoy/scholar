@@ -15,7 +15,11 @@
             <a href="{{ route('staff.edit', $staff->id) }}" class="btn btn-warning rounded-pill px-4 fw-bold">
                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Faculty
             </a>
-            <form action="{{ route('staff.destroy', $staff->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deactivate faculty appointment?');">
+            <form action="{{ route('staff.destroy', $staff->id) }}" method="POST" class="d-inline confirm-action" 
+                  data-confirm-title="Deactivate Faculty Appointment?" 
+                  data-confirm-text="Are you sure you want to deactivate faculty appointment for {{ $staff->user->name }} ({{ $staff->employee_id }})?" 
+                  data-confirm-btn="Deactivate Faculty" 
+                  data-confirm-color="#dc3545">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-outline-danger rounded-pill px-3">

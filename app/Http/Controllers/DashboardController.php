@@ -119,4 +119,84 @@ class DashboardController extends Controller
 
         return view('portals.parent.dashboard', compact('user', 'guardian', 'children', 'broadcasts'));
     }
+
+    public function quickSearch(Request $request)
+    {
+        $query = trim($request->get('q', ''));
+        if (strlen($query) < 1) {
+            return response()->json(['results' => []]);
+        }
+
+        $results = [];
+        $user = Auth::user();
+
+        // 1. Students search (Admin & Teachers)
+        if ($user->isAdmin() || $user->isTeacher()) {
+            $students = Student::with(['user', 'schoolClass'])
+                ->where('admission_number', 'LIKE', "%{$query}%")
+                ->orWhereHas('user', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%")
+                      ->orWhere('email', 'LIKE', "%{$query}%");
+                })
+                ->take(5)
+                ->get();
+
+            foreach ($students as $s) {
+                $results[] = [
+                    'category' => 'Students Registry',
+                    'title' => $s->user->name,
+                    'subtitle' => 'Adm #' . $s->admission_number . ' • ' . ($s->schoolClass->name ?? 'Unassigned'),
+                    'url' => route('students.show', $s->id),
+                    'icon' => 'fa-solid fa-user-graduate',
+                    'badge' => ucfirst($s->status),
+                    'badge_class' => $s->status === 'active' ? 'bg-success' : 'bg-danger',
+                ];
+            }
+        }
+
+        // 2. LMS Courses (All verified roles)
+        $courses = Course::with(['teacher.user', 'schoolClass'])
+            ->where('title', 'LIKE', "%{$query}%")
+            ->orWhere('code', 'LIKE', "%{$query}%")
+            ->take(5)
+            ->get();
+
+        foreach ($courses as $c) {
+            $results[] = [
+                'category' => 'Courses & LMS',
+                'title' => $c->title . ' (' . $c->code . ')',
+                'subtitle' => 'Faculty: ' . ($c->teacher->user->name ?? 'Staff') . ' • Cohort: ' . ($c->schoolClass->name ?? 'General'),
+                'url' => route('courses.show', $c->id),
+                'icon' => 'fa-solid fa-book-open',
+                'badge' => $c->credits . ' Credits',
+                'badge_class' => 'bg-primary',
+            ];
+        }
+
+        // 3. Faculty & Staff (Admin only)
+        if ($user->isAdmin()) {
+            $staff = Staff::with(['user', 'department'])
+                ->where('employee_id', 'LIKE', "%{$query}%")
+                ->orWhereHas('user', function ($q) use ($query) {
+                    $q->where('name', 'LIKE', "%{$query}%")
+                      ->orWhere('email', 'LIKE', "%{$query}%");
+                })
+                ->take(4)
+                ->get();
+
+            foreach ($staff as $st) {
+                $results[] = [
+                    'category' => 'Faculty & Staff',
+                    'title' => $st->user->name,
+                    'subtitle' => ($st->designation ?? 'Faculty') . ' • ' . ($st->department->name ?? 'Academics'),
+                    'url' => route('staff.show', $st->id),
+                    'icon' => 'fa-solid fa-chalkboard-user',
+                    'badge' => $st->employee_id,
+                    'badge_class' => 'bg-info text-dark',
+                ];
+            }
+        }
+
+        return response()->json(['results' => $results]);
+    }
 }

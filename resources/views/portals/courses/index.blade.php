@@ -49,7 +49,11 @@
                             <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-sm btn-outline-secondary rounded-pill px-2" title="Edit Course">
                                 <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete course {{ $course->title }}?');">
+                            <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline confirm-action" 
+                                  data-confirm-title="Delete Course Syllabus?" 
+                                  data-confirm-text="Are you sure you want to permanently delete '{{ $course->title }}' ({{ $course->code }})? All course lecture materials will be removed." 
+                                  data-confirm-btn="Delete Course" 
+                                  data-confirm-color="#dc3545">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-2" title="Delete Course">

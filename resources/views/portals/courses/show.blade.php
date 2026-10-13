@@ -20,7 +20,11 @@
             <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadMaterialModal">
                 <i class="fa-solid fa-cloud-arrow-up me-1"></i> Upload Material
             </button>
-            <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this course?');">
+            <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline confirm-action" 
+                  data-confirm-title="Delete Academic Course?" 
+                  data-confirm-text="Deleting '{{ $course->title }}' ({{ $course->code }}) will purge associated course files and syllabi from student portals." 
+                  data-confirm-btn="Delete Course" 
+                  data-confirm-color="#dc3545">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="btn btn-outline-danger rounded-pill px-3">
@@ -88,7 +92,11 @@
                                 <i class="fa-solid fa-download me-1"></i> Download
                             </a>
                             @if(auth()->user()->isAdmin() || (auth()->user()->isTeacher() && auth()->user()->staff?->id == $course->teacher_id))
-                            <form action="{{ route('materials.destroy', $mat->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Remove material {{ $mat->title }}?');">
+                            <form action="{{ route('materials.destroy', $mat->id) }}" method="POST" class="d-inline confirm-action" 
+                                  data-confirm-title="Remove Learning Material?" 
+                                  data-confirm-text="Are you sure you want to remove '{{ $mat->title }}' from the digital LMS library?" 
+                                  data-confirm-btn="Remove Material" 
+                                  data-confirm-color="#dc3545">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Delete Material">
@@ -111,46 +119,67 @@
 
 <!-- Upload Material Modal -->
 <div class="modal fade" id="uploadMaterialModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content border-0 rounded-4 shadow-lg">
-            <form action="{{ route('courses.materials.store', $course->id) }}" method="POST">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+            <form action="{{ route('courses.materials.store', $course->id) }}" method="POST" id="uploadLmsMaterialForm">
                 @csrf
-                <div class="modal-header border-0 pb-0">
-                    <h5 class="fw-bold">Upload LMS Learning Material</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-4">
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold small">Resource Title *</label>
-                        <input type="text" name="title" class="form-control" placeholder="e.g. Unit 3: Thermodynamics Problem Set & Lab Protocol" required>
+                <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-2 rounded-3 bg-success text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center;">
+                            <i class="fa-solid fa-cloud-arrow-up fs-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-white">Publish Course Asset to Digital LMS</h5>
+                            <small class="text-white-50">Upload syllabi, lecture decks, assignments or laboratory protocols</small>
+                        </div>
                     </div>
-                    <div class="row g-2 mb-3">
-                        <div class="col-6">
-                            <label class="form-label fw-semibold small">File Format Type *</label>
-                            <select name="file_type" class="form-select" required>
-                                <option value="pdf">PDF Document (.pdf)</option>
-                                <option value="slides">Slide Deck (.pptx)</option>
-                                <option value="document">Code / Archive (.zip/.doc)</option>
-                                <option value="video">Lecture Video Link</option>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small text-dark">Resource Title <span class="text-danger">*</span></label>
+                        <input type="text" name="title" class="form-control border-light shadow-sm" placeholder="e.g. Unit 4: Kinetic Molecular Theory — Lecture Slides & Problem Set" required>
+                    </div>
+
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold small text-dark">Material Category <span class="text-danger">*</span></label>
+                            <select name="file_type" class="form-select border-light shadow-sm" required>
+                                <option value="pdf">📄 PDF Document (.pdf)</option>
+                                <option value="slides">📊 Slide Deck (.pptx)</option>
+                                <option value="document">📦 Worksheet / Archive (.zip/.docx)</option>
+                                <option value="video">🎥 Multimedia Video Stream</option>
                             </select>
                         </div>
-                        <div class="col-6">
-                            <label class="form-label fw-semibold small">File Size / Version</label>
-                            <input type="text" name="file_size" class="form-control" value="4.8 MB">
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small text-dark">File Size</label>
+                            <input type="text" name="file_size" class="form-control border-light shadow-sm" value="5.2 MB">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label fw-semibold small text-dark">Syllabus Version</label>
+                            <input type="text" name="version" class="form-control border-light shadow-sm" value="v2.1">
                         </div>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small">Version</label>
-                        <input type="text" name="version" class="form-control" value="1.0">
+                        <label class="form-label fw-semibold small text-dark">Digital Asset Dropzone Preview</label>
+                        <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-white shadow-sm" style="border-color: #7a6ad8 !important;">
+                            <i class="fa-solid fa-file-arrow-up fs-2 text-primary mb-2"></i>
+                            <div class="fw-semibold text-dark">Drag and drop course material here, or browse</div>
+                            <small class="text-muted d-block">Supported formats: PDF, PPTX, DOCX, ZIP, MP4 (Max institutional payload: 50 MB)</small>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-semibold small">Description / Student Instructions</label>
-                        <textarea name="description" class="form-control" rows="3" placeholder="Key topics covered, homework submission dates, prerequisites..."></textarea>
+
+                    <div class="mb-0">
+                        <label class="form-label fw-semibold small text-dark">Description & Student Instructions</label>
+                        <textarea name="description" class="form-control border-light shadow-sm" rows="3" placeholder="Key learning outcomes, homework submission deadlines, suggested readings..."></textarea>
                     </div>
                 </div>
-                <div class="modal-footer border-0 pt-0">
-                    <button type="button" class="btn btn-light rounded-pill px-3" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold">Publish to LMS</button>
+                <div class="modal-footer border-0 p-4 pt-0 bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" onclick="Swal.fire({title: 'Publishing Material...', text: 'Encrypting and indexing learning asset in course catalog...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});">
+                        <i class="fa-solid fa-check me-1"></i> Publish to LMS
+                    </button>
                 </div>
             </form>
         </div>

@@ -78,7 +78,11 @@
                                 <a href="{{ route('staff.edit', $s->id) }}" class="btn btn-sm btn-outline-secondary rounded-pill px-2" title="Edit Faculty">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
-                                <form action="{{ route('staff.destroy', $s->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Deactivate faculty member {{ $s->user->name }}?');">
+                                <form action="{{ route('staff.destroy', $s->id) }}" method="POST" class="d-inline confirm-action" 
+                                      data-confirm-title="Deactivate Faculty Appointment?" 
+                                      data-confirm-text="Are you sure you want to deactivate faculty member {{ $s->user->name }} ({{ $s->employee_id }})? This will suspend active teaching permissions." 
+                                      data-confirm-btn="Deactivate Faculty" 
+                                      data-confirm-color="#dc3545">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-2" title="Deactivate">

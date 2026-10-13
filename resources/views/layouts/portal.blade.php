@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -11,11 +11,19 @@
     <!-- Bootstrap 5.3 CSS -->
     <link href="{{ asset('scholar/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        :root {
+        @keyframes scanLaser {
+        0% { top: 0%; opacity: 0.8; }
+        50% { top: 95%; opacity: 1; }
+        100% { top: 0%; opacity: 0.8; }
+    }
+
+    :root {
             --portal-primary: #7a6ad8;
             --portal-primary-dark: #5848bb;
             --portal-secondary: #f35525;
@@ -269,6 +277,12 @@
         }
     </style>
     @yield('styles')
+
+    <style>
+        .palette-item { transition: all 0.15s ease; cursor: pointer; }
+        .palette-item:hover, .active-palette-item { background-color: #f1f0fa !important; transform: translateX(3px); }
+    </style>
+
 </head>
 <body>
 
@@ -383,7 +397,15 @@
 
             <!-- Topbar Right Tools -->
             <div class="d-flex align-items-center gap-3">
+                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 text-muted d-none d-lg-inline-flex align-items-center gap-2 shadow-sm" onclick="openCommandPalette()" title="Press Ctrl + K anytime">
+                    <i class="fa-solid fa-magnifying-glass text-primary"></i>
+                    <span class="small">Search portal...</span>
+                    <kbd class="bg-white border text-dark px-1.5 py-0.5 rounded shadow-sm fw-semibold" style="font-size: 10px;">Ctrl + K</kbd>
+                </button>
                 @if(auth()->user()->isAdmin() || auth()->user()->isTeacher())
+                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-none d-md-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#globalQuickQrModal">
+                    <i class="fa-solid fa-qrcode"></i> Quick QR Check-In
+                </button>
                 <a href="{{ route('broadcasts.create') }}" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold shadow-sm d-none d-sm-inline-flex align-items-center gap-1">
                     <i class="fa-solid fa-bullhorn"></i> Broadcast Alert
                 </a>
@@ -467,9 +489,423 @@
         </div>
     </div>
 
+    <!-- Global Quick QR Terminal Modal (Admin & Teacher) -->
+    @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isTeacher()))
+    <div class="modal fade" id="globalQuickQrModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+                <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #7a6ad8 !important;">
+                            <i class="fa-solid fa-qrcode fs-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-white">Smart QR Check-In Terminal</h5>
+                            <small class="text-white-50">Instant Contactless Punctuality Verification</small>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <!-- Interactive Optical Viewfinder Mockup with Laser -->
+                    <div class="position-relative bg-dark rounded-4 p-4 text-center text-white mb-4 overflow-hidden shadow-inner" style="height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid rgba(122, 106, 216, 0.5);">
+                        <div class="position-absolute" style="top: 0; left: 0; right: 0; height: 3px; background: #00ffcc; box-shadow: 0 0 14px #00ffcc; animation: scanLaser 2s infinite ease-in-out;"></div>
+                        <i class="fa-solid fa-qrcode fs-1 text-white-50 mb-2"></i>
+                        <small class="text-white-50">Optical Gate Sensor Active • Ready for Token</small>
+                        <span class="badge bg-success mt-2 px-3 py-1 rounded-pill"><i class="fa-solid fa-wifi me-1"></i> Checkpoint Gate Online</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold small text-muted">Select Student Token to Verify</label>
+                        <select id="quickQrStudentSelect" class="form-select border-primary-subtle">
+                            <option value="">-- Choose Student Badge by Name / Admission # --</option>
+                            @php
+                                $qrStudents = \App\Models\Student::with('user', 'schoolClass')->take(20)->get();
+                            @endphp
+                            @foreach($qrStudents as $qs)
+                                <option value="{{ $qs->id }}">{{ $qs->user->name }} ({{ $qs->admission_number }} - {{ $qs->schoolClass->name ?? 'Class' }})</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div id="quickQrStatusAlert" class="alert alert-white border rounded-3 p-3 small mb-0 text-center text-muted shadow-sm">
+                        <i class="fa-solid fa-barcode me-1 text-primary"></i> Select a student badge above and verify arrival.
+                    </div>
+                </div>
+                <div class="modal-footer border-0 p-4 pt-0 bg-light">
+                    <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;" onclick="executeQuickQrVerification()">
+                        <i class="fa-solid fa-bolt me-1"></i> Verify Check-In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    <!-- Global Command Palette Modal (Ctrl + K) -->
+    <div class="modal fade" id="commandPaletteModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden" style="background: rgba(255, 255, 255, 0.98); backdrop-filter: blur(12px);">
+                <div class="p-3 border-bottom d-flex align-items-center gap-3 bg-white">
+                    <i class="fa-solid fa-magnifying-glass fs-5 text-primary"></i>
+                    <input type="text" id="commandPaletteInput" class="form-control form-control-lg border-0 shadow-none ps-0 fs-6" placeholder="Type to search students, courses, faculty, or actions..." autocomplete="off">
+                    <span class="badge bg-light text-muted border px-2 py-1 small">ESC to close</span>
+                </div>
+                <div class="modal-body p-3" style="max-height: 440px; overflow-y: auto;" id="commandPaletteBody">
+                    <!-- Default Actions View -->
+                    <div id="commandPaletteDefaults">
+                        <div class="text-uppercase text-muted fw-bold px-2 mb-2" style="font-size: 11px; letter-spacing: 0.5px;">Recommended Quick Actions</div>
+                        <div class="list-group list-group-flush rounded-3">
+                            @if(auth()->user()->isAdmin())
+                            <a href="{{ route('students.create') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-primary-subtle text-primary"><i class="fa-solid fa-user-plus"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Enroll New Student</div>
+                                        <small class="text-muted">Create a single academic dossier record</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-light text-dark border">Action</span>
+                            </a>
+                            <a href="{{ route('students.bulk') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-success-subtle text-success"><i class="fa-solid fa-file-excel"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Bulk Excel Student Import</div>
+                                        <small class="text-muted">Download template & batch onboard cohorts</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-success-subtle text-success">Excel</span>
+                            </a>
+                            <a href="{{ route('audit.index') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-danger-subtle text-danger"><i class="fa-solid fa-shield-halved"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Cryptographic Audit Ledger</div>
+                                        <small class="text-muted">Verify SHA-256 integrity chains</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-danger-subtle text-danger">Ledger</span>
+                            </a>
+                            @endif
+                            @if(auth()->user()->isAdmin() || auth()->user()->isTeacher())
+                            <a href="{{ route('broadcasts.create') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-warning-subtle text-warning"><i class="fa-solid fa-bullhorn"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Compose Institutional Broadcast</div>
+                                        <small class="text-muted">Multi-channel SMS, WhatsApp & Email dispatch</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-warning-subtle text-dark">Broadcast</span>
+                            </a>
+                            <a href="javascript:void(0)" onclick="bootstrap.Modal.getInstance(document.getElementById('commandPaletteModal')).hide(); new bootstrap.Modal(document.getElementById('globalQuickQrModal')).show();" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-info-subtle text-info"><i class="fa-solid fa-qrcode"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Open QR Check-In Terminal</div>
+                                        <small class="text-muted">Verify student attendance contactless badge</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-info-subtle text-info">Terminal</span>
+                            </a>
+                            @endif
+                            <a href="{{ route('courses.index') }}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-2 rounded-2 bg-secondary-subtle text-secondary"><i class="fa-solid fa-book-open"></i></div>
+                                    <div>
+                                        <div class="fw-semibold text-dark">Browse LMS Syllabi & Materials</div>
+                                        <small class="text-muted">Access lecture slide decks and assignments</small>
+                                    </div>
+                                </div>
+                                <span class="badge bg-light text-dark border">Directory</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Live Dynamic Results -->
+                    <div id="commandPaletteResults" style="display: none;"></div>
+                </div>
+                <div class="p-2 px-3 border-top bg-light d-flex justify-content-between align-items-center small text-muted">
+                    <span>Navigation: <kbd class="bg-white border text-dark px-1.5 py-0.5 rounded shadow-sm">↑</kbd> <kbd class="bg-white border text-dark px-1.5 py-0.5 rounded shadow-sm">↓</kbd> navigate &bull; <kbd class="bg-white border text-dark px-1.5 py-0.5 rounded shadow-sm">ENTER</kbd> open</span>
+                    <span class="text-muted fw-semibold">Scholar Command Center</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Core Scripts -->
     <script src="{{ asset('scholar/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('scholar/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // 1. Unified SweetAlert2 Toast Stack
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        @if(session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: "{{ session('success') }}"
+            });
+        @endif
+
+        @if(session('info'))
+            Toast.fire({
+                icon: 'info',
+                title: "{{ session('info') }}"
+            });
+        @endif
+
+        @if(session('error'))
+            Toast.fire({
+                icon: 'error',
+                title: "{{ session('error') }}"
+            });
+        @endif
+
+        @if(session('warning'))
+            Toast.fire({
+                icon: 'warning',
+                title: "{{ session('warning') }}"
+            });
+        @endif
+
+        // 2. Global SweetAlert2 Confirmation Dialogs (Intercepting destructive actions)
+        document.addEventListener('submit', function(e) {
+            const form = e.target;
+            const hasConfirmClass = form.classList.contains('confirm-action');
+            const hasConfirmAttr = form.getAttribute('onsubmit') && form.getAttribute('onsubmit').includes('confirm(');
+
+            if (hasConfirmClass || hasConfirmAttr) {
+                e.preventDefault();
+                
+                const oldOnsubmit = form.getAttribute('onsubmit');
+                form.removeAttribute('onsubmit');
+
+                const title = form.getAttribute('data-confirm-title') || 'Are you sure?';
+                const text = form.getAttribute('data-confirm-text') || 'This record will be permanently updated or archived in the institutional registry.';
+                const btnText = form.getAttribute('data-confirm-btn') || 'Yes, proceed';
+                const btnColor = form.getAttribute('data-confirm-color') || '#e53e3e';
+
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: btnColor,
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: btnText,
+                    cancelButtonText: 'Cancel',
+                    reverseButtons: true,
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg border-0',
+                        confirmButton: 'rounded-pill px-4 fw-bold',
+                        cancelButton: 'rounded-pill px-4'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: 'Processing...',
+                            text: 'Updating cryptographic ledger...',
+                            allowOutsideClick: false,
+                            didOpen: () => { Swal.showLoading(); }
+                        });
+                        form.submit();
+                    } else if (oldOnsubmit) {
+                        form.setAttribute('onsubmit', oldOnsubmit);
+                    }
+                });
+            }
+        });
+
+        // 3. Quick QR Verification Function
+        function executeQuickQrVerification() {
+            const select = document.getElementById('quickQrStudentSelect');
+            const studentId = select ? select.value : null;
+            const alertBox = document.getElementById('quickQrStatusAlert');
+
+            if (!studentId) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'No Student Selected',
+                    text: 'Please choose a student badge from the list to verify checkpoint arrival.',
+                    confirmButtonColor: '#7a6ad8'
+                });
+                return;
+            }
+
+            alertBox.innerHTML = '<span class="spinner-border spinner-border-sm me-2 text-primary"></span> Verifying contactless token...';
+
+            fetch("{{ route('attendance.qr.verify') }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}",
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({ student_id: studentId })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    alertBox.className = 'alert alert-success border rounded-3 p-3 small mb-0 text-center';
+                    alertBox.innerHTML = '<i class="fa-solid fa-circle-check text-success me-1"></i> <strong>' + data.message + '</strong> verified at ' + data.time;
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Check-In Verified!',
+                        html: '<div class="py-2"><strong>' + data.message + '</strong><br><small class="text-muted">Recorded at ' + data.time + ' | Status: <span class="badge bg-success">' + data.status + '</span></small></div>',
+                        timer: 3000,
+                        showConfirmButton: false,
+                        customClass: { popup: 'rounded-4 shadow-lg border-0' }
+                    });
+                } else {
+                    alertBox.className = 'alert alert-danger border rounded-3 p-3 small mb-0 text-center';
+                    alertBox.innerHTML = '<i class="fa-solid fa-circle-exclamation text-danger me-1"></i> Verification failed.';
+                }
+            })
+            .catch(err => {
+                alertBox.className = 'alert alert-danger border rounded-3 p-3 small mb-0 text-center';
+                alertBox.innerHTML = 'Server error during QR check-in verification.';
+            });
+        }
+    
+        // 4. Global Command Palette (Ctrl + K) Engine
+        let paletteModalInstance = null;
+        function openCommandPalette() {
+            const modalEl = document.getElementById('commandPaletteModal');
+            if (!paletteModalInstance) {
+                paletteModalInstance = new bootstrap.Modal(modalEl);
+            }
+            paletteModalInstance.show();
+            setTimeout(() => {
+                const input = document.getElementById('commandPaletteInput');
+                if (input) {
+                    input.value = '';
+                    input.focus();
+                    document.getElementById('commandPaletteDefaults').style.display = 'block';
+                    document.getElementById('commandPaletteResults').style.display = 'none';
+                    document.getElementById('commandPaletteResults').innerHTML = '';
+                }
+            }, 200);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+                e.preventDefault();
+                openCommandPalette();
+            }
+        });
+
+        let searchDebounceTimer = null;
+        const paletteInput = document.getElementById('commandPaletteInput');
+        if (paletteInput) {
+            paletteInput.addEventListener('input', function(e) {
+                const query = e.target.value.trim();
+                const defaults = document.getElementById('commandPaletteDefaults');
+                const results = document.getElementById('commandPaletteResults');
+
+                clearTimeout(searchDebounceTimer);
+
+                if (query.length === 0) {
+                    defaults.style.display = 'block';
+                    results.style.display = 'none';
+                    results.innerHTML = '';
+                    return;
+                }
+
+                defaults.style.display = 'none';
+                results.style.display = 'block';
+                results.innerHTML = '<div class="text-center py-4 text-muted small"><span class="spinner-border spinner-border-sm me-2 text-primary"></span> Searching directory...</div>';
+
+                searchDebounceTimer = setTimeout(() => {
+                    fetch(`{{ route('api.search') }}?q=${encodeURIComponent(query)}`, {
+                        headers: { 'Accept': 'application/json' }
+                    })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (!data.results || data.results.length === 0) {
+                            results.innerHTML = `<div class="text-center py-4 text-muted small"><i class="fa-solid fa-magnifying-glass me-1"></i> No matching records for "${query}".</div>`;
+                            return;
+                        }
+
+                        let html = `<div class="text-uppercase text-muted fw-bold px-2 mb-2" style="font-size: 11px; letter-spacing: 0.5px;">Search Results (${data.results.length})</div><div class="list-group list-group-flush rounded-3">`;
+
+                        data.results.forEach((item, index) => {
+                            html += `
+                                <a href="${item.url}" class="list-group-item list-group-item-action border-0 rounded-3 d-flex align-items-center justify-content-between p-2 mb-1 palette-item ${index === 0 ? 'active-palette-item' : ''}">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="p-2 rounded-2 bg-light border text-primary" style="width: 38px; height: 38px; display: grid; place-items: center;">
+                                            <i class="${item.icon}"></i>
+                                        </div>
+                                        <div>
+                                            <div class="fw-semibold text-dark">${item.title}</div>
+                                            <small class="text-muted">${item.subtitle}</small>
+                                        </div>
+                                    </div>
+                                    <span class="badge ${item.badge_class || 'bg-light text-dark border'}">${item.badge || item.category}</span>
+                                </a>
+                            `;
+                        });
+                        html += '</div>';
+                        results.innerHTML = html;
+                    })
+                    .catch(() => {
+                        results.innerHTML = '<div class="text-center py-3 text-danger small">Error searching directory.</div>';
+                    });
+                }, 250);
+            });
+
+            // Keyboard navigation (Arrow keys + Enter)
+            paletteInput.addEventListener('keydown', function(e) {
+                const resultsContainer = document.getElementById('commandPaletteResults');
+                const isSearching = resultsContainer && resultsContainer.style.display !== 'none';
+                const items = (isSearching ? resultsContainer : document.getElementById('commandPaletteDefaults')).querySelectorAll('.palette-item');
+                
+                if (items.length === 0) return;
+
+                let activeIndex = -1;
+                items.forEach((item, idx) => {
+                    if (item.classList.contains('active-palette-item')) activeIndex = idx;
+                });
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    if (activeIndex >= 0) items[activeIndex].classList.remove('active-palette-item');
+                    activeIndex = (activeIndex + 1) % items.length;
+                    items[activeIndex].classList.add('active-palette-item');
+                    items[activeIndex].scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    if (activeIndex >= 0) items[activeIndex].classList.remove('active-palette-item');
+                    activeIndex = (activeIndex - 1 + items.length) % items.length;
+                    items[activeIndex].classList.add('active-palette-item');
+                    items[activeIndex].scrollIntoView({ block: 'nearest' });
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (activeIndex >= 0 && items[activeIndex]) {
+                        items[activeIndex].click();
+                    } else if (items.length > 0) {
+                        items[0].click();
+                    }
+                }
+            });
+        }
+
+    </script>
+
     @yield('scripts')
 </body>
 </html>

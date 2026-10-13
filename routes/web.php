@@ -109,6 +109,9 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    // Global Command Palette Instant Search API
+    Route::get('/api/search', [DashboardController::class, 'quickSearch'])->name('api.search');
+
     // Attendance View (Dynamically tailors between Faculty register, Student log, and Guardian ward view)
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
 
