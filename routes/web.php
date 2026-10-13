@@ -128,6 +128,7 @@ Route::middleware('auth')->group(function () {
     // LMS & Course Exploration (All authenticated users can view enrolled courses & download learning assets)
     Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
     Route::get('/courses/{id}', [CourseController::class, 'show'])->whereNumber('id')->name('courses.show');
+    Route::get('/materials/{id}/preview', [CourseController::class, 'previewMaterial'])->whereNumber('id')->name('materials.preview');
     Route::get('/materials/{id}/download', [CourseController::class, 'downloadMaterial'])->whereNumber('id')->name('materials.download');
 
     // Communications & Campus Bulletins

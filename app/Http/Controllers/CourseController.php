@@ -221,6 +221,56 @@ class CourseController extends Controller
         return redirect()->route('courses.show', $courseId)->with('info', "Resource '{$title}' removed from course materials.");
     }
 
+    public function previewMaterial(Request $request, $id)
+    {
+        $material = CourseMaterial::with(['course.teacher.user', 'teacher.user'])->findOrFail($id);
+
+        AuditTrail::log(
+            'MATERIAL_PREVIEWED',
+            "User " . (auth()->user()?->name ?? 'Guest') . " reviewed LMS asset: {$material->title}.",
+            'CourseMaterial',
+            $material->id
+        );
+
+        $isRaw = $request->boolean('raw');
+
+        // Raw inline streaming for iframe or media tag
+        if ($isRaw) {
+            if ($material->file_path && \Illuminate\Support\Facades\Storage::disk('public')->exists($material->file_path)) {
+                $filePath = \Illuminate\Support\Facades\Storage::disk('public')->path($material->file_path);
+                $mime = mime_content_type($filePath) ?: 'application/octet-stream';
+                return response()->file($filePath, [
+                    'Content-Type' => $mime,
+                    'Content-Disposition' => 'inline; filename="' . basename($material->file_path) . '"',
+                ]);
+            }
+
+            // Fallback for demonstration simulated text
+            $simulatedContent = "=================================================================\n" .
+                "SCHOLAR DIGITAL LMS — DOCUMENT READER\n" .
+                "=================================================================\n\n" .
+                "Resource Title: " . $material->title . "\n" .
+                "Course: " . ($material->course->title ?? 'General Academic') . "\n" .
+                "Instructor: " . ($material->teacher->user->name ?? 'Academic Faculty') . "\n" .
+                "Category: " . strtoupper($material->file_type ?? 'DOCUMENT') . "\n" .
+                "Version: " . ($material->version ?? 'v1.0') . "\n\n" .
+                "SYLLABUS & INSTRUCTIONAL NOTES:\n" .
+                ($material->description ?? 'Official student learning asset and syllabus notes.') . "\n\n" .
+                "=================================================================\n" .
+                "Certified Academic Resource • Scholar SMS Digital LMS\n" .
+                "=================================================================\n";
+
+            return response($simulatedContent, 200, ['Content-Type' => 'text/plain; charset=UTF-8']);
+        }
+
+        $relatedMaterials = CourseMaterial::where('course_id', $material->course_id)
+            ->where('id', '!=', $material->id)
+            ->take(5)
+            ->get();
+
+        return view('portals.courses.material-viewer', compact('material', 'relatedMaterials'));
+    }
+
     public function downloadMaterial($id)
     {
         $material = CourseMaterial::findOrFail($id);

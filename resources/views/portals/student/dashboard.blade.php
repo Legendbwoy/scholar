@@ -43,11 +43,19 @@
                         <div class="mt-3 pt-2 border-top">
                             <small class="fw-bold text-muted d-block mb-2">Downloadable Study Materials:</small>
                             @foreach($course->materials as $mat)
-                                <div class="d-flex justify-content-between align-items-center py-1 small">
-                                    <span><i class="fa-solid fa-file-pdf text-danger me-2"></i>{{ $mat->title }}</span>
-                                    <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-sm btn-outline-primary py-0 px-2 rounded-pill" style="font-size: 11px;">
-                                        <i class="fa-solid fa-download me-1"></i> Download ({{ $mat->file_size }})
-                                    </a>
+                                <div class="d-flex justify-content-between align-items-center py-1.5 small border-bottom border-light">
+                                    <div class="d-flex align-items-center text-truncate me-2">
+                                        <i class="fa-solid {{ $mat->file_type === 'pdf' ? 'fa-file-pdf text-danger' : ($mat->file_type === 'slides' ? 'fa-file-powerpoint text-warning' : 'fa-file-lines text-primary') }} me-2"></i>
+                                        <span class="text-truncate fw-semibold text-dark">{{ $mat->title }}</span>
+                                    </div>
+                                    <div class="d-flex align-items-center gap-1 text-nowrap">
+                                        <a href="{{ route('materials.preview', $mat->id) }}" class="btn btn-sm btn-success text-white py-0.5 px-2.5 rounded-pill fw-bold" style="font-size: 11px; background-color: #009961; border: none;">
+                                            <i class="fa-solid fa-book-open-reader me-1"></i> Read Online
+                                        </a>
+                                        <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-sm btn-outline-primary py-0.5 px-2 rounded-pill" style="font-size: 11px;" title="Download asset">
+                                            <i class="fa-solid fa-download"></i> ({{ $mat->file_size }})
+                                        </a>
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

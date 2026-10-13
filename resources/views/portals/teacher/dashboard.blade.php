@@ -78,12 +78,17 @@
             @forelse($recentMaterials as $mat)
                 <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
                     <div>
-                        <div class="fw-semibold small">{{ $mat->title }}</div>
-                        <small class="text-muted">{{ $mat->file_type }} • {{ $mat->file_size }} • {{ $mat->download_count }} Downloads</small>
+                        <div class="fw-semibold small text-dark">{{ $mat->title }}</div>
+                        <small class="text-muted">{{ strtoupper($mat->file_type) }} • {{ $mat->file_size }} • {{ $mat->download_count }} Downloads</small>
                     </div>
-                    <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-sm btn-light rounded-circle">
-                        <i class="fa-solid fa-download"></i>
-                    </a>
+                    <div class="d-flex align-items-center gap-1">
+                        <a href="{{ route('materials.preview', $mat->id) }}" class="btn btn-sm btn-outline-success rounded-pill px-2.5 py-0.5" style="font-size: 12px; border-color: #009961; color: #009961;" title="Review Material">
+                            <i class="fa-solid fa-eye me-1"></i> Review
+                        </a>
+                        <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-sm btn-light rounded-circle p-2" title="Download Asset">
+                            <i class="fa-solid fa-download"></i>
+                        </a>
+                    </div>
                 </div>
             @empty
                 <div class="text-muted text-center py-3">No materials uploaded yet.</div>

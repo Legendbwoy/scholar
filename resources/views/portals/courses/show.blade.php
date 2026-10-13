@@ -88,6 +88,9 @@
                             </div>
                         </div>
                         <div class="d-inline-flex gap-2 align-items-center">
+                            <a href="{{ route('materials.preview', $mat->id) }}" class="btn btn-outline-success rounded-pill px-3 fw-bold" style="border-color: #009961; color: #009961;">
+                                <i class="fa-solid fa-book-open-reader me-1"></i> Read / Review
+                            </a>
                             <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-primary rounded-pill px-3 fw-bold">
                                 <i class="fa-solid fa-download me-1"></i> Download
                             </a>
