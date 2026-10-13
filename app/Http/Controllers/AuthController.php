@@ -89,9 +89,25 @@ class AuthController extends Controller
             'portal' => 'nullable|string|in:admin,teacher,student,parent',
         ]);
 
+        $email = strtolower(trim($credentials['email']));
+
+        $aliases = [
+            'sarah.jenkins@scholar.edu' => 'teacher@scholar.edu',
+            'sarah.jenkins@faculty.scholar.edu' => 'teacher@scholar.edu',
+            'alexander.cole@student.scholar.edu' => 'student@scholar.edu',
+            'alexander.cole@scholar.edu' => 'student@scholar.edu',
+            'arthur.cole@parent.scholar.edu' => 'parent@scholar.edu',
+            'arthur.cole@scholar.edu' => 'parent@scholar.edu',
+            'superadmin@scholar.edu' => 'admin@scholar.edu',
+        ];
+
+        if (isset($aliases[$email])) {
+            $email = $aliases[$email];
+        }
+
         $remember = $request->boolean('remember');
 
-        if (Auth::attempt(['email' => $credentials['email'], 'password' => $credentials['password']], $remember)) {
+        if (Auth::attempt(['email' => $email, 'password' => $credentials['password']], $remember)) {
             $request->session()->regenerate();
             $user = Auth::user();
 
