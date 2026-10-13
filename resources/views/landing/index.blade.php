@@ -4,467 +4,478 @@
 
 @section('content')
 
-<!-- Main Hero Banner Section -->
-<div class="main-banner" id="top">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12">
-                <div class="owl-carousel owl-banner">
-                    <!-- Slide 1 -->
-                    <div class="item item-1">
-                        <div class="header-text">
-                            <span class="category">Premier Academy SMS</span>
-                            <h2>Empowering Education with Intelligent Management & Digital LMS</h2>
-                            <p>An enterprise-grade School Management System uniting students, faculty, and guardians through seamless multi-channel communications, cryptographic audit integrity, and interactive learning.</p>
-                            <div class="buttons">
-                                <div class="main-button">
-                                    <a href="#contact"><i class="fa-solid fa-file-signature me-1"></i> Apply for Admission</a>
-                                </div>
-                                <div class="icon-button">
-                                    <a href="{{ route('login') }}"><i class="fa-solid fa-door-open"></i> Access Portals</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Slide 2 -->
-                    <div class="item item-2">
-                        <div class="header-text">
-                            <span class="category">Ultra Modern Comms</span>
-                            <h2>Instant Omni-Channel Broadcasts to Teachers, Students & Parents</h2>
-                            <p>Keep the entire school community synchronized with targeted SMS, Email, WhatsApp, and in-app automated broadcasts with dynamic variable merging and verified delivery receipts.</p>
-                            <div class="buttons">
-                                <div class="main-button">
-                                    <a href="#courses"><i class="fa-solid fa-book-open-reader me-1"></i> Explore Courses</a>
-                                </div>
-                                <div class="icon-button">
-                                    <a href="{{ route('login') }}"><i class="fa-solid fa-bullhorn"></i> Comms Demo</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="item item-3">
-                        <div class="header-text">
-                            <span class="category">Audit & Compliance</span>
-                            <h2>Cryptographically Sealed Audit Trails & Contactless Attendance</h2>
-                            <p>Every attendance record, broadcast trigger, and profile modification is permanently sealed into an immutable SHA-256 chained ledger for uncompromised security.</p>
-                            <div class="buttons">
-                                <div class="main-button">
-                                    <a href="#gallery"><i class="fa-solid fa-images me-1"></i> Campus Life Gallery</a>
-                                </div>
-                                <div class="icon-button">
-                                    <a href="{{ route('login') }}"><i class="fa-solid fa-shield-check"></i> Security Specs</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Hero Section -->
+<section id="hero" class="hero section dark-background">
+    <img src="{{ asset('knightone/img/hero-bg.jpg') }}" alt="Scholar SMS Campus Hero" data-aos="fade-in">
 
-<!-- Institutional Stats Section -->
-<div class="container my-5 py-3">
-    <div class="row g-4 justify-content-center">
-        <div class="col-lg-2 col-md-4 col-6">
-            <div class="stat-box">
-                <h2>{{ $stats['students'] }}+</h2>
-                <p>Enrolled Students</p>
-            </div>
+    <div class="container d-flex flex-column align-items-center text-center">
+        <div class="badge px-3 py-1.5 mb-3 fw-bold text-uppercase rounded-pill" style="background-color: rgba(0, 153, 97, 0.25); border: 1px solid #009961; color: #4ade80; font-size: 12px; letter-spacing: 1px;" data-aos="fade-down">
+            <i class="fa-solid fa-graduation-cap me-1"></i> Premier Academy Management & Digital LMS
         </div>
-        <div class="col-lg-2 col-md-4 col-6">
-            <div class="stat-box">
-                <h2>{{ $stats['faculty'] }}+</h2>
-                <p>Certified Faculty</p>
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-6">
-            <div class="stat-box">
-                <h2>{{ $stats['courses'] }}+</h2>
-                <p>Academic Courses</p>
-            </div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-6">
-            <div class="stat-box">
-                <h2>{{ $stats['awards'] }}</h2>
-                <p>STEM & Arts Awards</p>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-4 col-12">
-            <div class="stat-box" style="border-bottom-color: #f35525;">
-                <h2 style="color: #f35525;">{{ $stats['attendance_rate'] }}</h2>
-                <p>Average Daily Attendance</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Services / Capabilities Grid -->
-<div class="services section" id="services">
-    <div class="container">
-        <div class="row mb-5 text-center">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h6>Core Architecture</h6>
-                    <h2>Everything A Modern <em>School System</em> Needs</h2>
-                </div>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-primary">
-                    <div class="icon mb-3">
-                        <img src="{{ asset('scholar/assets/images/service-01.png') }}" alt="Student Management" style="max-width: 65px;">
-                    </div>
-                    <div class="main-content">
-                        <h4>Student & Staff Records</h4>
-                        <p>Complete 360-degree demographic management, academic history, roll numbers, guardian links, department assignments, and credentials tracking.</p>
-                        <div class="main-button mt-3">
-                            <a href="{{ route('login') }}">Access Registry</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-warning">
-                    <div class="icon mb-3">
-                        <img src="{{ asset('scholar/assets/images/service-02.png') }}" alt="LMS Course Materials" style="max-width: 65px;">
-                    </div>
-                    <div class="main-content">
-                        <h4>LMS & Course Materials</h4>
-                        <p>Curriculum modules, downloadable lecture notes, laboratory PDF worksheets, slide presentations, and video links with version control and tracking.</p>
-                        <div class="main-button mt-3">
-                            <a href="#courses">Browse Curriculum</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-danger">
-                    <div class="icon mb-3">
-                        <img src="{{ asset('scholar/assets/images/service-03.png') }}" alt="Broadcast Communications" style="max-width: 65px;">
-                    </div>
-                    <div class="main-content">
-                        <h4>Ultra Modern Comms Hub</h4>
-                        <p>Omni-channel broadcast engine spanning SMS, Email, WhatsApp, Push, and In-App delivery with template variable tags and instant absence alerts.</p>
-                        <div class="main-button mt-3">
-                            <a href="{{ route('login') }}">Test Broadcasts</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-success">
-                    <div class="icon mb-3 text-success fs-1">
-                        <i class="fa-solid fa-qrcode"></i>
-                    </div>
-                    <div class="main-content">
-                        <h4>Smart Attendance & QR</h4>
-                        <p>Fast register marking with 1-click status toggling, biometric or rotating QR code check-in terminals, and automated immediate parent notifications.</p>
-                        <div class="main-button mt-3">
-                            <a href="{{ route('login') }}">Check Attendance</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-info">
-                    <div class="icon mb-3 text-info fs-1">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <div class="main-content">
-                        <h4>Immutable Audit Trail</h4>
-                        <p>Every sensitive action creates an immutable, SHA-256 hash-chained ledger row that verifies against tampering for compliance and data integrity.</p>
-                        <div class="main-button mt-3">
-                            <a href="{{ route('login') }}">Inspect Audit Logs</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6">
-                <div class="service-item p-4 rounded-4 shadow-sm bg-white h-100 border-top border-4 border-secondary">
-                    <div class="icon mb-3 text-secondary fs-1">
-                        <i class="fa-solid fa-network-wired"></i>
-                    </div>
-                    <div class="main-content">
-                        <h4>Extensible REST APIs</h4>
-                        <p>Production-ready REST endpoints for third-party integrations, external messaging gateways, biometric card readers, and future mobile PWA clients.</p>
-                        <div class="main-button mt-3">
-                            <a href="{{ url('/api/v1/health') }}" target="_blank">View API Health</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Courses & LMS Materials Showcase -->
-<section class="section courses" id="courses">
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-lg-12 text-center">
-                <div class="section-heading">
-                    <h6>Featured Curriculum</h6>
-                    <h2>Latest Academic <em>Courses & Materials</em></h2>
-                </div>
-            </div>
-        </div>
-        <div class="row g-4">
-            @foreach($courses as $course)
-                <div class="col-lg-4 col-md-6">
-                    <div class="course-card">
-                        <div class="thumb">
-                            <img src="{{ asset($course->thumbnail ?? 'scholar/assets/images/course-01.jpg') }}" alt="{{ $course->title }}">
-                            <span class="price"><i class="fa-solid fa-layer-group me-1"></i> {{ $course->category }}</span>
-                        </div>
-                        <div class="p-4 d-flex flex-column flex-grow-1">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge-cat"><i class="fa-solid fa-graduation-cap me-1"></i> {{ $course->schoolClass->name ?? 'All Grades' }}</span>
-                                <small class="text-muted"><i class="fa-regular fa-clock me-1"></i> {{ $course->total_lessons }} Lessons</small>
-                            </div>
-                            <h5 class="fw-bold mb-2">{{ $course->title }}</h5>
-                            <p class="text-muted small flex-grow-1">{{ Str::limit($course->description, 100) }}</p>
-
-                            <hr class="my-3 opacity-25">
-
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img src="{{ asset($course->teacher->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle" style="width: 34px; height: 34px; object-fit: cover;">
-                                    <small class="fw-semibold">{{ $course->teacher->user->name ?? 'Faculty Staff' }}</small>
-                                </div>
-                                <a href="{{ route('landing.course', $course->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                    View Syllabus <i class="fa-solid fa-arrow-right ms-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
+        <h2 data-aos="fade-up" data-aos-delay="100" class="fw-bolder" style="font-family: 'Raleway', sans-serif; font-size: 46px; max-width: 850px; line-height: 1.2;">
+            Empowering Education with Intelligent Management & Digital LMS
+        </h2>
+        <p data-aos="fade-up" data-aos-delay="200" class="text-white-50 mt-3 mb-4" style="font-size: 18px; max-width: 720px;">
+            An enterprise-grade School Management System uniting students, faculty, and guardians through seamless multi-channel communications, cryptographic audit integrity, and interactive learning.
+        </p>
+        <div data-aos="fade-up" data-aos-delay="300" class="d-flex align-items-center gap-3 flex-wrap justify-content-center">
+            <a href="#contact" class="btn btn-lg rounded-pill px-4 fw-bold shadow-lg" style="background-color: #009961; color: #fff; border: none; font-size: 15px;">
+                <i class="bi bi-file-earmark-person me-1"></i> Apply for Admission
+            </a>
+            <a href="{{ route('login') }}" class="btn btn-lg btn-outline-light rounded-pill px-4 fw-bold" style="font-size: 15px;">
+                <i class="bi bi-box-arrow-in-right me-1"></i> Access Role Portals
+            </a>
+            <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn ms-2" title="Watch Virtual Campus Tour"></a>
         </div>
     </div>
 </section>
 
-<!-- Campus Life Gallery Section -->
-<section class="section gallery-section py-5 bg-light" id="gallery">
+<!-- About Section -->
+<section id="about" class="about section">
     <div class="container">
-        <div class="row mb-4 align-items-end">
-            <div class="col-lg-8">
-                <div class="section-heading mb-0">
-                    <h6>Vibrant Campus Life</h6>
-                    <h2>State-of-the-Art <em>Facilities & Events</em></h2>
+        <div class="row gy-4 align-items-center">
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="section-title text-start mb-3">
+                    <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Institutional Excellence</span>
+                    <h2 class="fw-bold mt-1 text-dark">Nurturing Tomorrow's Visionaries with Pedagogical & Technological Precision</h2>
+                </div>
+                <p class="text-muted">
+                    Founded on the principles of scholarly rigor and ethical leadership, Scholar Academy provides an inclusive, world-class educational environment. Our integrated digital management ecosystem eliminates administrative friction so educators can focus on what matters most: inspiring students.
+                </p>
+                <div class="row g-3 mt-2">
+                    <div class="col-sm-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <i class="bi bi-shield-check fs-3 text-success d-block mb-2"></i>
+                            <h6 class="fw-bold text-dark mb-1">Cryptographic Ledger</h6>
+                            <small class="text-muted">Immutable SHA-256 audit logs guarantee verified academic authenticity.</small>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <i class="bi bi-broadcast fs-3 text-success d-block mb-2"></i>
+                            <h6 class="fw-bold text-dark mb-1">Omni-Channel Comms</h6>
+                            <small class="text-muted">Real-time SMS, Email, and WhatsApp dispatch to guardians & teachers.</small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-4 text-lg-end mt-3 mt-lg-0">
-                <a href="{{ route('landing.gallery') }}" class="btn btn-primary rounded-pill px-4 py-2">
-                    <i class="fa-solid fa-images me-1"></i> View Full Gallery ({{ $galleryItems->count() }})
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="position-relative overflow-hidden rounded-4 shadow-lg border">
+                    <img src="{{ asset('knightone/img/services.jpg') }}" class="img-fluid w-100" style="height: 400px; object-fit: cover;" alt="About Scholar Academy">
+                    <div class="position-absolute bottom-0 start-0 w-100 p-4 text-white" style="background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);">
+                        <h5 class="fw-bold mb-1">Dr. Evelyn Vance, Ph.D.</h5>
+                        <small class="text-white-50">Head of School & Dean of Academic Affairs</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Academic Pillars / Services Section -->
+<section id="services" class="services section light-background">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Integrated Architecture</span>
+        <h2 class="fw-bold text-dark">Core Institutional Modules</h2>
+        <p class="text-muted">Seamlessly engineered capabilities empowering administration, teaching faculty, learners, and families.</p>
+    </div>
+
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="service-item item-cyan position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-file-earmark-bar-graph"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Academic Gradebook & Matrix</h5>
+                    <p class="text-muted small mb-0">Continuous assessments, automated weighted term grading (Quizzes 20%, Midterms 30%, Finals 50%), and official printable PDF transcripts with authenticity QR codes.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="service-item item-orange position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-qr-code-scan"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Smart QR Check-In Terminal</h5>
+                    <p class="text-muted small mb-0">Contactless punctuality tracking via optical camera badges, live attendance rate gauges, and automated parent late-arrival SMS notifications.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="service-item item-teal position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-book-half"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Digital LMS & Learning Assets</h5>
+                    <p class="text-muted small mb-0">Publish lecture slides, lab worksheets, and homework assignments with single-click downloads and student engagement analytics.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="service-item item-red position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-shield-lock"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Cryptographic Audit Ledger</h5>
+                    <p class="text-muted small mb-0">Every grade change, attendance mark, and broadcast trigger is cryptographically hashed with SHA-256 for immutable legal compliance.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="service-item item-indigo position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-megaphone"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Omni-Channel Broadcasts</h5>
+                    <p class="text-muted small mb-0">Targeted broadcast alerts dispatched across SMS, WhatsApp, and email with live character counters, dynamic merging, and delivery audit logs.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="service-item item-pink position-relative p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="icon mb-3" style="color: #009961; font-size: 32px;"><i class="bi bi-file-earmark-spreadsheet"></i></div>
+                    <h5 class="fw-bold text-dark mb-2">Bulk Excel Onboarding</h5>
+                    <p class="text-muted small mb-0">One-click standard template downloads and bulk student import with automatic parent account provisioning and password generation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section id="call-to-action" class="call-to-action section dark-background">
+    <img src="{{ asset('knightone/img/cta-bg.jpg') }}" alt="Call To Action">
+    <div class="container">
+        <div class="row justify-content-center" data-aos="zoom-in" data-aos-delay="100">
+            <div class="col-xl-9 text-center">
+                <h3 class="fw-bold text-white mb-3" style="font-size: 34px;">Empowering Educational Leadership Through Data-Driven Precision</h3>
+                <p class="text-white-50 mb-4" style="font-size: 16px;">
+                    Whether you are an administrator orchestrating campus operations, a teacher grading assessments, or a parent monitoring your child's scholastic trajectory, Scholar SMS delivers frictionless access.
+                </p>
+                <div class="d-flex justify-content-center gap-3 flex-wrap">
+                    <a class="cta-btn py-3 px-5 fs-6" href="{{ route('login') }}">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Access Dedicated Portal
+                    </a>
+                    <a class="btn btn-outline-light rounded-pill px-4 py-3 fw-bold" href="#contact">
+                        <i class="bi bi-envelope me-1"></i> Request Institution Tour
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Institutional Stats Section -->
+<section id="stats" class="stats section dark-background">
+    <img src="{{ asset('knightone/img/stats-bg.jpg') }}" alt="Institutional Stats">
+    <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4 justify-content-center text-center">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item p-3">
+                    <span data-purecounter-start="0" data-purecounter-end="{{ $stats['students'] }}" data-purecounter-duration="1.5" class="purecounter fw-bold display-4 text-white"></span>
+                    <p class="text-success fw-bold text-uppercase mt-2 small">Enrolled Scholars</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item p-3">
+                    <span data-purecounter-start="0" data-purecounter-end="{{ $stats['faculty'] }}" data-purecounter-duration="1.5" class="purecounter fw-bold display-4 text-white"></span>
+                    <p class="text-success fw-bold text-uppercase mt-2 small">Accredited Faculty</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item p-3">
+                    <span data-purecounter-start="0" data-purecounter-end="{{ $stats['courses'] }}" data-purecounter-duration="1.5" class="purecounter fw-bold display-4 text-white"></span>
+                    <p class="text-success fw-bold text-uppercase mt-2 small">LMS Syllabi & Courses</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-item p-3">
+                    <span class="fw-bold display-4 text-white">{{ $stats['attendance_rate'] }}</span>
+                    <p class="text-success fw-bold text-uppercase mt-2 small">Verified Attendance Rate</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Campus Life / Portfolio Gallery Section -->
+<section id="portfolio" class="portfolio section">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Vibrant Campus Life</span>
+        <h2 class="fw-bold text-dark">Scholar Academy Photographic Gallery</h2>
+        <p class="text-muted">A glimpse into our state-of-the-art laboratories, athletic fields, creative studios, and student community.</p>
+    </div>
+
+    <div class="container">
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+            <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+                <li data-filter="*" class="filter-active">All Highlights</li>
+                <li data-filter=".filter-campus">Campus Architecture</li>
+                <li data-filter=".filter-labs">Laboratories & STEM</li>
+                <li data-filter=".filter-sports">Athletics</li>
+            </ul>
+
+            <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-campus">
+                    <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
+                        <img src="{{ asset('knightone/img/portfolio/portfolio-1.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Main Academic Quadrangle">
+                        <div class="portfolio-info p-3 bg-white">
+                            <h6 class="fw-bold mb-1">Main Academic Quadrangle</h6>
+                            <p class="text-muted small mb-0">Historic architecture meeting cutting-edge digital learning spaces.</p>
+                            <a href="{{ asset('knightone/img/portfolio/portfolio-1.jpg') }}" title="Main Academic Quadrangle" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-labs">
+                    <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
+                        <img src="{{ asset('knightone/img/portfolio/portfolio-2.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Robotics & Biotechnology Lab">
+                        <div class="portfolio-info p-3 bg-white">
+                            <h6 class="fw-bold mb-1">Robotics & Biotechnology Lab</h6>
+                            <p class="text-muted small mb-0">Advanced laboratory protocols and experiential STEM research.</p>
+                            <a href="{{ asset('knightone/img/portfolio/portfolio-2.jpg') }}" title="Robotics & Biotechnology Lab" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-sports">
+                    <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
+                        <img src="{{ asset('knightone/img/portfolio/portfolio-3.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Championship Aquatic Center">
+                        <div class="portfolio-info p-3 bg-white">
+                            <h6 class="fw-bold mb-1">Championship Aquatic Center</h6>
+                            <p class="text-muted small mb-0">Olympic-standard athletic training and varsity swimming programs.</p>
+                            <a href="{{ asset('knightone/img/portfolio/portfolio-3.jpg') }}" title="Championship Aquatic Center" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ route('landing.gallery') }}" class="btn btn-outline-success rounded-pill px-4 fw-bold">
+                    <i class="bi bi-images me-1"></i> Explore Complete Institutional Gallery
                 </a>
             </div>
         </div>
+    </div>
+</section>
 
-        <div class="row g-4 mt-2">
-            @foreach($galleryItems->take(6) as $item)
-                <div class="col-lg-4 col-md-6">
-                    <div class="gallery-card" data-bs-toggle="modal" data-bs-target="#galleryModal{{ $item->id }}">
-                        <img src="{{ asset($item->image_path) }}" alt="{{ $item->title }}">
-                        <div class="overlay">
-                            <span class="badge bg-warning text-dark w-auto align-self-start mb-2">{{ $item->category }}</span>
-                            <h5 class="fw-bold mb-1">{{ $item->title }}</h5>
-                            <p class="small mb-0 text-light">{{ $item->caption }}</p>
-                        </div>
-                    </div>
+<!-- Academic Cohorts / Programs Section -->
+<section id="pricing" class="pricing section light-background">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Curriculum Pathways</span>
+        <h2 class="fw-bold text-dark">Academic Cohorts & Programs</h2>
+        <p class="text-muted">Structured curriculum stages designed to transition scholars from foundational mastery to collegiate research.</p>
+    </div>
 
-                    <!-- Modal Preview -->
-                    <div class="modal fade" id="galleryModal{{ $item->id }}" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content border-0 rounded-4 overflow-hidden shadow-lg">
-                                <div class="modal-body p-0 position-relative">
-                                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal"></button>
-                                    <img src="{{ asset($item->image_path) }}" class="w-100" style="max-height: 500px; object-fit: cover;">
-                                    <div class="p-4 bg-white">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <span class="badge bg-primary">{{ $item->category }}</span>
-                                            <small class="text-muted">Scholar Academy Media Archive</small>
-                                        </div>
-                                        <h4 class="fw-bold">{{ $item->title }}</h4>
-                                        <p class="text-muted mb-0">{{ $item->caption }}</p>
-                                    </div>
-                                </div>
-                            </div>
+    <div class="container">
+        <div class="row gy-4">
+            <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="pricing-item p-4 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <span class="badge bg-light text-dark border mb-2 px-3 py-1">Junior Secondary</span>
+                        <h4 class="fw-bold text-dark">Foundational Division</h4>
+                        <div class="my-3">
+                            <span class="fs-4 fw-bold text-success">Grades 7 — 9</span>
+                            <span class="text-muted small"> / Core Literacy & STEM</span>
                         </div>
+                        <ul class="list-unstyled small text-muted">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Comprehensive Sciences & Applied Algebra</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> World Literature & Rhetoric Fundamentals</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Introductory Coding & Computational Logic</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Daily Biometric / QR Attendance Logging</li>
+                        </ul>
                     </div>
+                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold mt-4">Inquire Admissions</a>
                 </div>
-            @endforeach
+            </div>
+
+            <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="pricing-item featured p-4 bg-white rounded-4 border border-2 shadow h-100 d-flex flex-column justify-content-between position-relative" style="border-color: #009961 !important;">
+                    <span class="badge position-absolute top-0 start-50 translate-middle rounded-pill px-3 py-1.5 fw-bold" style="background-color: #009961; color: #fff;">MOST POPULAR</span>
+                    <div>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-3 py-1">Senior Division</span>
+                        <h4 class="fw-bold text-dark">Science & Technology Honors</h4>
+                        <div class="my-3">
+                            <span class="fs-4 fw-bold text-success">Grades 10 — 12</span>
+                            <span class="text-muted small"> / Pre-Collegiate Honors</span>
+                        </div>
+                        <ul class="list-unstyled small text-muted">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Advanced Mathematics (MTH-201) & Modern Physics</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> University-Level Computer Science (CSC-301)</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Weighted Continuous Assessment Gradebook (4.0 GPA)</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Instant Multi-Channel Guardian Broadcast Sync</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn btn-success rounded-pill w-100 fw-bold mt-4" style="background-color: #009961; border: none;">Apply for Cohort</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="pricing-item p-4 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <span class="badge bg-light text-dark border mb-2 px-3 py-1">Advanced Diploma</span>
+                        <h4 class="fw-bold text-dark">International Baccalaureate</h4>
+                        <div class="my-3">
+                            <span class="fs-4 fw-bold text-success">AP & IB Prep</span>
+                            <span class="text-muted small"> / Global Matriculation</span>
+                        </div>
+                        <ul class="list-unstyled small text-muted">
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Independent Senior Thesis & Lab Fellowships</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Cryptographic Verified Transcripts for Universities</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Dedicated Academic Advisor & Faculty Mentorship</li>
+                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Full Access to Digital LMS Resource Library</li>
+                        </ul>
+                    </div>
+                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold mt-4">Inquire Admissions</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Faculty & Leadership Team -->
-<div class="team section" id="team">
-    <div class="container">
-        <div class="row mb-5 text-center">
-            <div class="col-lg-12">
-                <div class="section-heading">
-                    <h6>World-Class Instructors</h6>
-                    <h2>Meet Our <em>Distinguished Faculty</em></h2>
-                </div>
-            </div>
-        </div>
-        <div class="row g-4">
-            @foreach($staffMembers as $staff)
-                <div class="col-lg-3 col-md-6">
-                    <div class="team-member text-center p-4 bg-white rounded-4 shadow-sm h-100">
-                        <div class="main-image mb-3">
-                            <img src="{{ asset($staff->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" alt="{{ $staff->user->name }}" class="rounded-circle shadow-sm" style="width: 140px; height: 140px; object-fit: cover; border: 4px solid #f0f2f8;">
-                        </div>
-                        <span class="badge bg-light text-primary mb-2">{{ $staff->department->name ?? 'Academics' }}</span>
-                        <h5 class="fw-bold mb-1">{{ $staff->user->name }}</h5>
-                        <p class="text-muted small mb-2">{{ $staff->designation }}</p>
-                        <p class="small text-secondary mb-3">{{ $staff->qualification }}</p>
-                        <div class="d-flex justify-content-center gap-2">
-                            <a href="#" class="btn btn-sm btn-light rounded-circle text-muted"><i class="fa-brands fa-linkedin-in"></i></a>
-                            <a href="#" class="btn btn-sm btn-light rounded-circle text-muted"><i class="fa-regular fa-envelope"></i></a>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+<!-- Frequently Asked Questions Section -->
+<section id="faq" class="faq section">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Common Queries</span>
+        <h2 class="fw-bold text-dark">Frequently Asked Questions</h2>
+        <p class="text-muted">Answers regarding enrollment, security compliance, guardian access, and continuous grading.</p>
     </div>
-</div>
 
-<!-- Testimonials & Institutional Events -->
-<div class="section events" id="events">
     <div class="container">
-        <div class="row mb-5">
-            <div class="col-lg-12 text-center">
-                <div class="section-heading">
-                    <h6>Upcoming Dates</h6>
-                    <h2>Campus Calendar & <em>Institutional Events</em></h2>
-                </div>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-lg-12 col-md-6">
-                <div class="item p-4 bg-white rounded-4 shadow-sm mb-4">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3">
-                            <div class="image">
-                                <img src="{{ asset('scholar/assets/images/event-01.jpg') }}" alt="" class="rounded-3 w-100" style="height: 160px; object-fit: cover;">
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <div class="accordion accordion-flush" id="faqAccordion">
+                    <div class="accordion-item bg-white border rounded-3 mb-2 shadow-sm">
+                        <h2 class="accordion-header" id="faq1Heading">
+                            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How does the Contactless Smart QR Check-In Terminal operate?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Each enrolled scholar is issued an encoded security badge containing a secure token. Upon arrival at campus gates or homeroom registers, the badge is scanned via webcam or optical scanner, instantaneously recording punctuality into the ledger and calculating real-time attendance rates.
                             </div>
-                        </div>
-                        <div class="col-lg-9">
-                            <ul>
-                                <li><span class="category">STEM Excellence</span><h4>Annual National Science & Robotics Exposition</h4></li>
-                                <li><span>Date:</span><h6>28 Oct 2026</h6></li>
-                                <li><span>Duration:</span><h6>09:00 - 16:30</h6></li>
-                                <li><span>Location:</span><h6>Auditorium A</h6></li>
-                            </ul>
-                            <a href="{{ route('login') }}"><i class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-lg-12 col-md-6">
-                <div class="item p-4 bg-white rounded-4 shadow-sm mb-4">
-                    <div class="row align-items-center">
-                        <div class="col-lg-3">
-                            <div class="image">
-                                <img src="{{ asset('scholar/assets/images/event-02.jpg') }}" alt="" class="rounded-3 w-100" style="height: 160px; object-fit: cover;">
+
+                    <div class="accordion-item bg-white border rounded-3 mb-2 shadow-sm">
+                        <h2 class="accordion-header" id="faq2Heading">
+                            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                How are continuous assessments weighted into the official report card?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Our academic gradebook operates on a weighted term matrix: Continuous Quizzes contribute 20%, Midterm Exams contribute 30%, and Final Term Examinations contribute 50%. The engine computes weighted GPAs on a 4.0 scale, determines class percentile rankings, and generates printable A4 PDF transcripts.
                             </div>
                         </div>
-                        <div class="col-lg-9">
-                            <ul>
-                                <li><span class="category">Community</span><h4>Quarterly Parent-Teacher Consultative Assembly</h4></li>
-                                <li><span>Date:</span><h6>05 Nov 2026</h6></li>
-                                <li><span>Duration:</span><h6>14:00 - 18:00</h6></li>
-                                <li><span>Location:</span><h6>Conference Hall</h6></li>
-                            </ul>
-                            <a href="{{ route('login') }}"><i class="fa fa-angle-right"></i></a>
+                    </div>
+
+                    <div class="accordion-item bg-white border rounded-3 mb-2 shadow-sm">
+                        <h2 class="accordion-header" id="faq3Heading">
+                            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What makes the Cryptographic Audit Ledger tamper-proof?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Each administrative mutation—including grade adjustments, enrollment status changes, and disciplinary notices—is cryptographically hashed with SHA-256 incorporating the previous record's hash signature. This establishes an unbroken chain of custody preventing retro-active record falsification.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item bg-white border rounded-3 mb-2 shadow-sm">
+                        <h2 class="accordion-header" id="faq4Heading">
+                            <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                Can parents view their children's report cards online?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body text-muted small">
+                                Yes. Verified guardians receive a dedicated Guardian Oversight Desk login where they can inspect their ward's 360 profile, download official signed report cards, receive instant broadcast alerts, and review daily attendance logs.
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Admission & Contact Form -->
-<div class="contact-us section py-5" id="contact">
-    <div class="container">
-        <div class="row g-5 align-items-center">
-            <div class="col-lg-6">
-                <div class="section-heading mb-4">
-                    <h6>Admissions Open</h6>
-                    <h2>Begin Your Educational Journey with <em>Scholar SMS</em></h2>
-                </div>
-                <p class="lead text-muted mb-4">We are currently accepting enrollment inquiries for the 2026-2027 Academic Session. Connect with our admissions counselors or arrange a campus tour today.</p>
+<!-- Admissions Inquiry & Contact Section -->
+<section id="contact" class="contact section light-background">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Admissions & Enrollment</span>
+        <h2 class="fw-bold text-dark">Connect with Our Admissions Office</h2>
+        <p class="text-muted">Inquire about enrollment cohorts, schedule an on-campus tour, or connect with our academic directors.</p>
+    </div>
 
-                <div class="d-flex align-items-center gap-3 p-3 bg-white rounded-3 shadow-sm mb-3">
-                    <div class="p-3 bg-primary text-white rounded-3 fs-4">
-                        <i class="fa-solid fa-headset"></i>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+            <div class="col-lg-5">
+                <div class="info-wrap p-4 bg-white rounded-4 shadow-sm border h-100">
+                    <div class="info-item d-flex align-items-center mb-4">
+                        <div class="p-3 bg-light rounded-3 text-success me-3 fs-4" style="width: 50px; height: 50px; display: grid; place-items: center;">
+                            <i class="bi bi-geo-alt"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Campus Location:</h6>
+                            <p class="text-muted small mb-0">100 University Boulevard, Academic District, Suite 500</p>
+                        </div>
                     </div>
-                    <div>
-                        <h6 class="fw-bold mb-0">Admissions Advisory Hotline</h6>
-                        <p class="text-muted mb-0">+1 (555) 724-6527 (Mon-Fri 8:00AM - 5:00PM)</p>
-                    </div>
-                </div>
 
-                <div class="d-flex align-items-center gap-3 p-3 bg-white rounded-3 shadow-sm">
-                    <div class="p-3 bg-success text-white rounded-3 fs-4">
-                        <i class="fa-solid fa-building-columns"></i>
+                    <div class="info-item d-flex align-items-center mb-4">
+                        <div class="p-3 bg-light rounded-3 text-success me-3 fs-4" style="width: 50px; height: 50px; display: grid; place-items: center;">
+                            <i class="bi bi-telephone"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Admissions Secretariat:</h6>
+                            <p class="text-muted small mb-0">+1 (555) 234-5678 / +1 (555) 234-8900</p>
+                        </div>
                     </div>
-                    <div>
-                        <h6 class="fw-bold mb-0">Campus Tours & Admissions Desk</h6>
-                        <p class="text-muted mb-0">100 Scholar Way, Innovation Campus, Tech District</p>
+
+                    <div class="info-item d-flex align-items-center mb-4">
+                        <div class="p-3 bg-light rounded-3 text-success me-3 fs-4" style="width: 50px; height: 50px; display: grid; place-items: center;">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold text-dark mb-0">Electronic Mail:</h6>
+                            <p class="text-muted small mb-0">admissions@scholar-academy.edu</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3 rounded-3 bg-success-subtle border border-success-subtle small text-success">
+                        <strong class="d-block mb-1"><i class="bi bi-clock-history me-1"></i> Admissions Hours</strong>
+                        Monday — Friday: 8:00 AM – 4:30 PM &bull; Saturday by appointment.
                     </div>
                 </div>
             </div>
 
-            <div class="col-lg-6">
-                <div class="card border-0 rounded-4 shadow-lg p-4 p-md-5 bg-white">
-                    <h3 class="fw-bold mb-2">Admissions & Inquiry Form</h3>
-                    <p class="text-muted mb-4">Submit your details to receive full syllabus brochures and application instructions.</p>
-
-                    <form action="{{ route('landing.inquiry') }}" method="POST">
-                        @csrf
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Student / Guardian Name *</label>
-                                <input type="text" name="name" class="form-control form-control-lg rounded-3" placeholder="e.g. Eleanor Vance" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Email Address *</label>
-                                <input type="email" name="email" class="form-control form-control-lg rounded-3" placeholder="name@domain.com" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Contact Phone</label>
-                                <input type="text" name="phone" class="form-control form-control-lg rounded-3" placeholder="+1 (555) 000-0000">
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label fw-semibold">Program / Grade Level</label>
-                                <select name="interest" class="form-select form-select-lg rounded-3">
-                                    <option value="Grade 10 STEM Track">Grade 10 — STEM Alpha</option>
-                                    <option value="Grade 11 Honors">Grade 11 — STEM Honors</option>
-                                    <option value="Grade 12 College Prep">Grade 12 — Collegiate Prep</option>
-                                    <option value="General Inquiry">General Academic Inquiry</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label fw-semibold">Your Message or Questions *</label>
-                                <textarea name="message" rows="4" class="form-control rounded-3" placeholder="Tell us about student interests, previous schooling, or special requirements..." required></textarea>
-                            </div>
-                            <div class="col-12 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill py-3 fw-bold shadow">
-                                    <i class="fa-solid fa-paper-plane me-2"></i> Submit Admissions Inquiry
-                                </button>
-                            </div>
+            <div class="col-lg-7">
+                <form action="{{ route('landing.inquiry') }}" method="POST" class="p-4 bg-white rounded-4 shadow-sm border">
+                    @csrf
+                    <div class="row gy-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Guardian / Applicant Name <span class="text-danger">*</span></label>
+                            <input type="text" name="name" class="form-control border-light shadow-sm" placeholder="e.g. Eleanor Vance" required>
                         </div>
-                    </form>
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" name="email" class="form-control border-light shadow-sm" placeholder="e.g. eleanor@example.com" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Contact Phone</label>
+                            <input type="text" name="phone" class="form-control border-light shadow-sm" placeholder="e.g. +1 (555) 987-6543">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-dark">Academic Program of Interest</label>
+                            <select name="interest" class="form-select border-light shadow-sm">
+                                <option value="Science & Technology Honors (Grade 10)">Science & Technology Honors (Grade 10)</option>
+                                <option value="Foundational Secondary (Grades 7 - 9)">Foundational Secondary (Grades 7 - 9)</option>
+                                <option value="Pre-University AP / IB Diploma">Pre-University AP / IB Diploma</option>
+                                <option value="General Curriculum Inquiry">General Curriculum Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-bold text-dark">Inquiry Message / Scholastic Background <span class="text-danger">*</span></label>
+                            <textarea name="message" class="form-control border-light shadow-sm" rows="4" placeholder="Detail any prior academic coursework, extracurricular goals, or schedule requirements..." required></textarea>
+                        </div>
+                        <div class="col-12 text-center mt-3">
+                            <button type="submit" class="btn btn-success rounded-pill px-5 py-2.5 fw-bold shadow-sm" style="background-color: #009961; border: none;">
+                                <i class="bi bi-send me-1"></i> Submit Admissions Inquiry
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 @endsection

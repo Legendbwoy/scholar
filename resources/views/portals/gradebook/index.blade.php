@@ -152,7 +152,7 @@
 
                 <!-- Card Actions -->
                 <div class="d-flex gap-2 align-items-center pt-2 border-top">
-                    <a href="{{ route('gradebook.sheet', $ass->id) }}" class="btn btn-primary rounded-pill px-3 py-1.5 fw-bold flex-grow-1 shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8; font-size: 13px;">
+                    <a href="{{ route('gradebook.sheet', $ass->id) }}" class="btn btn-primary rounded-pill px-3 py-1.5 fw-bold flex-grow-1 shadow-sm" style="background-color: #009961; border-color: #009961; font-size: 13px;">
                         <i class="fa-solid fa-table-list me-1"></i> Grade Sheet
                     </a>
                     @if(auth()->user()->isAdmin())
@@ -199,7 +199,7 @@
                 @csrf
                 <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #7a6ad8 !important;">
+                        <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #009961 !important;">
                             <i class="fa-solid fa-file-pen fs-5"></i>
                         </div>
                         <div>
@@ -281,7 +281,7 @@
                 </div>
                 <div class="modal-footer border-0 p-4 pt-0 bg-light">
                     <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;" onclick="Swal.fire({title: 'Creating Assessment...', text: 'Initialising grade sheet in cryptographic ledger...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #009961; border-color: #009961;" onclick="Swal.fire({title: 'Creating Assessment...', text: 'Initialising grade sheet in cryptographic ledger...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});">
                         <i class="fa-solid fa-check me-1"></i> Create Assessment
                     </button>
                 </div>

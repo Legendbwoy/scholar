@@ -4,49 +4,66 @@
 
 @section('styles')
 <style>
-    .auth-wrapper {
-        min-height: calc(100vh - 120px);
+    .auth-section {
+        min-height: 100vh;
         display: flex;
         align-items: center;
-        padding: 100px 0 60px;
-        background: radial-gradient(circle at 10% 20%, #f4f2ff 0%, #ffffff 50%, #fbfbff 100%);
-    }
-
-    .auth-card {
-        border-radius: 26px;
-        border: 1px solid rgba(122, 106, 216, 0.12);
-        box-shadow: 0 25px 60px rgba(122, 106, 216, 0.14);
-        background: #fff;
+        padding: 120px 0 60px;
+        background: #060606;
+        position: relative;
         overflow: hidden;
     }
 
-    /* Role Selection Tabs */
+    .auth-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('{{ asset("knightone/img/hero-bg.jpg") }}') center center / cover no-repeat;
+        opacity: 0.18;
+        pointer-events: none;
+    }
+
+    .auth-card {
+        border-radius: 28px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+        background: #121212;
+        overflow: hidden;
+        position: relative;
+        z-index: 1;
+    }
+
     .role-nav-tab {
-        border: 2px solid #eef0f6;
+        border: 2px solid #222222;
         border-radius: 16px;
         padding: 12px 14px;
-        background: #fafbfe;
+        background: #181818;
         cursor: pointer;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s ease;
         display: flex;
         align-items: center;
         gap: 12px;
         text-align: left;
         width: 100%;
-        color: inherit;
+        color: #cccccc;
         text-decoration: none;
     }
 
     .role-nav-tab:hover {
-        border-color: #7a6ad8;
-        background: #f7f5ff;
+        border-color: #009961;
+        background: #1f1f1f;
+        color: #ffffff;
         transform: translateY(-2px);
     }
 
     .role-nav-tab.active {
-        border-color: #7a6ad8;
-        background: #f0eeff;
-        box-shadow: 0 6px 16px rgba(122, 106, 216, 0.15);
+        border-color: #009961;
+        background: rgba(0, 153, 97, 0.15);
+        color: #ffffff;
+        box-shadow: 0 6px 20px rgba(0, 153, 97, 0.25);
     }
 
     .role-nav-tab .role-icon-box {
@@ -60,322 +77,212 @@
         flex-shrink: 0;
     }
 
-    .role-nav-tab.active .role-icon-box {
-        transform: scale(1.05);
-    }
-
-    .seed-vault-card {
-        border: 1px solid #edf0f7;
-        border-radius: 14px;
-        padding: 10px 14px;
-        background: #f8fafc;
-        transition: all 0.2s ease;
-    }
-
-    .seed-vault-card:hover {
-        border-color: #7a6ad8;
-        background: #ffffff;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-    }
-
     .brand-hero-panel {
-        background: linear-gradient(150deg, #7a6ad8 0%, #513fc4 100%);
+        background: linear-gradient(145deg, #0f1f17 0%, #060e0a 100%);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
         position: relative;
         overflow: hidden;
     }
 
-    .brand-hero-panel::after {
-        content: '';
-        position: absolute;
-        bottom: -50px;
-        right: -50px;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
-        border-radius: 50%;
+    .persona-badge-btn {
+        background: #1e1e1e;
+        border: 1px solid #333333;
+        color: #e0e0e0;
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        text-align: left;
     }
 
-    .persona-preview-box {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 20px;
-        padding: 20px;
+    .persona-badge-btn:hover {
+        background: #252525;
+        border-color: #009961;
+        color: #ffffff;
+        transform: translateY(-1px);
     }
 </style>
 @endsection
 
 @section('content')
-<div class="auth-wrapper">
+<section class="auth-section">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-11 col-lg-12">
                 <div class="auth-card">
                     <div class="row g-0">
-                        
-                        <!-- Left Hero Persona Panel -->
-                        <div class="col-lg-5 p-4 p-md-5 text-white d-flex flex-column justify-content-between brand-hero-panel">
+                        <!-- Left Brand Hero & Demo Persona Vault -->
+                        <div class="col-lg-5 brand-hero-panel p-4 p-md-5 d-flex flex-column justify-content-between text-white">
                             <div>
-                                <div class="d-flex align-items-center gap-2 mb-3">
-                                    <div class="p-2 rounded-circle bg-white text-primary shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center;">
-                                        <i class="fa-solid fa-graduation-cap fs-5" style="color: #7a6ad8;"></i>
+                                <div class="d-flex align-items-center gap-3 mb-4">
+                                    <div class="p-2 rounded-3 text-white shadow" style="width: 48px; height: 48px; display: grid; place-items: center; background-color: #009961;">
+                                        <i class="fa-solid fa-graduation-cap fs-4"></i>
                                     </div>
                                     <div>
-                                        <h4 class="fw-bold mb-0">Scholar<span>SMS</span></h4>
-                                        <small class="opacity-75" style="font-size: 11px;">Unified Academic Portal System</small>
+                                        <h3 class="fw-bold mb-0 text-white" style="letter-spacing: -0.5px;">Scholar<span style="color: #009961;">SMS</span></h3>
+                                        <small class="text-white-50">KnightOne Enterprise Edition</small>
                                     </div>
                                 </div>
 
-                                <h3 class="fw-bold mb-2">Role-Based Authentication</h3>
-                                <p class="opacity-75 small mb-4">Enterprise access control tailored for Super Administrators, Faculty Instructors, Students, and Guardians.</p>
+                                <h4 class="fw-bold mb-3 text-white" style="font-family: 'Raleway', sans-serif;">Institutional Workspace Access</h4>
+                                <p class="text-white-50 small mb-4">
+                                    Authenticate into your role-specific dashboard. All sessions are cryptographically verified and bound to institutional audit trails.
+                                </p>
 
-                                <!-- Dynamic Persona Preview Card -->
-                                <div class="persona-preview-box mb-4">
-                                    <div class="d-flex align-items-center gap-3 mb-3">
-                                        <img id="personaAvatar" src="{{ asset($personas[$activePortal]['user']->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle border border-2 border-white shadow-sm" style="width: 58px; height: 58px; object-fit: cover;">
-                                        <div>
-                                            <span id="personaRoleBadge" class="badge bg-{{ $personas[$activePortal]['badge_color'] }} px-2 py-1 mb-1 fw-bold text-uppercase" style="font-size: 10px;">
-                                                {{ $personas[$activePortal]['title'] }}
-                                            </span>
-                                            <h5 id="personaName" class="fw-bold mb-0 text-white">{{ $personas[$activePortal]['user']->name ?? 'Dr. Evelyn Vance' }}</h5>
-                                            <small id="personaSubtitle" class="text-white-50" style="font-size: 11px;">{{ $personas[$activePortal]['subtitle'] }}</small>
-                                        </div>
+                                <div class="p-3 rounded-4 mb-4" style="background: rgba(0, 153, 97, 0.1); border: 1px solid rgba(0, 153, 97, 0.25);">
+                                    <div class="d-flex align-items-center gap-2 mb-2 text-success fw-bold small">
+                                        <i class="bi bi-shield-check fs-5"></i> 1-Click Fast Demo Credentials
                                     </div>
-                                    <p id="personaDescription" class="small mb-0 opacity-90" style="font-size: 12px; line-height: 1.5;">
-                                        {{ $personas[$activePortal]['description'] }}
-                                    </p>
+                                    <div class="text-white-50 small mb-3">Click any profile below to instantly populate login fields:</div>
+                                    <div class="d-grid gap-2">
+                                        <button type="button" class="persona-badge-btn" onclick="applyPersona('admin@scholar.edu', 'password', 'admin')">
+                                            <span><i class="fa-solid fa-user-shield text-danger me-2"></i> Super Administrator</span>
+                                            <span class="badge bg-danger">Admin</span>
+                                        </button>
+                                        <button type="button" class="persona-badge-btn" onclick="applyPersona('sarah.jenkins@scholar.edu', 'password', 'teacher')">
+                                            <span><i class="fa-solid fa-chalkboard-user text-success me-2"></i> Dr. Sarah Jenkins (HOD)</span>
+                                            <span class="badge bg-success">Faculty</span>
+                                        </button>
+                                        <button type="button" class="persona-badge-btn" onclick="applyPersona('alexander.cole@student.scholar.edu', 'password', 'student')">
+                                            <span><i class="fa-solid fa-user-graduate text-warning me-2"></i> Alexander Cole (Grade 10)</span>
+                                            <span class="badge bg-warning text-dark">Student</span>
+                                        </button>
+                                        <button type="button" class="persona-badge-btn" onclick="applyPersona('arthur.cole@parent.scholar.edu', 'password', 'parent')">
+                                            <span><i class="fa-solid fa-people-roof text-info me-2"></i> Arthur Cole (Guardian)</span>
+                                            <span class="badge bg-info text-dark">Parent</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Institutional Trust Seals -->
-                            <div class="border-top border-white border-opacity-20 pt-3">
-                                <div class="row g-2 text-center" style="font-size: 11px;">
-                                    <div class="col-4">
-                                        <div class="p-2 rounded bg-white bg-opacity-10">
-                                            <i class="fa-solid fa-shield-halved text-warning d-block mb-1"></i>
-                                            <span>SHA-256 Ledger</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="p-2 rounded bg-white bg-opacity-10">
-                                            <i class="fa-solid fa-qrcode text-success d-block mb-1"></i>
-                                            <span>Smart QR Check-In</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="p-2 rounded bg-white bg-opacity-10">
-                                            <i class="fa-solid fa-tower-broadcast text-info d-block mb-1"></i>
-                                            <span>Instant Comms</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center mt-3">
-                                    <small class="opacity-75">Institutional Default Password: <code>password</code></small>
-                                </div>
+                            <div class="pt-3 border-top border-white border-opacity-10 d-flex justify-content-between align-items-center small text-white-50">
+                                <span><i class="fa-solid fa-lock text-success me-1"></i> 256-Bit SSL Enforced</span>
+                                <a href="{{ route('home') }}" class="text-white-50 text-decoration-none hover-text-white"><i class="bi bi-arrow-left me-1"></i> Public Site</a>
                             </div>
                         </div>
 
-                        <!-- Right Authentication Form Panel -->
-                        <div class="col-lg-7 p-4 p-md-5 bg-white d-flex flex-column justify-content-between">
-                            <div>
-                                <!-- Section Title -->
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div>
-                                        <h3 class="fw-bold text-dark mb-0">Select Your Role Portal</h3>
-                                        <small class="text-muted">Choose your persona to populate seeded credentials or authenticate manually.</small>
-                                    </div>
-                                    <span class="badge bg-light text-primary border px-3 py-2 rounded-pill fw-bold small">
-                                        <i class="fa-solid fa-lock me-1"></i> SSL 256-Bit
-                                    </span>
-                                </div>
-
-                                <!-- 4-Way Role Portal Selector Buttons -->
-                                <div class="row g-2 mb-4">
-                                    @foreach($personas as $rKey => $p)
-                                    <div class="col-6 col-md-3">
-                                        <button type="button" class="role-nav-tab {{ $activePortal === $rKey ? 'active' : '' }}" 
-                                                onclick="selectPortal('{{ $rKey }}', '{{ $p['title'] }}', '{{ $p['subtitle'] }}', '{{ $p['user']->name ?? '' }}', '{{ asset($p['user']->avatar ?? 'scholar/assets/images/member-01.jpg') }}', '{{ $p['badge_color'] }}', '{{ $p['email'] }}', '{{ addslashes($p['description']) }}')"
-                                                id="tab-btn-{{ $rKey }}">
-                                            <div class="role-icon-box bg-{{ $p['badge_color'] }}">
-                                                <i class="fa-solid {{ $p['icon'] }}"></i>
-                                            </div>
-                                            <div class="overflow-hidden">
-                                                <strong class="d-block small text-truncate">{{ $p['title'] }}</strong>
-                                                <span class="text-muted text-truncate d-block" style="font-size: 10px;">{{ $p['email'] }}</span>
-                                            </div>
-                                        </button>
-                                    </div>
-                                    @endforeach
-                                </div>
-
-                                @if(session('success'))
-                                    <div class="alert alert-success alert-dismissible fade show rounded-4 py-2 px-3 small mb-3">
-                                        <i class="fa-solid fa-circle-check me-1"></i> {{ session('success') }}
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    </div>
-                                @endif
-
-                                @if($errors->any())
-                                    <div class="alert alert-danger rounded-4 py-2 px-3 small mb-3">
-                                        <i class="fa-solid fa-circle-exclamation me-1"></i> {{ $errors->first() }}
-                                    </div>
-                                @endif
-
-                                <!-- Login Form -->
-                                <form action="{{ route('login.post') }}" method="POST" id="authLoginForm">
-                                    @csrf
-                                    <input type="hidden" name="portal" id="portalRoleInput" value="{{ $activePortal }}">
-
-                                    <div class="mb-3">
-                                        <label class="form-label fw-semibold small text-muted">Academic Email Address</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-regular fa-envelope"></i></span>
-                                            <input type="email" name="email" id="emailInput" class="form-control border-start-0 ps-0" placeholder="e.g. admin@scholar.edu" value="{{ old('email', $personas[$activePortal]['email']) }}" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <div class="d-flex justify-content-between align-items-center mb-1">
-                                            <label class="form-label fw-semibold small text-muted mb-0">Password</label>
-                                            <a href="javascript:void(0)" class="text-primary small text-decoration-none" onclick="alert('Seeded institutional accounts all use password: password');">Default: password</a>
-                                        </div>
-                                        <div class="input-group">
-                                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-lock"></i></span>
-                                            <input type="password" name="password" id="passwordInput" class="form-control border-start-0 border-end-0 ps-0" placeholder="••••••••" value="password" required>
-                                            <button class="btn btn-light border border-start-0 text-muted" type="button" id="togglePasswordBtn" onclick="togglePasswordVisibility()">
-                                                <i class="fa-regular fa-eye" id="toggleEyeIcon"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <div class="form-check">
-                                            <input type="checkbox" name="remember" class="form-check-input" id="rememberMe" checked>
-                                            <label class="form-check-label small text-muted" for="rememberMe">Remember my session</label>
-                                        </div>
-                                        <span class="badge bg-light text-muted border small">
-                                            Active Target: <span id="targetRoleLabel" class="fw-bold text-dark text-capitalize">{{ $activePortal }}</span>
-                                        </span>
-                                    </div>
-
-                                    <div class="row g-2 mb-3">
-                                        <div class="col-md-7">
-                                            <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;">
-                                                <i class="fa-solid fa-right-to-bracket me-2"></i> Log In to Portal
-                                            </button>
-                                        </div>
-                                        <div class="col-md-5">
-                                            <a href="{{ route('auth.demo.switch', $activePortal) }}" id="instantDemoLink" class="btn btn-outline-dark w-100 rounded-pill py-2 fw-semibold small">
-                                                <i class="fa-solid fa-bolt text-warning me-1"></i> 1-Click Instant
-                                            </a>
-                                        </div>
-                                    </div>
-                                </form>
+                        <!-- Right Form & Role Navigation -->
+                        <div class="col-lg-7 p-4 p-md-5 bg-dark text-white">
+                            <div class="mb-4">
+                                <span class="text-success text-uppercase fw-bold small" style="letter-spacing: 1px;">Step 1: Choose Your Role</span>
+                                <h4 class="fw-bold mt-1 text-white">Select Academic Persona</h4>
                             </div>
 
-                            <!-- Expandable Seeded Credentials Vault -->
-                            <div class="mt-4 pt-3 border-top">
-                                <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <label class="form-label text-muted small fw-bold text-uppercase mb-0">
-                                        <i class="fa-solid fa-users-viewfinder text-primary me-1"></i> Seeded Institutional Accounts Vault
-                                    </label>
-                                    <button class="btn btn-sm btn-link text-decoration-none text-muted p-0" type="button" data-bs-toggle="collapse" data-bs-target="#seedVaultCollapse">
-                                        Toggle All 8 Accounts <i class="fa-solid fa-chevron-down ms-1"></i>
-                                    </button>
-                                </div>
-
-                                <div class="collapse show" id="seedVaultCollapse">
-                                    <div class="row g-2" style="font-size: 12px;">
-                                        @foreach($allSeedUsers as $u)
-                                        <div class="col-md-6 col-12">
-                                            <div class="seed-vault-card d-flex align-items-center justify-content-between">
-                                                <div class="d-flex align-items-center gap-2 overflow-hidden">
-                                                    <img src="{{ asset($u->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle" style="width: 28px; height: 28px; object-fit: cover;">
-                                                    <div class="text-truncate">
-                                                        <div class="fw-bold text-truncate text-dark">{{ $u->name }}</div>
-                                                        <span class="text-muted font-monospace" style="font-size: 10px;">{{ $u->email }}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex gap-1 flex-shrink-0">
-                                                    <button type="button" class="btn btn-sm btn-light py-0 px-2 border" title="Auto-fill Credentials"
-                                                            onclick="fillCredentials('{{ $u->email }}', '{{ $u->role }}')">
-                                                        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
-                                                    </button>
-                                                    <a href="{{ route('auth.demo.switch', $u->role) }}" class="btn btn-sm btn-outline-primary py-0 px-2 fw-semibold" style="font-size: 11px;">
-                                                        Enter
-                                                    </a>
-                                                </div>
-                                            </div>
+                            <!-- Role Selection Tabs -->
+                            <div class="row g-2 mb-4">
+                                <div class="col-sm-6">
+                                    <div class="role-nav-tab active" id="tab-admin" onclick="switchRoleTab('admin', 'admin@scholar.edu')">
+                                        <div class="role-icon-box bg-danger"><i class="fa-solid fa-user-shield"></i></div>
+                                        <div>
+                                            <div class="fw-bold text-white small">Administrator</div>
+                                            <small class="text-white-50" style="font-size: 11px;">Operations & Security</small>
                                         </div>
-                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="role-nav-tab" id="tab-teacher" onclick="switchRoleTab('teacher', 'sarah.jenkins@scholar.edu')">
+                                        <div class="role-icon-box bg-success"><i class="fa-solid fa-chalkboard-user"></i></div>
+                                        <div>
+                                            <div class="fw-bold text-white small">Faculty Member</div>
+                                            <small class="text-white-50" style="font-size: 11px;">LMS, Grades & Attendance</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="role-nav-tab" id="tab-student" onclick="switchRoleTab('student', 'alexander.cole@student.scholar.edu')">
+                                        <div class="role-icon-box bg-warning text-dark"><i class="fa-solid fa-user-graduate"></i></div>
+                                        <div>
+                                            <div class="fw-bold text-white small">Student Scholar</div>
+                                            <small class="text-white-50" style="font-size: 11px;">Courses, Grades & 360</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="role-nav-tab" id="tab-parent" onclick="switchRoleTab('parent', 'arthur.cole@parent.scholar.edu')">
+                                        <div class="role-icon-box bg-info text-dark"><i class="fa-solid fa-people-roof"></i></div>
+                                        <div>
+                                            <div class="fw-bold text-white small">Guardian / Parent</div>
+                                            <small class="text-white-50" style="font-size: 11px;">Ward Progress & Reports</small>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="mb-3">
+                                <span class="text-success text-uppercase fw-bold small" style="letter-spacing: 1px;">Step 2: Sign In</span>
+                            </div>
+
+                            @if($errors->any())
+                                <div class="alert alert-danger border-0 rounded-3 small mb-4">
+                                    <i class="bi bi-exclamation-triangle-fill me-1"></i> {{ $errors->first() }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('login.post') }}" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label class="form-label small text-white-50 fw-semibold">Institutional Email Address</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-black text-white-50 border-secondary border-opacity-50"><i class="bi bi-envelope"></i></span>
+                                        <input type="email" name="email" id="emailInput" class="form-control bg-black text-white border-secondary border-opacity-50 py-2.5" value="admin@scholar.edu" required autocomplete="username">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <label class="form-label small text-white-50 fw-semibold mb-0">Secret Passcode</label>
+                                        <a href="javascript:void(0)" class="small text-success text-decoration-none" onclick="Swal.fire({icon: 'info', title: 'Default Password', text: 'All demo accounts are seeded with password: password', confirmButtonColor: '#009961'})">Forgot?</a>
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-black text-white-50 border-secondary border-opacity-50"><i class="bi bi-key"></i></span>
+                                        <input type="password" name="password" id="passwordInput" class="form-control bg-black text-white border-secondary border-opacity-50 py-2.5" value="password" required autocomplete="current-password">
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-4 small text-white-50">
+                                    <div class="form-check">
+                                        <input class="form-check-input bg-black border-secondary" type="checkbox" name="remember" id="rememberMe" checked>
+                                        <label class="form-check-label" for="rememberMe">Remember Session</label>
+                                    </div>
+                                    <span class="badge bg-black border border-secondary text-white-50">Demo Pass: password</span>
+                                </div>
+
+                                <button type="submit" class="btn btn-lg w-100 rounded-pill py-2.5 fw-bold shadow-lg text-white" style="background-color: #009961; border: none;">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Sign In to Academic Portal
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @section('scripts')
 <script>
-    function selectPortal(roleKey, title, subtitle, name, avatar, badgeColor, email, desc) {
-        // 1. Update tabs active state
+    function switchRoleTab(role, email) {
         document.querySelectorAll('.role-nav-tab').forEach(tab => tab.classList.remove('active'));
-        const activeTab = document.getElementById('tab-btn-' + roleKey);
+        const activeTab = document.getElementById('tab-' + role);
         if (activeTab) activeTab.classList.add('active');
 
-        // 2. Update Hidden Portal input
-        document.getElementById('portalRoleInput').value = roleKey;
-        document.getElementById('targetRoleLabel').textContent = title;
-
-        // 3. Pre-fill Form Credentials
         document.getElementById('emailInput').value = email;
         document.getElementById('passwordInput').value = 'password';
-
-        // 4. Update Instant 1-Click Link
-        const instantLink = document.getElementById('instantDemoLink');
-        instantLink.href = "{{ url('/auth/demo') }}/" + roleKey;
-        instantLink.innerHTML = '<i class="fa-solid fa-bolt text-warning me-1"></i> Instant as ' + roleKey.charAt(0).toUpperCase() + roleKey.slice(1);
-
-        // 5. Update Left Hero Persona Preview
-        document.getElementById('personaAvatar').src = avatar;
-        document.getElementById('personaName').textContent = name;
-        document.getElementById('personaSubtitle').textContent = subtitle;
-        document.getElementById('personaDescription').textContent = desc;
-
-        const badge = document.getElementById('personaRoleBadge');
-        badge.className = 'badge bg-' + badgeColor + ' px-2 py-1 mb-1 fw-bold text-uppercase';
-        badge.textContent = title;
     }
 
-    function fillCredentials(email, role) {
-        document.getElementById('emailInput').value = email;
-        document.getElementById('passwordInput').value = 'password';
-        document.getElementById('portalRoleInput').value = role;
-        document.getElementById('targetRoleLabel').textContent = role.toUpperCase();
-        
-        // Also trigger the tab if exists
-        const tabBtn = document.getElementById('tab-btn-' + role);
-        if (tabBtn) tabBtn.click();
-    }
+    function applyPersona(email, password, role) {
+        switchRoleTab(role, email);
+        document.getElementById('passwordInput').value = password;
 
-    function togglePasswordVisibility() {
-        const passInput = document.getElementById('passwordInput');
-        const eyeIcon = document.getElementById('toggleEyeIcon');
-        if (passInput.type === 'password') {
-            passInput.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            passInput.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
+        Toast.fire({
+            icon: 'success',
+            title: 'Selected persona credentials applied!'
+        });
     }
 </script>
 @endsection

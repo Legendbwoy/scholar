@@ -3,112 +3,90 @@
 @section('title', $course->title . ' — Scholar SMS Curriculum')
 
 @section('content')
-<div class="py-5 bg-light" style="margin-top: 80px;">
-    <div class="container py-3">
-        <div class="row align-items-center g-4">
-            <div class="col-lg-8">
-                <span class="badge bg-primary px-3 py-2 mb-2">{{ $course->category }} Track</span>
-                <span class="badge bg-secondary px-3 py-2 mb-2">{{ $course->semester }}</span>
-                <h1 class="fw-bold mt-2 mb-3">{{ $course->title }}</h1>
-                <p class="lead text-muted">{{ $course->description }}</p>
-                <div class="d-flex flex-wrap gap-4 align-items-center mt-4">
-                    <div class="d-flex align-items-center gap-2">
-                        <img src="{{ asset($course->teacher->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle shadow-sm" style="width: 48px; height: 48px; object-fit: cover;">
-                        <div>
-                            <small class="text-muted d-block">Lead Faculty</small>
-                            <strong>{{ $course->teacher->user->name ?? 'Faculty Fellow' }}</strong>
-                        </div>
-                    </div>
-                    <div>
-                        <small class="text-muted d-block">Assigned Cohort</small>
-                        <strong>{{ $course->schoolClass->name ?? 'All Grades' }}</strong>
-                    </div>
-                    <div>
-                        <small class="text-muted d-block">Course Code</small>
-                        <span class="badge bg-dark">{{ $course->code }}</span>
-                    </div>
-                    <div>
-                        <small class="text-muted d-block">Lessons</small>
-                        <strong>{{ $course->total_lessons }} Units</strong>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center">
-                <div class="rounded-4 overflow-hidden shadow-lg">
-                    <img src="{{ asset($course->thumbnail ?? 'scholar/assets/images/course-01.jpg') }}" class="w-100" style="height: 240px; object-fit: cover;">
-                    <div class="p-3 bg-white">
-                        <a href="{{ route('login') }}" class="btn btn-primary w-100 rounded-pill py-2 fw-bold">
-                            <i class="fa-solid fa-lock me-1"></i> Log in to LMS for Full Materials
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Page Title Header -->
+<div class="page-title dark-background position-relative py-5 text-center" style="background: url('{{ asset("knightone/img/hero-bg.jpg") }}') center center / cover no-repeat; margin-top: 70px;">
+    <div class="container position-relative py-5">
+        <span class="badge rounded-pill px-3 py-1.5 mb-2 text-uppercase fw-bold" style="background-color: rgba(0, 153, 97, 0.25); border: 1px solid #009961; color: #4ade80;">{{ $course->code }} &bull; {{ $course->category ?? 'Curriculum Track' }}</span>
+        <h1 class="fw-bolder text-white mb-2" style="font-family: 'Raleway', sans-serif;">{{ $course->title }}</h1>
+        <p class="text-white-50 mx-auto mb-0" style="max-width: 680px;">Assigned to Cohort: <strong>{{ $course->schoolClass->name ?? 'General Division' }}</strong> &bull; Lead Faculty: <strong>{{ $course->teacher->user->name ?? 'Faculty Fellow' }}</strong></p>
     </div>
 </div>
 
 <div class="container py-5">
-    <div class="row g-5">
+    <div class="row g-4">
+        <!-- Main Curriculum Details -->
         <div class="col-lg-8">
-            <h3 class="fw-bold mb-3"><i class="fa-solid fa-folder-open text-primary me-2"></i>Uploaded LMS Learning Resources</h3>
-            <p class="text-muted mb-4">Official syllabus, problem sets, and interactive materials linked to this course.</p>
+            <div class="p-4 bg-white rounded-4 shadow-sm border mb-4">
+                <h4 class="fw-bold text-dark mb-3">Course Syllabus & Description</h4>
+                <p class="text-muted leading-relaxed">{{ $course->description }}</p>
 
-            @forelse($course->materials as $mat)
-                <div class="card border-0 rounded-4 shadow-sm mb-3 p-3">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="p-3 rounded-3 {{ $mat->file_type === 'pdf' ? 'bg-danger text-white' : ($mat->file_type === 'slides' ? 'bg-warning text-dark' : 'bg-primary text-white') }} fs-4">
-                                <i class="fa-solid {{ $mat->file_type === 'pdf' ? 'fa-file-pdf' : ($mat->file_type === 'slides' ? 'fa-file-powerpoint' : 'fa-file-lines') }}"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1">{{ $mat->title }}</h6>
-                                <p class="text-muted small mb-0">{{ Str::limit($mat->description, 110) }}</p>
-                                <div class="mt-1">
-                                    <span class="badge bg-light text-dark"><i class="fa-solid fa-hard-drive me-1"></i> {{ $mat->file_size }}</span>
-                                    <span class="badge bg-light text-dark"><i class="fa-solid fa-code-branch me-1"></i> v{{ $mat->version }}</span>
-                                    <span class="badge bg-light text-dark"><i class="fa-solid fa-download me-1"></i> {{ $mat->download_count }} Downloads</span>
-                                </div>
-                            </div>
+                <hr class="my-4">
+
+                <h5 class="fw-bold text-dark mb-3">Curriculum Learning Modules</h5>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <i class="bi bi-journal-code text-success fs-4 d-block mb-1"></i>
+                            <strong class="text-dark d-block">Theoretical Foundations</strong>
+                            <small class="text-muted">Rigorous conceptual analysis, textbook readings & weekly seminars.</small>
                         </div>
-                        <div>
-                            @auth
-                                <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
-                                    <i class="fa-solid fa-download me-1"></i> Download File
-                                </a>
-                            @else
-                                <a href="{{ route('login') }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-                                    <i class="fa-solid fa-lock me-1"></i> Login to Access
-                                </a>
-                            @endauth
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3 bg-light rounded-3 border">
+                            <i class="bi bi-cpu text-success fs-4 d-block mb-1"></i>
+                            <strong class="text-dark d-block">Experiential Laboratory Work</strong>
+                            <small class="text-muted">Hands-on experimentation, computational simulations & lab reports.</small>
                         </div>
                     </div>
                 </div>
-            @empty
-                <div class="alert alert-info rounded-4">
-                    <i class="fa-solid fa-circle-info me-2"></i> Materials currently being compiled by lead instructor.
+
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div>
+                        <span class="badge bg-light text-dark border px-3 py-2 fw-semibold"><i class="bi bi-award text-warning me-1"></i> Continuous Assessment Weighted (4.0 GPA)</span>
+                    </div>
+                    <a href="{{ route('login') }}" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" style="background-color: #009961; border: none;">
+                        <i class="bi bi-download me-1"></i> Access Course Materials in LMS
+                    </a>
                 </div>
-            @endforelse
+            </div>
         </div>
 
+        <!-- Sidebar Snapshot -->
         <div class="col-lg-4">
-            <div class="card border-0 rounded-4 shadow-sm p-4 bg-white mb-4">
-                <h5 class="fw-bold mb-3">Course Instructor</h5>
-                <div class="text-center mb-3">
-                    <img src="{{ asset($course->teacher->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle mb-2" style="width: 90px; height: 90px; object-fit: cover;">
-                    <h5 class="fw-bold mb-0">{{ $course->teacher->user->name }}</h5>
-                    <p class="text-muted small mb-1">{{ $course->teacher->designation }}</p>
-                    <span class="badge bg-light text-secondary">{{ $course->teacher->qualification }}</span>
-                </div>
-                <hr>
-                <p class="small text-muted mb-0">Specialization: <strong>{{ $course->teacher->specialization ?? 'General Sciences' }}</strong></p>
-            </div>
+            <div class="p-4 bg-white rounded-4 shadow-sm border mb-4 text-center">
+                <img src="{{ asset('knightone/img/services.jpg') }}" class="rounded-4 mb-3 w-100" style="height: 180px; object-fit: cover;">
+                <h5 class="fw-bold text-dark mb-1">{{ $course->title }}</h5>
+                <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 mb-3">{{ $course->code }}</span>
 
-            <div class="card border-0 rounded-4 shadow-sm p-4 bg-primary text-white">
-                <h5 class="fw-bold mb-2">Interested in Enrolling?</h5>
-                <p class="small opacity-75 mb-3">Submit your admissions inquiry or speak with our academic counselors today.</p>
-                <a href="{{ route('home') }}#contact" class="btn btn-light rounded-pill fw-bold text-primary w-100">
-                    Apply Now <i class="fa-solid fa-arrow-right ms-1"></i>
-                </a>
+                <div class="text-start border-top pt-3 small">
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Assigned Faculty:</span>
+                        <strong class="text-dark">{{ $course->teacher->user->name ?? 'Faculty' }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Cohort Division:</span>
+                        <strong class="text-dark">{{ $course->schoolClass->name ?? 'General' }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted">Academic Term:</span>
+                        <strong class="text-primary">{{ $course->semester ?? 'Fall Semester' }}</strong>
+                    </div>
+                    <div class="d-flex justify-content-between py-2">
+                        <span class="text-muted">Total Units:</span>
+                        <strong class="text-dark">{{ $course->total_lessons ?? 12 }} Modules</strong>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <a href="{{ route('login') }}" class="btn btn-success rounded-pill fw-bold" style="background-color: #009961; border: none;">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Student LMS Login
+                    </a>
+                    <a href="{{ route('home') }}" class="btn btn-outline-secondary rounded-pill">
+                        <i class="bi bi-arrow-left me-1"></i> Back to Homepage
+                    </a>
+                </div>
             </div>
         </div>
     </div>

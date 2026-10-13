@@ -39,7 +39,7 @@
             <input type="text" name="academic_year" class="form-control border-light shadow-sm" value="{{ $selectedYear }}" readonly>
         </div>
         <div class="col-md-2 d-flex align-items-end">
-            <button type="submit" class="btn btn-primary rounded-3 w-100" style="background-color: #7a6ad8; border-color: #7a6ad8; margin-top: 24px;">Filter Registry</button>
+            <button type="submit" class="btn btn-primary rounded-3 w-100" style="background-color: #009961; border-color: #009961; margin-top: 24px;">Filter Registry</button>
         </div>
     </form>
 </div>

@@ -19,7 +19,7 @@
                 <i class="fa-solid fa-signature me-1"></i> Edit Conduct & Remarks
             </button>
             @endif
-            <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="window.print()" style="background-color: #7a6ad8; border-color: #7a6ad8;">
+            <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" onclick="window.print()" style="background-color: #009961; border-color: #009961;">
                 <i class="fa-solid fa-print me-1"></i> Print / Save Official PDF
             </button>
         </div>
@@ -30,14 +30,14 @@
 <div class="report-card-paper mx-auto p-4 p-md-5 mb-5 bg-white rounded-4 shadow-sm border position-relative" style="max-width: 960px;">
     <!-- Institutional Watermark -->
     <div class="report-watermark position-absolute top-50 start-50 translate-middle opacity-5 pointer-events-none text-center user-select-none" style="z-index: 0; pointer-events: none;">
-        <i class="fa-solid fa-graduation-cap" style="font-size: 260px; color: #7a6ad8;"></i>
+        <i class="fa-solid fa-graduation-cap" style="font-size: 260px; color: #009961;"></i>
     </div>
 
     <div class="position-relative" style="z-index: 1;">
         <!-- Institutional Header & Masthead -->
         <div class="text-center pb-4 mb-4 border-bottom border-2 border-dark-subtle">
             <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
-                <div class="p-2 rounded-3 text-white shadow-sm" style="width: 52px; height: 52px; display: grid; place-items: center; background-color: #7a6ad8;">
+                <div class="p-2 rounded-3 text-white shadow-sm" style="width: 52px; height: 52px; display: grid; place-items: center; background-color: #009961;">
                     <i class="fa-solid fa-school fs-3"></i>
                 </div>
                 <div class="text-start">
@@ -284,7 +284,7 @@
                 </div>
                 <div class="modal-footer border-0 p-4 pt-0 bg-light">
                     <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;">
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #009961; border-color: #009961;">
                         Save Endorsement
                     </button>
                 </div>

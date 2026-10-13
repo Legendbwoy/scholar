@@ -38,7 +38,7 @@
             </select>
         </div>
         <div class="col-md-3 d-flex gap-2">
-            <button type="submit" class="btn btn-primary rounded-3 w-100" style="background-color: #7a6ad8; border-color: #7a6ad8;">Filter</button>
+            <button type="submit" class="btn btn-primary rounded-3 w-100" style="background-color: #009961; border-color: #009961;">Filter</button>
             <a href="{{ route('students.index') }}" class="btn btn-light rounded-3">Reset</a>
         </div>
     </form>
@@ -162,7 +162,7 @@
 <div class="offcanvas offcanvas-end border-0 shadow-lg" tabindex="-1" id="studentQuickDrawer" aria-labelledby="studentQuickDrawerLabel" style="width: 450px;">
     <div class="offcanvas-header text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
         <div class="d-flex align-items-center gap-2">
-            <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 40px; height: 40px; display: grid; place-items: center; background-color: #7a6ad8 !important;">
+            <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 40px; height: 40px; display: grid; place-items: center; background-color: #009961 !important;">
                 <i class="fa-solid fa-user-graduate fs-5"></i>
             </div>
             <div>
@@ -176,7 +176,7 @@
         <!-- Profile Banner -->
         <div class="portal-card p-4 text-center mb-3 shadow-sm border-0 bg-white">
             <div class="position-relative d-inline-block mb-3">
-                <img id="drawerAvatar" src="" class="rounded-circle shadow" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #7a6ad8;">
+                <img id="drawerAvatar" src="" class="rounded-circle shadow" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #009961;">
                 <span id="drawerStatusBadge" class="position-absolute bottom-0 end-0 badge rounded-pill bg-success border border-white">Active</span>
             </div>
             <h5 class="fw-bold mb-1 text-dark" id="drawerName">Student Name</h5>
@@ -243,7 +243,7 @@
 
         <!-- Action Links -->
         <div class="d-grid gap-2">
-            <a href="#" id="drawerFullProfileBtn" class="btn btn-primary rounded-pill py-2 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;">
+            <a href="#" id="drawerFullProfileBtn" class="btn btn-primary rounded-pill py-2 fw-bold shadow-sm" style="background-color: #009961; border-color: #009961;">
                 <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> Open Full 360 Dossier
             </a>
             @if(auth()->user()->isAdmin())
@@ -332,7 +332,7 @@
             inputPlaceholder: 'Enter custom alert message (e.g. Please note early dismissal today at 2:00 PM)...',
             showCancelButton: true,
             confirmButtonText: '<i class="fa-solid fa-paper-plane me-1"></i> Send Dispatch',
-            confirmButtonColor: '#7a6ad8',
+            confirmButtonColor: '#009961',
             cancelButtonText: 'Cancel',
             customClass: {
                 popup: 'rounded-4 shadow-lg border-0',

@@ -9,7 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5.3 CSS -->
-    <link href="{{ asset('scholar/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('knightone/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('knightone/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -24,11 +25,11 @@
     }
 
     :root {
-            --portal-primary: #7a6ad8;
-            --portal-primary-dark: #5848bb;
-            --portal-secondary: #f35525;
-            --portal-sidebar-bg: #1a1a2e;
-            --portal-sidebar-hover: #262644;
+            --portal-primary: #009961;
+            --portal-primary-dark: #007a4d;
+            --portal-secondary: #e6b800;
+            --portal-sidebar-bg: #111111;
+            --portal-sidebar-hover: #1c1c1c;
             --portal-bg: #f5f7fb;
             --portal-card-bg: #ffffff;
             --portal-text: #2d3748;
@@ -280,7 +281,7 @@
 
     <style>
         .palette-item { transition: all 0.15s ease; cursor: pointer; }
-        .palette-item:hover, .active-palette-item { background-color: #f1f0fa !important; transform: translateX(3px); }
+        .palette-item:hover, .active-palette-item { background-color: #f0fdf4 !important; transform: translateX(3px); }
     </style>
 
 </head>
@@ -290,7 +291,7 @@
     <div id="portal-sidebar">
         <!-- Brand Header -->
         <div class="brand-header">
-            <i class="fa-solid fa-graduation-cap fs-3 text-warning"></i>
+            <i class="fa-solid fa-graduation-cap fs-3" style="color: #009961;"></i>
             <div>
                 <h4>Scholar<span>SMS</span></h4>
                 <small class="text-secondary" style="font-size: 11px;">
@@ -496,7 +497,7 @@
             <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
                 <div class="modal-header border-0 text-white p-4" style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2b52 100%);">
                     <div class="d-flex align-items-center gap-3">
-                        <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #7a6ad8 !important;">
+                        <div class="p-2 rounded-3 bg-primary text-white shadow-sm" style="width: 44px; height: 44px; display: grid; place-items: center; background-color: #009961 !important;">
                             <i class="fa-solid fa-qrcode fs-5"></i>
                         </div>
                         <div>
@@ -508,7 +509,7 @@
                 </div>
                 <div class="modal-body p-4 bg-light">
                     <!-- Interactive Optical Viewfinder Mockup with Laser -->
-                    <div class="position-relative bg-dark rounded-4 p-4 text-center text-white mb-4 overflow-hidden shadow-inner" style="height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid rgba(122, 106, 216, 0.5);">
+                    <div class="position-relative bg-dark rounded-4 p-4 text-center text-white mb-4 overflow-hidden shadow-inner" style="height: 180px; display: flex; flex-direction: column; justify-content: center; align-items: center; border: 2px solid rgba(0, 153, 97, 0.5);">
                         <div class="position-absolute" style="top: 0; left: 0; right: 0; height: 3px; background: #00ffcc; box-shadow: 0 0 14px #00ffcc; animation: scanLaser 2s infinite ease-in-out;"></div>
                         <i class="fa-solid fa-qrcode fs-1 text-white-50 mb-2"></i>
                         <small class="text-white-50">Optical Gate Sensor Active • Ready for Token</small>
@@ -534,7 +535,7 @@
                 </div>
                 <div class="modal-footer border-0 p-4 pt-0 bg-light">
                     <button type="button" class="btn btn-light rounded-pill px-4" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #7a6ad8; border-color: #7a6ad8;" onclick="executeQuickQrVerification()">
+                    <button type="button" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm" style="background-color: #009961; border-color: #009961;" onclick="executeQuickQrVerification()">
                         <i class="fa-solid fa-bolt me-1"></i> Verify Check-In
                     </button>
                 </div>
@@ -658,7 +659,7 @@
 
     <!-- Core Scripts -->
     <script src="{{ asset('scholar/vendor/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('scholar/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('knightone/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -763,7 +764,7 @@
                     icon: 'warning',
                     title: 'No Student Selected',
                     text: 'Please choose a student badge from the list to verify checkpoint arrival.',
-                    confirmButtonColor: '#7a6ad8'
+                    confirmButtonColor: '#009961'
                 });
                 return;
             }

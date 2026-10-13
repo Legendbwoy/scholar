@@ -163,7 +163,7 @@
 
                     <div class="mb-3">
                         <label class="form-label fw-semibold small text-dark">Digital Asset Dropzone Preview</label>
-                        <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-white shadow-sm" style="border-color: #7a6ad8 !important;">
+                        <div class="border border-2 border-dashed rounded-4 p-4 text-center bg-white shadow-sm" style="border-color: #009961 !important;">
                             <i class="fa-solid fa-file-arrow-up fs-2 text-primary mb-2"></i>
                             <div class="fw-semibold text-dark">Drag and drop course material here, or browse</div>
                             <small class="text-muted d-block">Supported formats: PDF, PPTX, DOCX, ZIP, MP4 (Max institutional payload: 50 MB)</small>
