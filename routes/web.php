@@ -18,6 +18,8 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BroadcastTemplateController;
+use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuizPlayerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,6 +155,20 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::delete('/broadcasts/templates/{id}', [BroadcastTemplateController::class, 'destroy'])->whereNumber('id')->name('broadcasts.templates.destroy');
     Route::post('/broadcasts/templates/{id}/toggle-auto-send', [BroadcastTemplateController::class, 'toggleAutoSend'])->whereNumber('id')->name('broadcasts.templates.toggle-auto-send');
     Route::get('/api/broadcasts/templates/{id}', [BroadcastTemplateController::class, 'getJson'])->whereNumber('id')->name('broadcasts.templates.json');
+
+    // LMS Quizzes, Tests & Exams Authoring & Grading (Faculty & Admin)
+    Route::get('/lms/quizzes', [QuizController::class, 'index'])->name('lms.quizzes.index');
+    Route::get('/lms/quizzes/create', [QuizController::class, 'create'])->name('lms.quizzes.create');
+    Route::post('/lms/quizzes', [QuizController::class, 'store'])->name('lms.quizzes.store');
+    Route::get('/lms/quizzes/{id}/edit', [QuizController::class, 'edit'])->whereNumber('id')->name('lms.quizzes.edit');
+    Route::put('/lms/quizzes/{id}', [QuizController::class, 'update'])->whereNumber('id')->name('lms.quizzes.update');
+    Route::delete('/lms/quizzes/{id}', [QuizController::class, 'destroy'])->whereNumber('id')->name('lms.quizzes.destroy');
+    Route::get('/lms/quizzes/{id}/builder', [QuizController::class, 'builder'])->whereNumber('id')->name('lms.quizzes.builder');
+    Route::post('/lms/quizzes/{id}/questions', [QuizController::class, 'storeQuestion'])->whereNumber('id')->name('lms.quizzes.questions.store');
+    Route::delete('/lms/quizzes/questions/{questionId}', [QuizController::class, 'destroyQuestion'])->whereNumber('questionId')->name('lms.quizzes.questions.destroy');
+    Route::get('/lms/quizzes/{id}/submissions', [QuizController::class, 'submissions'])->whereNumber('id')->name('lms.quizzes.submissions');
+    Route::get('/lms/quizzes/attempts/{attemptId}/grading', [QuizController::class, 'gradingView'])->whereNumber('attemptId')->name('lms.quizzes.grading');
+    Route::post('/lms/quizzes/attempts/{attemptId}/grading', [QuizController::class, 'submitGrade'])->whereNumber('attemptId')->name('lms.quizzes.grading.submit');
 });
 
 /*
@@ -174,6 +190,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/courses/{id}', [CourseController::class, 'show'])->whereNumber('id')->name('courses.show');
     Route::get('/materials/{id}/preview', [CourseController::class, 'previewMaterial'])->whereNumber('id')->name('materials.preview');
     Route::get('/materials/{id}/download', [CourseController::class, 'downloadMaterial'])->whereNumber('id')->name('materials.download');
+
+    // LMS Interactive Testing Terminal & Exam Sessions
+    Route::post('/lms/quizzes/{quizId}/start', [QuizPlayerController::class, 'start'])->whereNumber('quizId')->name('lms.quizzes.start');
+    Route::get('/lms/quizzes/player/{attemptId}', [QuizPlayerController::class, 'take'])->whereNumber('attemptId')->name('lms.quizzes.take');
+    Route::post('/lms/quizzes/player/{attemptId}/save', [QuizPlayerController::class, 'saveAnswer'])->whereNumber('attemptId')->name('lms.quizzes.saveAnswer');
+    Route::post('/lms/quizzes/player/{attemptId}/submit', [QuizPlayerController::class, 'submit'])->whereNumber('attemptId')->name('lms.quizzes.submit');
+    Route::get('/lms/quizzes/results/{attemptId}', [QuizPlayerController::class, 'results'])->whereNumber('attemptId')->name('lms.quizzes.results');
 
     // Communications & Campus Bulletins
     Route::get('/broadcasts', [CommunicationController::class, 'index'])->name('broadcasts.index');

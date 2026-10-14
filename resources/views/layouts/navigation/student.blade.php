@@ -1,4 +1,4 @@
-﻿{{-- ================= STUDENT NAVIGATION ================= --}}
+{{-- ================= STUDENT NAVIGATION ================= --}}
 <li class="nav-category">Student Workspace</li>
 <li>
     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -22,6 +22,11 @@
 <li>
     <a href="{{ route('courses.index') }}" class="{{ request()->routeIs('courses.*') ? 'active' : '' }}">
         <i class="fa-solid fa-graduation-cap"></i> <span>My Enrolled Courses</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('lms.quizzes.index') }}" class="{{ request()->routeIs('lms.quizzes.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-file-pen text-success"></i> <span>Tests, Quizzes & Exams</span>
     </a>
 </li>
 

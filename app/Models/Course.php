@@ -52,4 +52,9 @@ class Course extends Model
     {
         return $this->hasMany(CourseMaterial::class);
     }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class)->orderBy('created_at', 'desc');
+    }
 }

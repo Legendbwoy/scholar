@@ -54,7 +54,7 @@ class CourseController extends Controller
 
     public function show($id)
     {
-        $course = Course::with(['teacher.user', 'schoolClass', 'subject', 'materials.teacher.user'])->findOrFail($id);
+        $course = Course::with(['teacher.user', 'schoolClass', 'subject', 'materials.teacher.user', 'quizzes.questions', 'quizzes.attempts'])->findOrFail($id);
         return view('portals.courses.show', compact('course'));
     }
 

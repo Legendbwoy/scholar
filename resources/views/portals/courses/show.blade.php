@@ -17,6 +17,9 @@
             <a href="{{ route('courses.edit', $course->id) }}" class="btn btn-warning rounded-pill px-3 fw-bold">
                 <i class="fa-solid fa-pen-to-square me-1"></i> Edit Syllabus
             </a>
+            <a href="{{ route('lms.quizzes.create', ['course_id' => $course->id]) }}" class="btn btn-outline-success rounded-pill px-3 fw-bold">
+                <i class="fa-solid fa-graduation-cap me-1"></i> Add Assessment
+            </a>
             <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadMaterialModal">
                 <i class="fa-solid fa-cloud-arrow-up me-1"></i> Upload Material
             </button>
@@ -55,69 +58,181 @@
                     <span class="text-muted">Subject Code:</span>
                     <strong>{{ $course->subject->code ?? 'N/A' }}</strong>
                 </div>
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">Active Term:</span>
                     <strong>{{ $course->semester }}</strong>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="text-muted">LMS Quizzes & Exams:</span>
+                    <strong class="text-success">{{ $course->quizzes->count() }} Published</strong>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Uploaded LMS Materials Repository -->
+    <!-- Right Area: Dual Tab System for Materials & Quizzes -->
     <div class="col-lg-8">
-        <div class="portal-card p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0"><i class="fa-solid fa-folder-open text-primary me-2"></i>Uploaded LMS Materials ({{ $course->materials->count() }})</h5>
-                <span class="badge bg-light text-muted border">Instant Download Enabled</span>
-            </div>
+        <!-- Navigation Pills -->
+        <ul class="nav nav-pills mb-3 gap-2" id="courseLmsTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-pill px-4 fw-bold" id="materials-tab" data-bs-toggle="pill" data-bs-target="#materials-pane" type="button" role="tab">
+                    <i class="fa-solid fa-folder-open me-2"></i>Course Materials ({{ $course->materials->count() }})
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-pill px-4 fw-bold" id="quizzes-tab" data-bs-toggle="pill" data-bs-target="#quizzes-pane" type="button" role="tab">
+                    <i class="fa-solid fa-graduation-cap me-2"></i>Tests, Quizzes & Exams ({{ $course->quizzes->count() }})
+                </button>
+            </li>
+        </ul>
 
-            @forelse($course->materials as $mat)
-                <div class="p-3 bg-light rounded-3 border mb-3">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="p-3 rounded-3 {{ $mat->file_type === 'pdf' ? 'bg-danger text-white' : ($mat->file_type === 'slides' ? 'bg-warning text-dark' : 'bg-primary text-white') }} fs-4">
-                                <i class="fa-solid {{ $mat->file_type === 'pdf' ? 'fa-file-pdf' : ($mat->file_type === 'slides' ? 'fa-file-powerpoint' : 'fa-file-lines') }}"></i>
-                            </div>
-                            <div>
-                                <h6 class="fw-bold mb-1 text-dark">{{ $mat->title }}</h6>
-                                <p class="text-muted small mb-1">{{ $mat->description ?? 'Official student study resource.' }}</p>
-                                <div class="d-flex gap-2 small">
-                                    <span class="badge bg-white text-dark border">{{ $mat->file_size }}</span>
-                                    <span class="badge bg-white text-dark border">v{{ $mat->version }}</span>
-                                    <span class="badge bg-white text-success border"><i class="fa-solid fa-download me-1"></i> {{ $mat->download_count }} downloads</span>
-                                    <span class="text-muted">Uploaded {{ $mat->created_at->diffForHumans() }}</span>
+        <div class="tab-content" id="courseLmsTabContent">
+            <!-- Tab 1: Uploaded LMS Materials Repository -->
+            <div class="tab-pane fade show active" id="materials-pane" role="tabpanel" tabindex="0">
+                <div class="portal-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="fw-bold mb-0"><i class="fa-solid fa-folder-open text-primary me-2"></i>Uploaded LMS Materials ({{ $course->materials->count() }})</h5>
+                        <span class="badge bg-light text-muted border">Instant Download Enabled</span>
+                    </div>
+
+                    @forelse($course->materials as $mat)
+                        <div class="p-3 bg-light rounded-3 border mb-3">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="p-3 rounded-3 {{ $mat->file_type === 'pdf' ? 'bg-danger text-white' : ($mat->file_type === 'slides' ? 'bg-warning text-dark' : 'bg-primary text-white') }} fs-4">
+                                        <i class="fa-solid {{ $mat->file_type === 'pdf' ? 'fa-file-pdf' : ($mat->file_type === 'slides' ? 'fa-file-powerpoint' : 'fa-file-lines') }}"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1 text-dark">{{ $mat->title }}</h6>
+                                        <p class="text-muted small mb-1">{{ $mat->description ?? 'Official student study resource.' }}</p>
+                                        <div class="d-flex gap-2 small">
+                                            <span class="badge bg-white text-dark border">{{ $mat->file_size }}</span>
+                                            <span class="badge bg-white text-dark border">v{{ $mat->version }}</span>
+                                            <span class="badge bg-white text-success border"><i class="fa-solid fa-download me-1"></i> {{ $mat->download_count }} downloads</span>
+                                            <span class="text-muted">Uploaded {{ $mat->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-inline-flex gap-2 align-items-center">
+                                    <a href="{{ route('materials.preview', $mat->id) }}" class="btn btn-outline-success rounded-pill px-3 fw-bold" style="border-color: #009961; color: #009961;">
+                                        <i class="fa-solid fa-book-open-reader me-1"></i> Read / Review
+                                    </a>
+                                    <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-primary rounded-pill px-3 fw-bold">
+                                        <i class="fa-solid fa-download me-1"></i> Download
+                                    </a>
+                                    @if(auth()->user()->isAdmin() || (auth()->user()->isTeacher() && auth()->user()->staff?->id == $course->teacher_id))
+                                    <form action="{{ route('materials.destroy', $mat->id) }}" method="POST" class="d-inline confirm-action" 
+                                          data-confirm-title="Remove Learning Material?" 
+                                          data-confirm-text="Are you sure you want to remove '{{ $mat->title }}' from the digital LMS library?" 
+                                          data-confirm-btn="Remove Material" 
+                                          data-confirm-color="#dc3545">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Delete Material">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
-                        <div class="d-inline-flex gap-2 align-items-center">
-                            <a href="{{ route('materials.preview', $mat->id) }}" class="btn btn-outline-success rounded-pill px-3 fw-bold" style="border-color: #009961; color: #009961;">
-                                <i class="fa-solid fa-book-open-reader me-1"></i> Read / Review
+                    @empty
+                        <div class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-cloud-arrow-up fs-1 d-block mb-2 text-primary opacity-50"></i>
+                            No materials uploaded for this course yet.
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <!-- Tab 2: Tests, Quizzes & Examinations -->
+            <div class="tab-pane fade" id="quizzes-pane" role="tabpanel" tabindex="0">
+                <div class="portal-card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+                        <div>
+                            <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-graduation-cap text-success me-2"></i>Online Assessments & Quizzes ({{ $course->quizzes->count() }})</h5>
+                            <small class="text-muted">Timed assessments, question banks, and automated grading synced with report cards.</small>
+                        </div>
+                        @if(auth()->user()->isAdmin() || (auth()->user()->isTeacher() && auth()->user()->staff?->id == $course->teacher_id))
+                            <a href="{{ route('lms.quizzes.create', ['course_id' => $course->id]) }}" class="btn btn-sm btn-success rounded-pill px-3 fw-bold">
+                                <i class="fa-solid fa-plus me-1"></i> New Assessment
                             </a>
-                            <a href="{{ route('materials.download', $mat->id) }}" class="btn btn-primary rounded-pill px-3 fw-bold">
-                                <i class="fa-solid fa-download me-1"></i> Download
-                            </a>
+                        @endif
+                    </div>
+
+                    @forelse($course->quizzes as $quiz)
+                        <div class="p-3 bg-light rounded-3 border mb-3">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                <div>
+                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                        <span class="badge {{ $quiz->type_badge }} text-uppercase">{{ $quiz->type }}</span>
+                                        <span class="badge bg-dark bg-opacity-10 text-dark">
+                                            <i class="fa-solid fa-clock me-1 text-warning"></i>{{ $quiz->duration_minutes > 0 ? $quiz->duration_minutes . ' Mins' : 'Untimed' }}
+                                        </span>
+                                        <span class="badge bg-secondary bg-opacity-10 text-secondary">
+                                            {{ $quiz->questions->count() }} Questions
+                                        </span>
+                                    </div>
+                                    <h6 class="fw-bold mb-1 text-dark">{{ $quiz->title }}</h6>
+                                    <p class="text-muted small mb-0">{{ $quiz->instructions ?? 'Official course assessment.' }}</p>
+                                    <div class="d-flex gap-3 small mt-2 text-muted">
+                                        <span><i class="fa-solid fa-award text-success me-1"></i> Total: <strong>{{ $quiz->total_points }} pts</strong> (Pass: {{ $quiz->pass_points }} pts)</span>
+                                        <span><i class="fa-solid fa-repeat text-info me-1"></i> Max Attempts: <strong>{{ $quiz->max_attempts }}</strong></span>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-center gap-2">
+                                    @if(auth()->user()->isStudent())
+                                        @php
+                                            $stAttempts = $quiz->attempts->where('student_id', auth()->user()->student?->id);
+                                            $actAttempt = $stAttempts->where('status', 'in_progress')->first();
+                                            $compAttempt = $stAttempts->whereIn('status', ['completed', 'submitted', 'timed_out'])->last();
+                                        @endphp
+                                        @if($actAttempt)
+                                            <a href="{{ route('lms.quizzes.take', $actAttempt->id) }}" class="btn btn-warning rounded-pill px-3 fw-bold text-dark">
+                                                <i class="fa-solid fa-play me-1"></i> Resume Exam
+                                            </a>
+                                        @elseif($stAttempts->count() < $quiz->max_attempts)
+                                            <form action="{{ route('lms.quizzes.start', $quiz->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm">
+                                                    <i class="fa-solid fa-paper-plane me-1"></i> Start Assessment
+                                                </button>
+                                            </form>
+                                        @elseif($compAttempt)
+                                            <a href="{{ route('lms.quizzes.results', $compAttempt->id) }}" class="btn btn-outline-primary rounded-pill px-3 fw-bold">
+                                                <i class="fa-solid fa-chart-pie me-1"></i> Results ({{ $compAttempt->percentage }}%)
+                                            </a>
+                                        @endif
+                                    @else
+                                        <a href="{{ route('lms.quizzes.builder', $quiz->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold">
+                                            <i class="fa-solid fa-sliders me-1"></i> Studio ({{ $quiz->questions->count() }})
+                                        </a>
+                                        <a href="{{ route('lms.quizzes.submissions', $quiz->id) }}" class="btn btn-sm btn-outline-info rounded-pill px-3 fw-bold">
+                                            <i class="fa-solid fa-users me-1"></i> Submissions
+                                        </a>
+                                        <a href="{{ route('lms.quizzes.edit', $quiz->id) }}" class="btn btn-sm btn-light border rounded-pill px-3">
+                                            <i class="fa-solid fa-gear"></i>
+                                        </a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="text-center py-5 text-muted">
+                            <i class="fa-solid fa-graduation-cap fs-1 d-block mb-2 text-success opacity-50"></i>
+                            No tests or quizzes created for this course yet.
                             @if(auth()->user()->isAdmin() || (auth()->user()->isTeacher() && auth()->user()->staff?->id == $course->teacher_id))
-                            <form action="{{ route('materials.destroy', $mat->id) }}" method="POST" class="d-inline confirm-action" 
-                                  data-confirm-title="Remove Learning Material?" 
-                                  data-confirm-text="Are you sure you want to remove '{{ $mat->title }}' from the digital LMS library?" 
-                                  data-confirm-btn="Remove Material" 
-                                  data-confirm-color="#dc3545">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Delete Material">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
+                                <div class="mt-3">
+                                    <a href="{{ route('lms.quizzes.create', ['course_id' => $course->id]) }}" class="btn btn-sm btn-success rounded-pill px-3 fw-bold">
+                                        <i class="fa-solid fa-plus me-1"></i> Create First Assessment
+                                    </a>
+                                </div>
                             @endif
                         </div>
-                    </div>
+                    @endforelse
                 </div>
-            @empty
-                <div class="text-center py-5 text-muted">
-                    <i class="fa-solid fa-cloud-arrow-up fs-1 d-block mb-2 text-primary opacity-50"></i>
-                    No materials uploaded for this course yet.
-                </div>
-            @endforelse
+            </div>
         </div>
     </div>
 </div>
