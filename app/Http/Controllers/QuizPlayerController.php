@@ -79,7 +79,16 @@ class QuizPlayerController extends Controller
         $attempt->student_id = $student->id;
         $attempt->attempt_number = $completedAttemptsCount + 1;
         $attempt->started_at = now();
-        $attempt->expires_at = $quiz->duration_minutes > 0 ? now()->addMinutes($quiz->duration_minutes) : null;
+        if ($quiz->duration_minutes > 0) {
+            $durationLimit = now()->addMinutes($quiz->duration_minutes);
+            $attempt->expires_at = ($quiz->end_time && $quiz->end_time->lt($durationLimit))
+                ? $quiz->end_time
+                : $durationLimit;
+        } elseif ($quiz->end_time) {
+            $attempt->expires_at = $quiz->end_time;
+        } else {
+            $attempt->expires_at = null;
+        }
         $attempt->status = 'in_progress';
         $attempt->score = 0;
         $attempt->percentage = 0;

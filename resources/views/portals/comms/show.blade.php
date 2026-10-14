@@ -20,7 +20,16 @@
     <div class="col-lg-5">
         <div class="portal-card p-4">
             <h5 class="fw-bold text-dark mb-2">{{ $broadcast->title }}</h5>
-            <p class="text-muted p-3 bg-light rounded-3 mb-3">{{ $broadcast->message }}</p>
+            
+            <label class="small fw-bold text-muted text-uppercase mb-1">Master Template Text</label>
+            <p class="text-muted p-3 bg-light rounded-3 mb-3 small" style="white-space: pre-line;">{{ $broadcast->message }}</p>
+
+            <label class="small fw-bold text-success text-uppercase mb-1">
+                <i class="fa-solid fa-wand-magic-sparkles me-1"></i> Sample Dynamic Recipient Preview
+            </label>
+            <div class="p-3 bg-success bg-opacity-10 border border-success-subtle rounded-3 mb-3 small text-dark" style="white-space: pre-line;">
+{{ $broadcast->renderFor() }}
+            </div>
 
             <div class="small">
                 <div class="d-flex justify-content-between mb-2">
@@ -57,11 +66,15 @@
                             <th>Recipient</th>
                             <th class="text-center">Channel</th>
                             <th>Contact / Endpoint</th>
+                            <th>Delivered Message</th>
                             <th class="text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($deliveries as $del)
+                            @php
+                                $renderedMsg = $del->message ?? $broadcast->renderFor($del->recipient);
+                            @endphp
                             <tr>
                                 <td>
                                     <div class="fw-bold small">{{ $del->recipient->name ?? 'User' }}</div>
@@ -73,6 +86,11 @@
                                     </span>
                                 </td>
                                 <td><small class="text-muted">{{ $del->recipient_contact }}</small></td>
+                                <td>
+                                    <small class="text-dark d-inline-block text-truncate" style="max-width: 200px;" title="{{ $renderedMsg }}">
+                                        {{ $renderedMsg }}
+                                    </small>
+                                </td>
                                 <td class="text-center">
                                     <span class="badge bg-success text-white">
                                         <i class="fa-solid fa-check me-1"></i> {{ ucfirst($del->status) }}
@@ -80,7 +98,7 @@
                                 </td>
                             </tr>
                         @empty
-                            <tr><td colspan="4" class="text-center text-muted py-3">No individual recipient delivery records found.</td></tr>
+                            <tr><td colspan="5" class="text-center text-muted py-3">No individual recipient delivery records found.</td></tr>
                         @endforelse
                     </tbody>
                 </table>

@@ -40,7 +40,7 @@
 
             <!-- Notice Title & Meta -->
             <div class="mb-4">
-                <h3 class="fw-bold text-dark mb-2">{{ $broadcast->title }}</h3>
+                <h3 class="fw-bold text-dark mb-2">{{ $broadcast->renderTitleFor(auth()->user()) }}</h3>
                 <div class="d-flex align-items-center gap-2 small text-muted flex-wrap">
                     <span><i class="fa-solid fa-users me-1 text-primary"></i> Target Audience: 
                         <strong class="text-capitalize text-dark">
@@ -62,7 +62,7 @@
 
             <!-- Body Message -->
             <div class="notice-body p-4 bg-light rounded-4 border mb-4" style="line-height: 1.8; font-size: 1.05rem; color: #2c3e50; white-space: pre-line;">
-{{ $broadcast->message }}
+{{ $broadcast->renderFor(auth()->user()) }}
             </div>
 
             <!-- Signatory Endorsement Footer -->

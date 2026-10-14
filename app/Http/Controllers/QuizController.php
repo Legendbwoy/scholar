@@ -33,10 +33,19 @@ class QuizController extends Controller
         if ($user && $user->isTeacher() && $user->staff) {
             $teacherCourses = Course::where('teacher_id', $user->staff->id)->pluck('id');
             $query->whereIn('course_id', $teacherCourses);
-        } elseif ($user && $user->isStudent() && $user->student) {
-            $studentClassId = $user->student->school_class_id;
-            $query->whereHas('course', function ($q) use ($studentClassId) {
-                $q->where('school_class_id', $studentClassId);
+        } elseif ($user && $user->isStudent()) {
+            if ($user->student && $user->student->school_class_id) {
+                $studentClassId = $user->student->school_class_id;
+                $query->whereHas('course', function ($q) use ($studentClassId) {
+                    $q->where('school_class_id', $studentClassId);
+                })->where('is_published', true);
+            } else {
+                $query->whereRaw('1=0');
+            }
+        } elseif ($user && $user->isGuardian() && $user->guardian) {
+            $wardClassIds = $user->guardian->students()->pluck('school_class_id')->filter();
+            $query->whereHas('course', function ($q) use ($wardClassIds) {
+                $q->whereIn('school_class_id', $wardClassIds);
             })->where('is_published', true);
         }
 
@@ -57,13 +66,25 @@ class QuizController extends Controller
 
         $quizzes = $query->orderBy('created_at', 'desc')->paginate(12);
 
-        // Stats calculation
-        $totalQuizzes = Quiz::count();
-        $totalExams = Quiz::whereIn('type', ['midterm', 'final_exam', 'exam'])->count();
-        $totalAttempts = QuizAttempt::count();
-        $activeSessions = QuizAttempt::where('status', 'in_progress')->count();
+        // Stats calculation tailored to user role
+        if ($user && $user->isStudent()) {
+            $studentClassId = $user->student?->school_class_id;
+            $courses = $studentClassId ? Course::where('school_class_id', $studentClassId)->orderBy('title')->get() : collect();
+            $myQuizIds = $studentClassId ? Quiz::whereHas('course', function ($q) use ($studentClassId) {
+                $q->where('school_class_id', $studentClassId);
+            })->where('is_published', true)->pluck('id') : collect();
 
-        $courses = Course::orderBy('title')->get();
+            $totalQuizzes = $myQuizIds->count();
+            $totalExams = Quiz::whereIn('id', $myQuizIds)->whereIn('type', ['midterm', 'final_exam', 'exam'])->count();
+            $totalAttempts = $user->student ? QuizAttempt::where('student_id', $user->student->id)->count() : 0;
+            $activeSessions = $user->student ? QuizAttempt::where('student_id', $user->student->id)->where('status', 'in_progress')->count() : 0;
+        } else {
+            $totalQuizzes = Quiz::count();
+            $totalExams = Quiz::whereIn('type', ['midterm', 'final_exam', 'exam'])->count();
+            $totalAttempts = QuizAttempt::count();
+            $activeSessions = QuizAttempt::where('status', 'in_progress')->count();
+            $courses = Course::orderBy('title')->get();
+        }
 
         return view('portals.lms.quizzes.index', compact('quizzes', 'course', 'courses', 'totalQuizzes', 'totalExams', 'totalAttempts', 'activeSessions'));
     }

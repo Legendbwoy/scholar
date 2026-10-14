@@ -289,6 +289,8 @@ class CommunicationController extends Controller
         $recipients = $recipientQuery->get();
 
         foreach ($recipients as $recipient) {
+            $personalizedMessage = $broadcast->renderFor($recipient);
+
             foreach ($broadcast->channels as $channel) {
                 $contact = match ($channel) {
                     'email' => $recipient->email,
@@ -301,6 +303,7 @@ class CommunicationController extends Controller
                     'recipient_id' => $recipient->id,
                     'channel' => $channel,
                     'recipient_contact' => $contact,
+                    'message' => $personalizedMessage,
                     'status' => 'delivered',
                     'delivered_at' => now(),
                 ]);

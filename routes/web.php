@@ -158,7 +158,6 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::get('/api/broadcasts/templates/{id}', [BroadcastTemplateController::class, 'getJson'])->whereNumber('id')->name('broadcasts.templates.json');
 
     // LMS Quizzes, Tests & Exams Authoring & Grading (Faculty & Admin)
-    Route::get('/lms/quizzes', [QuizController::class, 'index'])->name('lms.quizzes.index');
     Route::get('/lms/quizzes/create', [QuizController::class, 'create'])->name('lms.quizzes.create');
     Route::post('/lms/quizzes', [QuizController::class, 'store'])->name('lms.quizzes.store');
     Route::get('/lms/quizzes/{id}/edit', [QuizController::class, 'edit'])->whereNumber('id')->name('lms.quizzes.edit');
@@ -208,6 +207,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/materials/{id}/download', [CourseController::class, 'downloadMaterial'])->whereNumber('id')->name('materials.download');
 
     // LMS Interactive Testing Terminal & Exam Sessions
+    Route::get('/lms/quizzes', [QuizController::class, 'index'])->name('lms.quizzes.index');
     Route::post('/lms/quizzes/{quizId}/start', [QuizPlayerController::class, 'start'])->whereNumber('quizId')->name('lms.quizzes.start');
     Route::get('/lms/quizzes/player/{attemptId}', [QuizPlayerController::class, 'take'])->whereNumber('attemptId')->name('lms.quizzes.take');
     Route::post('/lms/quizzes/player/{attemptId}/save', [QuizPlayerController::class, 'saveAnswer'])->whereNumber('attemptId')->name('lms.quizzes.saveAnswer');

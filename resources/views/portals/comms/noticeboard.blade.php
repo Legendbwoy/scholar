@@ -38,12 +38,12 @@
                                 @endif
                             </span>
                         </div>
-                        <h5 class="fw-bold text-dark mb-1">{{ $b->title }}</h5>
+                        <h5 class="fw-bold text-dark mb-1">{{ $b->renderTitleFor(auth()->user()) }}</h5>
                     </div>
                 </div>
 
                 <p class="text-muted small flex-grow-1 mb-3" style="line-height: 1.6;">
-                    {{ Str::limit($b->message, 160) }}
+                    {{ Str::limit($b->renderFor(auth()->user()), 160) }}
                 </p>
 
                 <div class="pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2 mt-auto">

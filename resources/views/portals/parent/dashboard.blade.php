@@ -81,10 +81,10 @@
                 <a href="{{ route('broadcasts.show', $b->id) }}" class="text-decoration-none">
                     <div class="p-3 bg-light rounded-3 border h-100 hover-shadow transition">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <strong class="text-dark small">{{ $b->title }}</strong>
+                            <strong class="text-dark small">{{ $b->renderTitleFor(auth()->user()) }}</strong>
                             <span class="badge bg-{{ $b->priority === 'urgent' ? 'danger' : 'primary' }}" style="font-size: 10px;">{{ $b->priority }}</span>
                         </div>
-                        <p class="text-muted small mb-2">{{ Str::limit($b->message, 120) }}</p>
+                        <p class="text-muted small mb-2">{{ Str::limit($b->renderFor(auth()->user()), 120) }}</p>
                         <small class="text-muted d-block" style="font-size: 11px;"><i class="fa-regular fa-clock me-1"></i> {{ $b->created_at->format('M d, Y H:i') }}</small>
                     </div>
                 </a>

@@ -118,10 +118,10 @@
                 <a href="{{ route('broadcasts.show', $b->id) }}" class="text-decoration-none">
                     <div class="p-3 bg-light rounded-3 border h-100 hover-shadow transition">
                         <div class="d-flex justify-content-between align-items-center mb-1">
-                            <strong class="text-dark small">{{ $b->title }}</strong>
+                            <strong class="text-dark small">{{ $b->renderTitleFor(auth()->user()) }}</strong>
                             <small class="text-muted">{{ $b->created_at->diffForHumans() }}</small>
                         </div>
-                        <p class="text-muted small mb-0">{{ Str::limit($b->message, 120) }}</p>
+                        <p class="text-muted small mb-0">{{ Str::limit($b->renderFor(auth()->user()), 120) }}</p>
                     </div>
                 </a>
             </div>
