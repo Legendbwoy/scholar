@@ -20,6 +20,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BroadcastTemplateController;
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\QuizPlayerController;
+use App\Http\Controllers\QuestionBankController;
 
 /*
 |--------------------------------------------------------------------------
@@ -169,6 +170,21 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::get('/lms/quizzes/{id}/submissions', [QuizController::class, 'submissions'])->whereNumber('id')->name('lms.quizzes.submissions');
     Route::get('/lms/quizzes/attempts/{attemptId}/grading', [QuizController::class, 'gradingView'])->whereNumber('attemptId')->name('lms.quizzes.grading');
     Route::post('/lms/quizzes/attempts/{attemptId}/grading', [QuizController::class, 'submitGrade'])->whereNumber('attemptId')->name('lms.quizzes.grading.submit');
+
+    // Bulk Question Excel/CSV Template & Bulk Uploader
+    Route::get('/lms/quizzes/questions/template', [QuizController::class, 'downloadTemplate'])->name('lms.quizzes.questions.template');
+    Route::post('/lms/quizzes/{id}/questions/bulk-upload', [QuizController::class, 'bulkUploadQuestions'])->whereNumber('id')->name('lms.quizzes.questions.bulk-upload');
+
+    // Institutional Question Banks (Editable & Reusable Repositories)
+    Route::get('/lms/banks', [QuestionBankController::class, 'index'])->name('lms.banks.index');
+    Route::get('/lms/banks/create', [QuestionBankController::class, 'create'])->name('lms.banks.create');
+    Route::post('/lms/banks', [QuestionBankController::class, 'store'])->name('lms.banks.store');
+    Route::get('/lms/banks/{id}', [QuestionBankController::class, 'show'])->whereNumber('id')->name('lms.banks.show');
+    Route::post('/lms/banks/{id}/questions', [QuestionBankController::class, 'storeQuestion'])->whereNumber('id')->name('lms.banks.questions.store');
+    Route::delete('/lms/banks/questions/{questionId}', [QuestionBankController::class, 'destroyQuestion'])->whereNumber('questionId')->name('lms.banks.questions.destroy');
+    Route::delete('/lms/banks/{id}', [QuestionBankController::class, 'destroy'])->whereNumber('id')->name('lms.banks.destroy');
+    Route::post('/lms/quizzes/{quizId}/save-to-bank', [QuestionBankController::class, 'saveQuizToBank'])->whereNumber('quizId')->name('lms.quizzes.save-to-bank');
+    Route::post('/lms/quizzes/{quizId}/import-from-bank', [QuestionBankController::class, 'importFromBank'])->whereNumber('quizId')->name('lms.quizzes.import-from-bank');
 });
 
 /*

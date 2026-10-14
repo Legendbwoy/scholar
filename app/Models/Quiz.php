@@ -102,17 +102,32 @@ class Quiz extends Model
     }
 
     /**
-     * Get visual badge and label for assessment type.
+     * Get visual badge class for assessment type.
      */
-    public function getTypeBadgeAttribute(): array
+    public function getTypeBadgeAttribute(): string
     {
         return match ($this->type) {
-            'quiz' => ['label' => 'Quiz', 'class' => 'bg-info-subtle text-info border border-info-subtle', 'icon' => 'fa-solid fa-stopwatch'],
-            'test' => ['label' => 'Unit Test', 'class' => 'bg-primary-subtle text-primary border border-primary-subtle', 'icon' => 'fa-solid fa-file-lines'],
-            'midterm' => ['label' => 'Midterm Exam', 'class' => 'bg-warning-subtle text-warning border border-warning-subtle', 'icon' => 'fa-solid fa-award'],
-            'final_exam' => ['label' => 'Final Exam', 'class' => 'bg-danger-subtle text-danger border border-danger-subtle', 'icon' => 'fa-solid fa-graduation-cap'],
-            'practice' => ['label' => 'Practice Drill', 'class' => 'bg-success-subtle text-success border border-success-subtle', 'icon' => 'fa-solid fa-dumbbell'],
-            default => ['label' => ucfirst($this->type), 'class' => 'bg-secondary-subtle text-secondary', 'icon' => 'fa-solid fa-question'],
+            'quiz' => 'bg-info text-dark',
+            'test' => 'bg-primary text-white',
+            'midterm' => 'bg-warning text-dark',
+            'final_exam' => 'bg-danger text-white',
+            'practice' => 'bg-success text-white',
+            default => 'bg-secondary text-white',
+        };
+    }
+
+    /**
+     * Get full visual metadata (label, class, icon) for assessment type.
+     */
+    public function getTypeMetaAttribute(): array
+    {
+        return match ($this->type) {
+            'quiz' => ['label' => 'Quiz', 'class' => 'bg-info text-dark', 'icon' => 'fa-solid fa-stopwatch'],
+            'test' => ['label' => 'Unit Test', 'class' => 'bg-primary text-white', 'icon' => 'fa-solid fa-file-lines'],
+            'midterm' => ['label' => 'Midterm Exam', 'class' => 'bg-warning text-dark', 'icon' => 'fa-solid fa-award'],
+            'final_exam' => ['label' => 'Final Exam', 'class' => 'bg-danger text-white', 'icon' => 'fa-solid fa-graduation-cap'],
+            'practice' => ['label' => 'Practice Drill', 'class' => 'bg-success text-white', 'icon' => 'fa-solid fa-dumbbell'],
+            default => ['label' => ucfirst($this->type), 'class' => 'bg-secondary text-white', 'icon' => 'fa-solid fa-question'],
         };
     }
 }

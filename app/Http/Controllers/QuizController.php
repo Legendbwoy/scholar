@@ -189,7 +189,260 @@ class QuizController extends Controller
     public function builder($id)
     {
         $quiz = Quiz::with(['course.schoolClass', 'course.subject', 'questions.options'])->findOrFail($id);
-        return view('portals.lms.quizzes.builder', compact('quiz'));
+        $banks = \App\Models\QuestionBank::with('questions.options')->orderBy('title')->get();
+        return view('portals.lms.quizzes.builder', compact('quiz', 'banks'));
+    }
+
+    /**
+     * Download CSV template for bulk question onboarding.
+     */
+    public function downloadTemplate()
+    {
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="lms_questions_import_template.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        $columns = [
+            'question_type',
+            'question_text',
+            'points',
+            'option_a',
+            'option_b',
+            'option_c',
+            'option_d',
+            'correct_options',
+            'acceptable_answers',
+            'explanation',
+        ];
+
+        $sampleRows = [
+            [
+                'mcq_single',
+                'What is the primary function of RAM in a computing architecture?',
+                '10',
+                'Stores permanent system BIOS firmware',
+                'Provides high-speed volatile working memory for active programs',
+                'Acts as secondary offline archival tape storage',
+                'Regulates hardware power supply voltages',
+                'B',
+                '',
+                'RAM provides fast read/write memory directly accessible to the CPU for active processes.',
+            ],
+            [
+                'true_false',
+                'HTTP protocol encrypts client-server traffic by default without TLS.',
+                '10',
+                'True',
+                'False',
+                '',
+                '',
+                'False',
+                '',
+                'HTTP transmits data in cleartext; HTTPS utilizing TLS/SSL is required for encrypted transport.',
+            ],
+            [
+                'mcq_multi',
+                'Which of the following are relational database management systems? (Select all that apply)',
+                '10',
+                'PostgreSQL',
+                'MySQL',
+                'Redis In-Memory Key-Value',
+                'SQLite',
+                'A,B,D',
+                '',
+                'PostgreSQL, MySQL, and SQLite adhere to SQL relational tabular architectures.',
+            ],
+            [
+                'short_answer',
+                'What standard industry acronym represents Create, Read, Update, and Delete operations?',
+                '10',
+                '',
+                '',
+                '',
+                '',
+                'CRUD',
+                'CRUD, crud, C.R.U.D',
+                'CRUD represents the four fundamental persistence actions in database storage.',
+            ],
+            [
+                'essay',
+                'Explain the difference between synchronous execution and asynchronous event-driven architectures.',
+                '15',
+                '',
+                '',
+                '',
+                '',
+                '',
+                '',
+                'Synchronous execution blocks subsequent threads until completion; asynchronous delegates background tasks to event loops.',
+            ],
+        ];
+
+        $callback = function () use ($columns, $sampleRows) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+            foreach ($sampleRows as $row) {
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Bulk upload questions from uploaded CSV/Excel spreadsheet into quiz.
+     */
+    public function bulkUploadQuestions(Request $request, $id)
+    {
+        $quiz = Quiz::findOrFail($id);
+
+        $request->validate([
+            'questions_file' => 'required|file|mimes:csv,txt,xlsx,xls|max:5120',
+        ]);
+
+        $file = $request->file('questions_file');
+        $ext = strtolower($file->getClientOriginalExtension());
+        $rows = [];
+
+        if (in_array($ext, ['csv', 'txt'])) {
+            if (($handle = fopen($file->getRealPath(), 'r')) !== false) {
+                // Read header
+                $header = fgetcsv($handle, 4096, ',');
+                if ($header) {
+                    $header = array_map(fn($h) => strtolower(trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', $h))), $header);
+                    while (($data = fgetcsv($handle, 4096, ',')) !== false) {
+                        if (count($data) >= 2 && !empty(trim($data[1] ?? ''))) {
+                            $row = [];
+                            foreach ($header as $idx => $colName) {
+                                $row[$colName] = isset($data[$idx]) ? trim($data[$idx]) : '';
+                            }
+                            $rows[] = $row;
+                        }
+                    }
+                }
+                fclose($handle);
+            }
+        } elseif (in_array($ext, ['xlsx', 'xls']) && class_exists(\PhpOffice\PhpSpreadsheet\IOFactory::class)) {
+            try {
+                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+                $sheetData = $sheet->toArray(null, true, true, true);
+                if (!empty($sheetData)) {
+                    $firstRow = array_shift($sheetData);
+                    $headerMap = [];
+                    foreach ($firstRow as $colLetter => $colVal) {
+                        if ($colVal) {
+                            $headerMap[$colLetter] = strtolower(trim(preg_replace('/[\x00-\x1F\x80-\xFF]/', '', (string)$colVal)));
+                        }
+                    }
+                    foreach ($sheetData as $r) {
+                        $row = [];
+                        foreach ($headerMap as $colLetter => $colName) {
+                            $row[$colName] = isset($r[$colLetter]) ? trim((string)$r[$colLetter]) : '';
+                        }
+                        if (!empty($row['question_text'])) {
+                            $rows[] = $row;
+                        }
+                    }
+                }
+            } catch (\Throwable $e) {
+                return redirect()->back()->withErrors(['error' => 'Failed to parse Excel spreadsheet: ' . $e->getMessage()]);
+            }
+        }
+
+        if (empty($rows)) {
+            return redirect()->back()->withErrors(['error' => 'The uploaded file contains no valid question rows or unreadable header columns.']);
+        }
+
+        DB::beginTransaction();
+        try {
+            $importedCount = 0;
+            $currentOrder = $quiz->questions()->max('order_index') ?? 0;
+
+            foreach ($rows as $row) {
+                $qType = strtolower(trim($row['question_type'] ?? 'mcq_single'));
+                if (!in_array($qType, ['mcq_single', 'mcq_multi', 'true_false', 'short_answer', 'essay'])) {
+                    $qType = 'mcq_single';
+                }
+
+                $qText = trim($row['question_text'] ?? '');
+                if ($qText === '') continue;
+
+                $points = isset($row['points']) && is_numeric($row['points']) ? max(1, (int)$row['points']) : 10;
+                $explanation = $row['explanation'] ?? null;
+                $acceptableAnswers = $row['acceptable_answers'] ?? null;
+                $correctInput = strtoupper(trim($row['correct_options'] ?? ''));
+
+                $currentOrder++;
+                $question = QuizQuestion::create([
+                    'quiz_id' => $quiz->id,
+                    'question_type' => $qType,
+                    'question_text' => $qText,
+                    'points' => $points,
+                    'order_index' => $currentOrder,
+                    'explanation' => $explanation,
+                    'acceptable_answers' => $acceptableAnswers,
+                ]);
+
+                if ($qType === 'true_false') {
+                    $isTrueCorrect = in_array($correctInput, ['TRUE', 'T', '1', 'YES', 'A']);
+                    QuizQuestionOption::create([
+                        'quiz_question_id' => $question->id,
+                        'option_text' => 'True',
+                        'is_correct' => $isTrueCorrect,
+                        'order_index' => 1,
+                    ]);
+                    QuizQuestionOption::create([
+                        'quiz_question_id' => $question->id,
+                        'option_text' => 'False',
+                        'is_correct' => !$isTrueCorrect,
+                        'order_index' => 2,
+                    ]);
+                } elseif (in_array($qType, ['mcq_single', 'mcq_multi'])) {
+                    $optA = trim($row['option_a'] ?? '');
+                    $optB = trim($row['option_b'] ?? '');
+                    $optC = trim($row['option_c'] ?? '');
+                    $optD = trim($row['option_d'] ?? '');
+
+                    $optionsMap = [
+                        'A' => $optA,
+                        'B' => $optB,
+                        'C' => $optC,
+                        'D' => $optD,
+                    ];
+
+                    $correctLetters = array_map('trim', explode(',', $correctInput));
+
+                    $optIdx = 1;
+                    foreach ($optionsMap as $letter => $optText) {
+                        if ($optText !== '') {
+                            $isCorrect = in_array($letter, $correctLetters) || in_array((string)$optIdx, $correctLetters);
+                            QuizQuestionOption::create([
+                                'quiz_question_id' => $question->id,
+                                'option_text' => $optText,
+                                'is_correct' => $isCorrect,
+                                'order_index' => $optIdx++,
+                            ]);
+                        }
+                    }
+                }
+
+                $importedCount++;
+            }
+
+            $quiz->recalculateTotalPoints();
+            DB::commit();
+
+            return redirect()->route('lms.quizzes.builder', $quiz->id)->with('success', "Bulk Onboarding Complete: Successfully imported {$importedCount} questions into assessment!");
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors(['error' => 'Bulk question import failed: ' . $e->getMessage()]);
+        }
     }
 
     public function storeQuestion(Request $request, $id)

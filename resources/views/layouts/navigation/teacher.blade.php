@@ -71,7 +71,7 @@
 
 <!-- 4. Digital LMS Instruction (Collapsible) -->
 @php
-    $isTeacherLmsActive = request()->routeIs('courses.*', 'lms.quizzes.*');
+    $isTeacherLmsActive = request()->routeIs('courses.*', 'lms.quizzes.*', 'lms.banks.*');
 @endphp
 <li class="nav-item">
     <a class="nav-dropdown-toggle {{ $isTeacherLmsActive ? 'active-parent' : 'collapsed' }}" data-bs-toggle="collapse" href="#menuTeacherLms" role="button" aria-expanded="{{ $isTeacherLmsActive ? 'true' : 'false' }}" aria-controls="menuTeacherLms">
@@ -96,6 +96,11 @@
             <li>
                 <a href="{{ route('lms.quizzes.index') }}" class="{{ request()->routeIs('lms.quizzes.index', 'lms.quizzes.builder', 'lms.quizzes.submissions', 'lms.quizzes.grading*') ? 'active' : '' }}">
                     <span>Tests, Quizzes & Exams</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('lms.banks.index') }}" class="{{ request()->routeIs('lms.banks.*') ? 'active' : '' }}">
+                    <span>Question Banks</span>
                 </a>
             </li>
             <li>

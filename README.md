@@ -77,6 +77,14 @@ school-management-system/
   - Asynchronous background auto-saving via AJAX so candidate progress is preserved across network interruptions.
   - Interactive **Question Palette Matrix** with color-coded navigation (answered, unanswered, active question).
   - Server-side countdown enforcement with automatic freeze and submission upon timer expiry.
+  - **Timed Access Control & Publishing Gates**: Strict window gating (`start_time` and `end_time`) ensuring unpublished or scheduled exams lock students out until the scheduled start time, and automatically expire upon deadline.
+- **Bulk Question Upload & Excel/CSV Template**:
+  - One-click downloadable spreadsheet template (`.csv` / `.xlsx`) pre-populated with standard columns (`question_type`, `question_text`, `points`, `option_a` through `d`, `correct_options`, `acceptable_answers`, `explanation`).
+  - High-speed bulk parsing engine importing hundreds of questions instantly, mapping choices, and updating quiz total points.
+- **Institutional Question Banks (Editable & Reusable Repositories)**:
+  - Centralized question repositories organized by subject, course, and syllabus topic.
+  - **Export to Bank**: Save entire quizzes or tests directly into question banks for future multi-cohort reuse.
+  - **Import from Bank**: Clone curated items from any bank directly into new quizzes, tests, midterms, or final exams.
 - **Q&A Authoring Studio for Faculty**:
   - Author and manage questions across **5 distinct question formats**:
     1. **Single-Choice Multiple Choice (MCQ Single)**
@@ -86,6 +94,18 @@ school-management-system/
     5. **Subjective Long Essay** (with scoring rubrics and teacher feedback commentary)
   - Configure mark weights, randomize question orders, and shuffle MCQ option choices to prevent cheating.
   - Provide model answers and solution explanations displayed to students upon completion.
+- **📚 Centralized Question Banks & Reusable Repositories**:
+  - Dedicated Question Bank library categorized by Subject, Grade Level, and Difficulty.
+  - Export active quizzes/exams directly into Question Banks for archival or cross-cohort reuse.
+  - Selectively import curated questions from Question Banks into any quiz, test, or examination in one click.
+- **📊 Bulk Questions Upload & Downloadable Spreadsheet Template**:
+  - Downloadable standardized Excel / CSV question authoring template (`/lms/quizzes/template/download`) with full column specifications.
+  - Batch upload hundreds of questions (MCQ Single, MCQ Multi, True/False, Short Answer, Essay) with automatic choice mapping, option validation, and assessment point recalculation.
+- **⏱️ Timed Assessment Access Gates & Publishing Enforcement**:
+  - **Draft Protection**: Draft quizzes remain inaccessible to student candidates until officially published.
+  - **Start Window Barrier**: Future-dated assessments enforce a locked gate displaying the exact opening date/time and preventing premature attempt initiation.
+  - **End Window Lockdown**: Expired assessments strictly reject candidate entry past the deadline.
+  - **Enforced Session Expiry**: In-flight candidate exam timers are capped by the assessment's closing deadline, preventing attempts from running past the official examination end time.
 - **Automated & Rubric-Based Grading**:
   - Instant auto-grading for objective questions (MCQs, True/False, Short Answer).
   - Dedicated **Teacher Rubric Review Console** to evaluate open-ended essay questions, award marks, provide bespoke commentary, and sync final scores with the institutional gradebook.

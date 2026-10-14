@@ -30,9 +30,19 @@ class QuizPlayerController extends Controller
             $student = Student::first();
         }
 
-        // Availability check
-        if (!$quiz->isAvailable() && !$user->isAdmin() && !$user->isTeacher()) {
-            return redirect()->back()->withErrors(['error' => 'This assessment is currently not available for taking.']);
+        // 1. Publishing check
+        if (!$quiz->is_published && !$user->isAdmin() && !$user->isTeacher()) {
+            return redirect()->back()->withErrors(['error' => 'This assessment is currently in draft mode and has not been published by your instructor.']);
+        }
+
+        // 2. Future Access Window Lock
+        if ($quiz->start_time && now()->lt($quiz->start_time) && !$user->isAdmin() && !$user->isTeacher()) {
+            return redirect()->back()->withErrors(['error' => "Assessment Scheduled: Access doors open on " . $quiz->start_time->format('M d, Y \a\t h:i A') . " (" . $quiz->start_time->diffForHumans() . "). Please return during the scheduled window."]);
+        }
+
+        // 3. Past Access Window Expiry
+        if ($quiz->end_time && now()->gt($quiz->end_time) && !$user->isAdmin() && !$user->isTeacher()) {
+            return redirect()->back()->withErrors(['error' => "Testing Window Closed: The submission deadline for this assessment was " . $quiz->end_time->format('M d, Y \a\t h:i A') . "."]);
         }
 
         // Check if student already has an active in_progress attempt

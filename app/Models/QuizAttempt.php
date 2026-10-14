@@ -55,12 +55,18 @@ class QuizAttempt extends Model
      */
     public function getRemainingSecondsAttribute(): int
     {
+        $hardEnd = $this->quiz->end_time;
+
         if (!$this->quiz->duration_minutes || $this->quiz->duration_minutes <= 0) {
+            if ($hardEnd) {
+                return max(0, (int) now()->diffInSeconds($hardEnd, false));
+            }
             return 999999; // untimed
         }
 
-        $expiresAt = $this->started_at->copy()->addMinutes($this->quiz->duration_minutes);
-        $diff = now()->diffInSeconds($expiresAt, false);
+        $durationEnd = $this->started_at->copy()->addMinutes($this->quiz->duration_minutes);
+        $targetExpiry = ($hardEnd && $hardEnd->lt($durationEnd)) ? $hardEnd : $durationEnd;
+        $diff = now()->diffInSeconds($targetExpiry, false);
         return max(0, (int) $diff);
     }
 

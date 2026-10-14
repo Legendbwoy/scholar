@@ -24,13 +24,22 @@
             <p class="text-muted mb-0">Author and curate questions, assign mark weightings, specify correct choices, and provide model answers.</p>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+            <button type="button" class="btn btn-success rounded-pill px-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
                 <i class="fa-solid fa-plus-circle me-1"></i> Add Question
+            </button>
+            <button type="button" class="btn btn-outline-success rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
+                <i class="fa-solid fa-file-excel me-1"></i> Bulk Upload (Excel/CSV)
+            </button>
+            <button type="button" class="btn btn-outline-primary rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#importFromBankModal">
+                <i class="fa-solid fa-cloud-arrow-down me-1"></i> Import from Bank
+            </button>
+            <button type="button" class="btn btn-outline-warning rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#saveToBankModal">
+                <i class="fa-solid fa-box-archive me-1"></i> Save to Bank
             </button>
             <form action="{{ route('lms.quizzes.start', $quiz->id) }}" method="POST" class="d-inline">
                 @csrf
                 <button type="submit" class="btn btn-outline-dark rounded-pill px-3">
-                    <i class="fa-solid fa-play me-1"></i> Preview Exam Player
+                    <i class="fa-solid fa-play me-1"></i> Preview Exam
                 </button>
             </form>
             <a href="{{ route('lms.quizzes.submissions', $quiz->id) }}" class="btn btn-outline-info rounded-pill px-3">
@@ -304,6 +313,169 @@
     </div>
 </div>
 
+<!-- Modal 2: Bulk Questions Excel / CSV Upload Modal -->
+<div class="modal fade" id="bulkUploadModal" tabindex="-1" aria-labelledby="bulkUploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header border-bottom p-4">
+                <h5 class="modal-title fw-bold text-dark" id="bulkUploadModalLabel">
+                    <i class="fa-solid fa-file-excel text-success me-2"></i>Bulk Upload Assessment Questions
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('lms.quizzes.questions.bulk-upload', $quiz->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body p-4">
+                    <!-- Step 1: Download Template -->
+                    <div class="p-4 bg-light rounded-4 border mb-4">
+                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                            <div>
+                                <span class="badge bg-success mb-1">Step 1: Get Standard Template</span>
+                                <h6 class="fw-bold mb-1 text-dark">Download Formatted Excel / CSV Template</h6>
+                                <p class="text-muted small mb-0">Pre-configured with columns: <code>question_type</code>, <code>question_text</code>, <code>points</code>, <code>options (A-D)</code>, <code>correct_options</code>, and <code>explanation</code>.</p>
+                            </div>
+                            <a href="{{ route('lms.quizzes.questions.template') }}" class="btn btn-outline-success rounded-pill px-4 fw-bold">
+                                <i class="fa-solid fa-download me-1"></i> Download Template (.csv)
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Upload File -->
+                    <div>
+                        <span class="badge bg-primary mb-2">Step 2: Upload Populated Spreadsheet</span>
+                        <label class="form-label small fw-bold text-uppercase text-muted d-block">Select Excel (.xlsx) or CSV file</label>
+                        <input type="file" name="questions_file" class="form-control form-control-lg" accept=".csv, .xlsx, .xls, .txt" required>
+                        <small class="text-muted d-block mt-2">
+                            <i class="fa-solid fa-circle-info text-primary me-1"></i> Supports MCQ single, MCQ multi-select, True/False, Short Answer, and Essay prompts. Max file size: 5MB.
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer border-top p-3 px-4">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success px-4 fw-bold rounded-pill shadow-sm">
+                        <i class="fa-solid fa-cloud-arrow-up me-1"></i> Parse & Import Questions
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 3: Import from Question Bank Modal -->
+<div class="modal fade" id="importFromBankModal" tabindex="-1" aria-labelledby="importFromBankModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header border-bottom p-4">
+                <h5 class="modal-title fw-bold text-dark" id="importFromBankModalLabel">
+                    <i class="fa-solid fa-cloud-arrow-down text-primary me-2"></i>Import from Institutional Question Bank
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('lms.quizzes.import-from-bank', $quiz->id) }}" method="POST">
+                @csrf
+                <div class="modal-body p-4">
+                    @if($banks->isEmpty())
+                        <div class="text-center py-4">
+                            <i class="fa-solid fa-box-open fs-1 text-muted mb-2 d-block"></i>
+                            <h6 class="fw-bold">No Question Banks Available</h6>
+                            <p class="text-muted small">Create or populate an institutional Question Bank first to reuse items.</p>
+                            <a href="{{ route('lms.banks.create') }}" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold">Create Question Bank</a>
+                        </div>
+                    @else
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Select Target Question Bank</label>
+                            <select id="bankSelector" class="form-select fw-semibold" onchange="filterBankQuestions(this.value)">
+                                <option value="">-- Choose Question Bank to inspect items --</option>
+                                @foreach($banks as $b)
+                                    <option value="{{ $b->id }}">{{ $b->title }} ({{ $b->questions->count() }} items) — {{ $b->topic ?? 'General' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div id="bankQuestionsContainer">
+                            @foreach($banks as $b)
+                                <div class="bank-group-items d-none" id="bank_group_{{ $b->id }}">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="small fw-bold text-muted text-uppercase">Questions in {{ $b->title }}:</span>
+                                        <button type="button" class="btn btn-sm btn-link p-0 text-decoration-none fw-bold" onclick="toggleAllBankCheckboxes('bank_group_{{ $b->id }}')">Select All</button>
+                                    </div>
+                                    <div class="d-flex flex-column gap-2" style="max-height: 320px; overflow-y: auto;">
+                                        @forelse($b->questions as $bq)
+                                            <label class="p-3 bg-light rounded-3 border d-flex align-items-start gap-3 cursor-pointer">
+                                                <input class="form-check-input mt-1 bank-checkbox" type="checkbox" name="bank_question_ids[]" value="{{ $bq->id }}">
+                                                <div class="flex-grow-1">
+                                                    <div class="d-flex align-items-center gap-2 mb-1">
+                                                        <span class="badge bg-secondary text-uppercase">{{ str_replace('_', ' ', $bq->question_type) }}</span>
+                                                        <span class="badge bg-white text-dark border">{{ $bq->points }} Pts</span>
+                                                    </div>
+                                                    <span class="fw-semibold text-dark d-block">{{ $bq->question_text }}</span>
+                                                </div>
+                                            </label>
+                                        @empty
+                                            <p class="text-muted small text-center py-3">This bank contains no questions.</p>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+                <div class="modal-footer border-top p-3 px-4">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    @if($banks->isNotEmpty())
+                        <button type="submit" class="btn btn-primary px-4 fw-bold rounded-pill shadow-sm">
+                            <i class="fa-solid fa-copy me-1"></i> Clone Selected Questions into Quiz
+                        </button>
+                    @endif
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal 4: Save Quiz to Question Bank Modal -->
+<div class="modal fade" id="saveToBankModal" tabindex="-1" aria-labelledby="saveToBankModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+            <div class="modal-header border-bottom p-4">
+                <h5 class="modal-title fw-bold text-dark" id="saveToBankModalLabel">
+                    <i class="fa-solid fa-box-archive text-warning me-2"></i>Save Assessment to Question Bank
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{{ route('lms.quizzes.save-to-bank', $quiz->id) }}" method="POST">
+                @csrf
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-3">Export all <strong>{{ $quiz->questions->count() }} questions</strong> from this assessment into an institutional Question Bank so you can reuse them in future quizzes or final exams.</p>
+
+                    @if($banks->isNotEmpty())
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold text-uppercase text-muted">Append to Existing Question Bank</label>
+                            <select name="question_bank_id" class="form-select">
+                                <option value="">-- Or Create New Bank Below --</option>
+                                @foreach($banks as $b)
+                                    <option value="{{ $b->id }}">{{ $b->title }} ({{ $b->questions->count() }} items)</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    @endif
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-uppercase text-muted">Create New Bank Title</label>
+                        <input type="text" name="new_bank_title" class="form-control" placeholder="e.g. {{ $quiz->title }} - Item Bank" value="{{ $quiz->title }} - Bank">
+                    </div>
+                </div>
+                <div class="modal-footer border-top p-3 px-4">
+                    <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-warning px-4 fw-bold rounded-pill">
+                        <i class="fa-solid fa-floppy-disk me-1"></i> Save to Question Bank
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script>
 function handleQuestionTypeChange(val) {
     document.querySelectorAll('.q-type-panel').forEach(el => el.classList.add('d-none'));
@@ -311,6 +483,22 @@ function handleQuestionTypeChange(val) {
     if (target) {
         target.classList.remove('d-none');
     }
+}
+
+function filterBankQuestions(bankId) {
+    document.querySelectorAll('.bank-group-items').forEach(el => el.classList.add('d-none'));
+    if (bankId) {
+        const target = document.getElementById('bank_group_' + bankId);
+        if (target) target.classList.remove('d-none');
+    }
+}
+
+function toggleAllBankCheckboxes(groupId) {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    const checkboxes = group.querySelectorAll('.bank-checkbox');
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    checkboxes.forEach(cb => cb.checked = !allChecked);
 }
 </script>
 @endsection
