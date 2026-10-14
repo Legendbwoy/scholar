@@ -1,4 +1,4 @@
-﻿@extends('layouts.portal')
+@extends('layouts.portal')
 
 @section('title', 'Wards Attendance & Safety — Scholar SMS')
 
@@ -60,9 +60,9 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Status</th>
+                            <th class="text-center" style="width: 140px;">Status</th>
                             <th>Cohort</th>
-                            <th>Verification Checkpoint</th>
+                            <th class="text-center" style="width: 220px;">Verification Checkpoint</th>
                             <th>Faculty Remarks</th>
                         </tr>
                     </thead>
@@ -73,7 +73,7 @@
                                     <div class="fw-semibold text-dark">{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</div>
                                     <small class="text-muted">{{ \Carbon\Carbon::parse($att->date)->format('l') }}</small>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     @if($att->status === 'present')
                                         <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">
                                             <i class="fa-solid fa-check me-1"></i> Present
@@ -93,7 +93,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $ward->schoolClass->name ?? 'Standard Class' }}</td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-light text-secondary border">
                                         <i class="fa-solid fa-fingerprint me-1 text-primary"></i> Main Gate Terminal
                                     </span>

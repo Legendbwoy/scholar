@@ -79,10 +79,23 @@
                     </div>
                 </div>
 
+                @php
+                    $canMark = auth()->user()->isAdmin() || 
+                               (auth()->user()->isTeacher() && (
+                                   auth()->user()->staff?->id == $c->class_teacher_id || 
+                                   (auth()->user()->staff && auth()->user()->staff->courses->where('school_class_id', $c->id)->count() > 0)
+                               ));
+                @endphp
                 <div class="d-flex gap-2">
+                    @if($canMark)
                     <a href="{{ route('attendance.mark', ['classId' => $c->id, 'date' => $date]) }}" class="btn btn-portal-primary rounded-pill w-100 fw-bold">
                         <i class="fa-solid fa-clipboard-user me-1"></i> Open & Seal Register
                     </a>
+                    @else
+                    <a href="{{ route('students.index', ['class_id' => $c->id]) }}" class="btn btn-light rounded-pill w-100">
+                        <i class="fa-solid fa-users me-1"></i> View Class Roster
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>

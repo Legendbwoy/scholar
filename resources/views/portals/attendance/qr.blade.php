@@ -66,16 +66,16 @@
                         <tr class="text-muted small">
                             <th>Timestamp</th>
                             <th>Student</th>
-                            <th>Verification</th>
-                            <th>Status</th>
+                            <th class="text-center">Verification</th>
+                            <th class="text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody id="scanLogBody">
                         <tr>
                             <td><small class="text-muted">08:02:14 AM</small></td>
                             <td><strong>Alexander Cole</strong></td>
-                            <td><span class="badge bg-light text-dark border">QR Scan</span></td>
-                            <td><span class="badge bg-success">Present</span></td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">QR Scan</span></td>
+                            <td class="text-center"><span class="badge bg-success">Present</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -135,8 +135,8 @@
             tr.innerHTML = `
                 <td><small class="text-muted">${data.time}</small></td>
                 <td><strong>${name}</strong></td>
-                <td><span class="badge bg-light text-dark border">Smart QR Pass</span></td>
-                <td><span class="badge bg-success">${data.status}</span></td>
+                <td class="text-center"><span class="badge bg-light text-dark border">Smart QR Pass</span></td>
+                <td class="text-center"><span class="badge bg-success">${data.status}</span></td>
             `;
             scanLogBody.prepend(tr);
         })

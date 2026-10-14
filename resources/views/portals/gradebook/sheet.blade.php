@@ -40,12 +40,12 @@
             <table class="table table-portal align-middle mb-0">
                 <thead>
                     <tr>
-                        <th style="width: 50px;">Roll</th>
+                        <th class="text-center" style="width: 60px;">Roll</th>
                         <th>Student Candidate</th>
-                        <th>Admission #</th>
-                        <th style="width: 170px;">Marks Scored (Max: {{ $assessment->max_marks }})</th>
-                        <th style="width: 90px;">% Score</th>
-                        <th style="width: 80px;">Grade</th>
+                        <th class="text-center" style="width: 130px;">Admission #</th>
+                        <th class="text-center" style="width: 170px;">Marks Scored (Max: {{ $assessment->max_marks }})</th>
+                        <th class="text-center" style="width: 90px;">% Score</th>
+                        <th class="text-center" style="width: 80px;">Grade</th>
                         <th>Instructor Remarks</th>
                     </tr>
                 </thead>
@@ -59,7 +59,7 @@
                             $remarks = $existingGrade ? $existingGrade->remarks : '';
                         @endphp
                         <tr>
-                            <td>
+                            <td class="text-center">
                                 <span class="badge bg-light text-muted border fw-bold">{{ $st->roll_number ?? $loop->iteration }}</span>
                             </td>
                             <td>
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span class="badge bg-light text-dark border">{{ $st->admission_number }}</span>
                             </td>
                             <td>
@@ -90,12 +90,12 @@
                                     <span class="input-group-text bg-light text-muted small">/ {{ $assessment->max_marks }}</span>
                                 </div>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span id="pct_badge_{{ $st->id }}" class="badge bg-light text-dark border fw-bold">
                                     {{ $pct }}%
                                 </span>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <span id="letter_badge_{{ $st->id }}" class="badge bg-{{ in_array($letter, ['A+', 'A']) ? 'success' : (in_array($letter, ['B', 'C']) ? 'primary' : ($letter === 'D' ? 'warning text-dark' : 'danger')) }} rounded-pill px-2.5 py-1">
                                     {{ $letter }}
                                 </span>

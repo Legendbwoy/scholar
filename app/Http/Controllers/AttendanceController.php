@@ -69,6 +69,18 @@ class AttendanceController extends Controller
     public function mark($classId, Request $request)
     {
         $class = SchoolClass::with('students.user', 'students.guardian.user')->findOrFail($classId);
+        $user = auth()->user();
+
+        // Enforce faculty assignment: Teacher must be the Form Master or an assigned course instructor
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $staff = $user->staff;
+            $isAssigned = ($class->class_teacher_id === $staff?->id) ||
+                ($staff && $staff->courses()->where('school_class_id', $classId)->exists());
+            if (!$isAssigned) {
+                abort(403, 'Access Denied: You are not assigned as Form Master or instructor for this academic cohort.');
+            }
+        }
+
         $date = $request->input('date', now()->toDateString());
 
         $existing = Attendance::where('school_class_id', $classId)
@@ -88,6 +100,19 @@ class AttendanceController extends Controller
         ]);
 
         $classId = $request->school_class_id;
+        $class = SchoolClass::findOrFail($classId);
+        $user = auth()->user();
+
+        // Enforce faculty assignment
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $staff = $user->staff;
+            $isAssigned = ($class->class_teacher_id === $staff?->id) ||
+                ($staff && $staff->courses()->where('school_class_id', $classId)->exists());
+            if (!$isAssigned) {
+                abort(403, 'Access Denied: You are not authorized to record attendance for this academic cohort.');
+            }
+        }
+
         $date = $request->date;
         $records = $request->attendances;
         $remarks = $request->remarks ?? [];

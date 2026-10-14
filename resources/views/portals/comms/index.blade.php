@@ -1,4 +1,4 @@
-﻿@extends('layouts.portal')
+@extends('layouts.portal')
 
 @section('title', 'Comms Hub & Broadcasts â€” Scholar SMS')
 
@@ -70,9 +70,9 @@
                     <th>Broadcast Title & Excerpt</th>
                     <th>Audience Scope</th>
                     <th>Channels Utilized</th>
-                    <th>Priority</th>
+                    <th class="text-center">Priority</th>
                     <th>Dispatched By</th>
-                    <th>Timestamp</th>
+                    <th class="text-center">Timestamp</th>
                     <th class="text-end">Delivery Logs</th>
                 </tr>
             </thead>
@@ -96,7 +96,7 @@
                                 </span>
                             @endforeach
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-{{ $b->priority === 'urgent' ? 'danger' : ($b->priority === 'emergency' ? 'danger' : 'primary') }} text-uppercase" style="font-size: 10px;">
                                 {{ $b->priority }}
                             </span>
@@ -104,11 +104,17 @@
                         <td>
                             <div class="small fw-semibold">{{ $b->sender->name ?? 'System' }}</div>
                         </td>
-                        <td><small class="text-muted">{{ $b->created_at->format('M d, Y H:i') }}</small></td>
+                        <td class="text-center"><small class="text-muted">{{ $b->created_at->format('M d, Y H:i') }}</small></td>
                         <td class="text-end">
+                            @if(auth()->user()->isAdmin() || $b->sender_id === auth()->id())
                             <a href="{{ route('broadcasts.show', $b->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                 <i class="fa-solid fa-chart-pie me-1"></i> Logs ({{ $b->deliveries->count() }})
                             </a>
+                            @else
+                            <a href="{{ route('broadcasts.show', $b->id) }}" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                <i class="fa-solid fa-envelope-open-text me-1"></i> View Bulletin
+                            </a>
+                            @endif
                         </td>
                     </tr>
                 @empty
@@ -121,8 +127,11 @@
     </div>
 
     @if($broadcasts->hasPages())
-        <div class="p-3 border-top">
-            {{ $broadcasts->links() }}
+        <div class="p-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-muted">Showing {{ $broadcasts->firstItem() }} to {{ $broadcasts->lastItem() }} of {{ $broadcasts->total() }} bulletins</small>
+            <div>
+                {{ $broadcasts->links() }}
+            </div>
         </div>
     @endif
 </div>

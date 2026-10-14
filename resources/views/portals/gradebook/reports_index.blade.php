@@ -50,13 +50,13 @@
         <table class="table table-portal align-middle mb-0">
             <thead>
                 <tr>
-                    <th style="width: 70px;">Rank</th>
+                    <th class="text-center" style="width: 80px;">Rank</th>
                     <th>Student Candidate</th>
-                    <th>Admission #</th>
-                    <th>Cumulative GPA</th>
-                    <th>Term Score</th>
-                    <th>Attendance</th>
-                    <th>Conduct</th>
+                    <th class="text-center" style="width: 130px;">Admission #</th>
+                    <th class="text-center">Cumulative GPA</th>
+                    <th class="text-center">Term Score</th>
+                    <th class="text-center">Attendance</th>
+                    <th class="text-center">Conduct</th>
                     <th class="text-end">Official Transcript</th>
                 </tr>
             </thead>
@@ -72,7 +72,7 @@
                         $conduct = $rep['conduct'] ?? 'Exemplary';
                     @endphp
                     <tr>
-                        <td>
+                        <td class="text-center">
                             @if($rank === 1)
                                 <span class="badge bg-warning text-dark border shadow-sm px-2.5 py-1 fw-bold">
                                     <i class="fa-solid fa-crown text-dark me-1"></i> 1st
@@ -98,29 +98,29 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-light text-dark border fw-bold">{{ $st->admission_number }}</span>
                         </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="fw-bold fs-6 text-primary">{{ number_format($gpa, 2) }}</div>
+                        <td class="text-center">
+                            <div class="d-inline-flex align-items-center gap-1">
+                                <span class="fw-bold fs-6 text-primary">{{ number_format($gpa, 2) }}</span>
                                 <small class="text-muted">/ 4.0</small>
                             </div>
                         </td>
-                        <td>
-                            <div class="d-flex align-items-center gap-1.5">
+                        <td class="text-center">
+                            <div class="d-inline-flex align-items-center gap-1.5">
                                 <span class="fw-semibold text-dark">{{ $pct }}%</span>
                                 <span class="badge bg-{{ in_array($letter, ['A+', 'A']) ? 'success' : (in_array($letter, ['B', 'C']) ? 'primary' : 'warning text-dark') }} rounded-pill px-2 py-0.5" style="font-size: 11px;">
                                     {{ $letter }}
                                 </span>
                             </div>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-{{ $att >= 90 ? 'success' : ($att >= 75 ? 'warning text-dark' : 'danger') }} rounded-pill px-2.5 py-1">
                                 {{ $att }}%
                             </span>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-info-subtle text-info border border-info-subtle px-2.5 py-1">
                                 {{ $conduct }}
                             </span>

@@ -51,11 +51,11 @@
             <thead>
                 <tr>
                     <th>Student Details</th>
-                    <th>Admission #</th>
+                    <th class="text-center">Admission #</th>
                     <th>Cohort / Class</th>
                     <th>Parent / Guardian</th>
-                    <th>Attendance</th>
-                    <th>Status</th>
+                    <th class="text-center">Attendance</th>
+                    <th class="text-center">Status</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td><span class="badge bg-light text-dark border fw-bold">{{ $s->admission_number }}</span></td>
+                        <td class="text-center"><span class="badge bg-light text-dark border fw-bold">{{ $s->admission_number }}</span></td>
                         <td>
                             <div class="fw-semibold small">{{ $s->schoolClass->name ?? 'Unassigned' }}</div>
                             <small class="text-muted">Section {{ $s->schoolClass->section ?? 'N/A' }} • Roll {{ $s->roll_number }}</small>
@@ -84,12 +84,12 @@
                                 <span class="text-muted small">Independent</span>
                             @endif
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-{{ $s->attendance_rate >= 90 ? 'success' : ($s->attendance_rate >= 75 ? 'warning text-dark' : 'danger') }} rounded-pill px-3 py-1">
                                 {{ $s->attendance_rate }}%
                             </span>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-{{ $s->status === 'active' ? 'success' : ($s->status === 'suspended' ? 'danger' : 'secondary') }}-subtle text-{{ $s->status === 'active' ? 'success' : ($s->status === 'suspended' ? 'danger' : 'secondary') }} text-capitalize">
                                 {{ $s->status }}
                             </span>
@@ -152,8 +152,11 @@
     </div>
 
     @if($students->hasPages())
-        <div class="p-3 border-top">
-            {{ $students->links() }}
+        <div class="p-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-muted">Showing {{ $students->firstItem() }} to {{ $students->lastItem() }} of {{ $students->total() }} students</small>
+            <div>
+                {{ $students->links() }}
+            </div>
         </div>
     @endif
 </div>

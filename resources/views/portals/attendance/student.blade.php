@@ -1,4 +1,4 @@
-﻿@extends('layouts.portal')
+@extends('layouts.portal')
 
 @section('title', 'My Attendance Standing — Scholar SMS')
 
@@ -83,9 +83,9 @@
             <thead>
                 <tr>
                     <th>Date</th>
-                    <th>Status</th>
+                    <th class="text-center" style="width: 140px;">Status</th>
                     <th>Cohort / Class</th>
-                    <th>Verification Source</th>
+                    <th class="text-center" style="width: 220px;">Verification Source</th>
                     <th>Official Remarks</th>
                 </tr>
             </thead>
@@ -96,7 +96,7 @@
                             <div class="fw-bold text-dark">{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</div>
                             <small class="text-muted">{{ \Carbon\Carbon::parse($att->date)->format('l') }}</small>
                         </td>
-                        <td>
+                        <td class="text-center">
                             @if($att->status === 'present')
                                 <span class="badge bg-success-subtle text-success px-3 py-1 rounded-pill">
                                     <i class="fa-solid fa-check me-1"></i> Present
@@ -116,7 +116,7 @@
                             @endif
                         </td>
                         <td>{{ $att->schoolClass->name ?? 'Standard Class' }}</td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-light text-secondary border">
                                 <i class="fa-solid fa-qrcode me-1 text-primary"></i> QR / Biometric Terminal
                             </span>

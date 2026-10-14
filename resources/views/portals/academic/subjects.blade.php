@@ -21,34 +21,45 @@
             <thead>
                 <tr>
                     <th>Subject Name</th>
-                    <th>Code</th>
-                    <th>Grade / Cohort</th>
-                    <th>Credit Hours</th>
+                    <th class="text-center">Code</th>
+                    <th class="text-center">Grade / Cohort</th>
+                    <th class="text-center">Credit Hours</th>
                     <th>Faculty Lead</th>
                     <th>Description</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($subjects as $sub)
+                @forelse($subjects as $sub)
                     <tr>
                         <td>
                             <div class="fw-bold text-dark">{{ $sub->name }}</div>
                         </td>
-                        <td><span class="badge bg-light text-dark border fw-bold">{{ $sub->code }}</span></td>
-                        <td><span class="badge bg-primary-subtle text-primary">{{ $sub->schoolClass->name ?? 'Core' }}</span></td>
-                        <td><strong>{{ $sub->credit_hours }} Credits</strong></td>
+                        <td class="text-center"><span class="badge bg-light text-dark border fw-bold">{{ $sub->code }}</span></td>
+                        <td class="text-center"><span class="badge bg-primary-subtle text-primary">{{ $sub->schoolClass->name ?? 'Core' }}</span></td>
+                        <td class="text-center"><strong>{{ $sub->credit_hours }} Credits</strong></td>
                         <td>
                             <div class="small fw-semibold">{{ $sub->teacher->user->name ?? 'Departmental Faculty' }}</div>
                             <small class="text-muted">{{ $sub->teacher->designation ?? '' }}</small>
                         </td>
                         <td><small class="text-muted">{{ Str::limit($sub->description, 70) }}</small></td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="text-center py-5 text-muted">No curriculum subjects registered yet.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
+
+    @if($subjects->hasPages())
+        <div class="p-3 border-top">
+            {{ $subjects->links() }}
+        </div>
+    @endif
 </div>
 
+@if(auth()->user()->isAdmin())
 <!-- Create Subject Modal -->
 <div class="modal fade" id="createSubjectModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -105,4 +116,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection

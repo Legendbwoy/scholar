@@ -69,18 +69,18 @@
                     <thead>
                         <tr>
                             <th>Subject / Course</th>
-                            <th>Code</th>
+                            <th class="text-center">Code</th>
                             <th>Cohort</th>
-                            <th>LMS Materials</th>
+                            <th class="text-center">LMS Materials</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($staff->courses as $c)
                             <tr>
                                 <td><strong>{{ $c->title }}</strong></td>
-                                <td><span class="badge bg-light text-dark border">{{ $c->code }}</span></td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $c->code }}</span></td>
                                 <td>{{ $c->schoolClass->name ?? 'General' }}</td>
-                                <td><span class="badge bg-primary">{{ $c->materials->count() }} Materials</span></td>
+                                <td class="text-center"><span class="badge bg-primary">{{ $c->materials->count() }} Materials</span></td>
                             </tr>
                         @empty
                             <tr><td colspan="4" class="text-center py-4 text-muted">No course assignments linked to this profile.</td></tr>

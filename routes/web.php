@@ -64,6 +64,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/academic/classes', [AcademicController::class, 'storeClass'])->name('academic.classes.store');
     Route::post('/academic/subjects', [AcademicController::class, 'storeSubject'])->name('academic.subjects.store');
 
+    // LMS Academic Catalog Purging (Admin Exclusive)
+    Route::delete('/courses/{id}', [CourseController::class, 'destroy'])->whereNumber('id')->name('courses.destroy');
+
     // Security Ledger & Cryptographic Verification Audit Trail
     Route::get('/audit', [AuditController::class, 'index'])->name('audit.index');
     Route::get('/audit/verify', [AuditController::class, 'verify'])->name('audit.verify');
@@ -87,7 +90,6 @@ Route::middleware(['auth', 'role:admin,teacher'])->group(function () {
     Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
     Route::get('/courses/{id}/edit', [CourseController::class, 'edit'])->whereNumber('id')->name('courses.edit');
     Route::put('/courses/{id}', [CourseController::class, 'update'])->whereNumber('id')->name('courses.update');
-    Route::delete('/courses/{id}', [CourseController::class, 'destroy'])->whereNumber('id')->name('courses.destroy');
     Route::post('/courses/{id}/materials', [CourseController::class, 'storeMaterial'])->whereNumber('id')->name('courses.materials.store');
     Route::delete('/materials/{id}', [CourseController::class, 'destroyMaterial'])->whereNumber('id')->name('materials.destroy');
 

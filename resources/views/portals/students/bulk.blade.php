@@ -188,49 +188,49 @@
                     <thead class="table-light">
                         <tr>
                             <th>Column Header</th>
-                            <th>Requirement</th>
+                            <th class="text-center">Requirement</th>
                             <th>Formatting Rule</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td><strong class="text-dark">Full Name</strong></td>
-                            <td><span class="badge bg-danger-subtle text-danger">Required</span></td>
+                            <td class="text-center"><span class="badge bg-danger-subtle text-danger">Required</span></td>
                             <td>Student legal name (max 150 chars)</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Email Address</strong></td>
-                            <td><span class="badge bg-danger-subtle text-danger">Required</span></td>
+                            <td class="text-center"><span class="badge bg-danger-subtle text-danger">Required</span></td>
                             <td>Must be unique institutional or personal email</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Class / Cohort</strong></td>
-                            <td><span class="badge bg-warning-subtle text-dark">Recommended</span></td>
+                            <td class="text-center"><span class="badge bg-warning-subtle text-dark">Recommended</span></td>
                             <td>Cohort Name or Section (e.g. <code>Grade 10 - Alpha</code>)</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Gender</strong></td>
-                            <td><span class="badge bg-light text-muted border">Optional</span></td>
+                            <td class="text-center"><span class="badge bg-light text-muted border">Optional</span></td>
                             <td><code>Male</code>, <code>Female</code>, or <code>Other</code></td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Date of Birth</strong></td>
-                            <td><span class="badge bg-light text-muted border">Optional</span></td>
+                            <td class="text-center"><span class="badge bg-light text-muted border">Optional</span></td>
                             <td>Format: <code>YYYY-MM-DD</code> (e.g. 2009-04-12)</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Blood Group</strong></td>
-                            <td><span class="badge bg-light text-muted border">Optional</span></td>
+                            <td class="text-center"><span class="badge bg-light text-muted border">Optional</span></td>
                             <td>e.g. <code>O+</code>, <code>A+</code>, <code>B+</code> (Default: O+)</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Guardian Name</strong></td>
-                            <td><span class="badge bg-light text-muted border">Optional</span></td>
+                            <td class="text-center"><span class="badge bg-light text-muted border">Optional</span></td>
                             <td>Parent / Guardian contact person</td>
                         </tr>
                         <tr>
                             <td><strong class="text-dark">Guardian Email</strong></td>
-                            <td><span class="badge bg-light text-muted border">Optional</span></td>
+                            <td class="text-center"><span class="badge bg-light text-muted border">Optional</span></td>
                             <td>Creates or links parent account for SMS alerts</td>
                         </tr>
                     </tbody>

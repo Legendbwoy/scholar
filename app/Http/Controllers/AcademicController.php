@@ -12,7 +12,7 @@ class AcademicController extends Controller
 {
     public function classes()
     {
-        $classes = SchoolClass::with(['classTeacher.user', 'subjects'])->withCount('students')->get();
+        $classes = SchoolClass::with(['classTeacher.user', 'subjects'])->withCount('students')->paginate(12);
         $staffMembers = Staff::with('user')->get();
         return view('portals.academic.classes', compact('classes', 'staffMembers'));
     }
@@ -42,7 +42,7 @@ class AcademicController extends Controller
 
     public function subjects()
     {
-        $subjects = Subject::with(['schoolClass', 'teacher.user'])->get();
+        $subjects = Subject::with(['schoolClass', 'teacher.user'])->paginate(15);
         $classes = SchoolClass::all();
         $teachers = Staff::with('user')->get();
         return view('portals.academic.subjects', compact('subjects', 'classes', 'teachers'));

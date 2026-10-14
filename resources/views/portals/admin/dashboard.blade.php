@@ -84,9 +84,9 @@
                         <tr>
                             <th>Class & Section</th>
                             <th>Class Teacher</th>
-                            <th>Room</th>
+                            <th class="text-center">Room</th>
                             <th>Enrollment</th>
-                            <th>Quick Action</th>
+                            <th class="text-end">Quick Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -100,7 +100,7 @@
                                     <div class="small fw-semibold">{{ $c->classTeacher->user->name ?? 'Unassigned' }}</div>
                                     <small class="text-muted">{{ $c->classTeacher->designation ?? '' }}</small>
                                 </td>
-                                <td><span class="badge bg-light text-dark border">{{ $c->room_number ?? 'TBD' }}</span></td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $c->room_number ?? 'TBD' }}</span></td>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="progress flex-grow-1" style="height: 6px;">
@@ -109,7 +109,7 @@
                                         <small class="fw-bold">{{ $c->students_count }}/{{ $c->capacity }}</small>
                                     </div>
                                 </td>
-                                <td>
+                                <td class="text-end">
                                     <a href="{{ route('attendance.mark', $c->id) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
                                         <i class="fa-solid fa-clipboard-check me-1"></i> Register
                                     </a>

@@ -1,4 +1,4 @@
-﻿@extends('layouts.portal')
+@extends('layouts.portal')
 
 @section('title', 'Student Profile 360 â€” Scholar SMS')
 
@@ -101,8 +101,8 @@
                     <thead>
                         <tr>
                             <th>Date</th>
-                            <th>Status</th>
-                            <th>Verification Method</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Verification Method</th>
                             <th>Remarks</th>
                         </tr>
                     </thead>
@@ -110,12 +110,12 @@
                         @forelse($attendances as $att)
                             <tr>
                                 <td><strong>{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</strong></td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-{{ $att->status === 'present' ? 'success' : ($att->status === 'late' ? 'warning text-dark' : 'danger') }} text-capitalize">
                                         {{ $att->status }}
                                     </span>
                                 </td>
-                                <td><span class="badge bg-light text-dark border">{{ ucfirst($att->method) }}</span></td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">{{ ucfirst($att->method) }}</span></td>
                                 <td><small class="text-muted">{{ $att->remarks ?? 'On-time standard verification' }}</small></td>
                             </tr>
                         @empty
@@ -124,6 +124,14 @@
                     </tbody>
                 </table>
             </div>
+            @if($attendances->hasPages())
+                <div class="pt-3 mt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <small class="text-muted">Showing {{ $attendances->firstItem() }} to {{ $attendances->lastItem() }} of {{ $attendances->total() }} entries</small>
+                    <div>
+                        {{ $attendances->links() }}
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

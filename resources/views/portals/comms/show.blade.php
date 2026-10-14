@@ -55,9 +55,9 @@
                     <thead>
                         <tr class="text-muted small">
                             <th>Recipient</th>
-                            <th>Channel</th>
+                            <th class="text-center">Channel</th>
                             <th>Contact / Endpoint</th>
-                            <th>Status</th>
+                            <th class="text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,13 +67,13 @@
                                     <div class="fw-bold small">{{ $del->recipient->name ?? 'User' }}</div>
                                     <small class="text-muted text-capitalize">{{ $del->recipient->role ?? '' }}</small>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-light text-dark border text-uppercase" style="font-size: 11px;">
                                         {{ $del->channel }}
                                     </span>
                                 </td>
                                 <td><small class="text-muted">{{ $del->recipient_contact }}</small></td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-success text-white">
                                         <i class="fa-solid fa-check me-1"></i> {{ ucfirst($del->status) }}
                                     </span>

@@ -38,10 +38,10 @@
             <table class="table table-portal align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>Roll #</th>
+                        <th class="text-center" style="width: 70px;">Roll #</th>
                         <th>Student Name</th>
                         <th>Guardian Contact</th>
-                        <th>Attendance Status</th>
+                        <th class="text-center" style="width: 320px;">Attendance Status</th>
                         <th>Remarks / Reason</th>
                     </tr>
                 </thead>
@@ -52,7 +52,7 @@
                             $currentRemarks = $existing[$s->id]->remarks ?? '';
                         @endphp
                         <tr>
-                            <td><span class="badge bg-light text-dark border">{{ $s->roll_number }}</span></td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">{{ $s->roll_number }}</span></td>
                             <td>
                                 <div class="d-flex align-items-center gap-2">
                                     <img src="{{ asset($s->user->avatar ?? 'scholar/assets/images/event-01.jpg') }}" class="rounded-circle" style="width: 36px; height: 36px; object-fit: cover;">
@@ -66,7 +66,7 @@
                                 <small class="d-block">{{ $s->guardian->user->name ?? 'None' }}</small>
                                 <small class="text-muted">{{ $s->guardian->user->phone ?? 'Unlinked' }}</small>
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check status-present" name="attendances[{{ $s->id }}]" id="pres_{{ $s->id }}" value="present" {{ $currentStatus === 'present' ? 'checked' : '' }}>
                                     <label class="btn btn-outline-success btn-sm px-3" for="pres_{{ $s->id }}">Present</label>

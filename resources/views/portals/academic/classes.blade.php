@@ -46,10 +46,19 @@
                     </div>
                 </div>
 
+                @php
+                    $canMark = auth()->user()->isAdmin() || 
+                               (auth()->user()->isTeacher() && (
+                                   auth()->user()->staff?->id == $c->class_teacher_id || 
+                                   (auth()->user()->staff && auth()->user()->staff->courses->where('school_class_id', $c->id)->count() > 0)
+                               ));
+                @endphp
                 <div class="d-flex gap-2">
+                    @if($canMark)
                     <a href="{{ route('attendance.mark', $c->id) }}" class="btn btn-sm btn-outline-primary rounded-pill w-100">
                         <i class="fa-solid fa-clipboard-check me-1"></i> Mark Register
                     </a>
+                    @endif
                     <a href="{{ route('students.index', ['class_id' => $c->id]) }}" class="btn btn-sm btn-light rounded-pill w-100">
                         View Students
                     </a>
@@ -59,6 +68,13 @@
     @endforeach
 </div>
 
+@if($classes->hasPages())
+    <div class="portal-card p-3 mt-4">
+        {{ $classes->links() }}
+    </div>
+@endif
+
+@if(auth()->user()->isAdmin())
 <!-- Create Class Modal -->
 <div class="modal fade" id="createClassModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -112,4 +128,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection

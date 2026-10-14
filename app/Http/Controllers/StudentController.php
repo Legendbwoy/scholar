@@ -467,7 +467,7 @@ class StudentController extends Controller
             }
         }
 
-        $attendances = $student->attendances()->orderBy('date', 'desc')->take(20)->get();
+        $attendances = $student->attendances()->orderBy('date', 'desc')->paginate(10);
 
         return view('portals.students.show', compact('student', 'attendances'));
     }

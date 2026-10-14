@@ -31,12 +31,17 @@
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Target Recipient Audience *</label>
                 <select name="target_audience" id="audienceSelect" class="form-select" required>
+                    @if(auth()->user()->isAdmin())
                     <option value="all">Entire School Community (All Faculty, Students & Guardians)</option>
                     <option value="teachers">Faculty & Staff Members Only</option>
+                    @endif
                     <option value="students">Enrolled Students Only</option>
                     <option value="parents">Guardians & Parents Only</option>
                     <option value="class">Specific Academic Cohort / Class</option>
                 </select>
+                @if(!auth()->user()->isAdmin())
+                <small class="text-muted"><i class="fa-solid fa-circle-info me-1"></i> Faculty members can dispatch to students, parents, and assigned cohort classes.</small>
+                @endif
             </div>
 
             <div class="col-md-6" id="cohortSelectWrap" style="display: none;">

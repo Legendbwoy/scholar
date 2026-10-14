@@ -33,16 +33,16 @@
             <thead>
                 <tr>
                     <th>Faculty Member</th>
-                    <th>Employee ID</th>
-                    <th>Department</th>
+                    <th class="text-center">Employee ID</th>
+                    <th class="text-center">Department</th>
                     <th>Designation</th>
                     <th>Specialization / Credentials</th>
-                    <th>Master Cohort</th>
+                    <th class="text-center">Master Cohort</th>
                     <th class="text-end">Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($staffMembers as $s)
+                @forelse($staffMembers as $s)
                     <tr>
                         <td>
                             <div class="d-flex align-items-center gap-3">
@@ -53,14 +53,14 @@
                                 </div>
                             </div>
                         </td>
-                        <td><span class="badge bg-light text-dark border fw-bold">{{ $s->employee_id }}</span></td>
-                        <td><span class="badge bg-primary-subtle text-primary">{{ $s->department->name ?? 'Academics' }}</span></td>
+                        <td class="text-center"><span class="badge bg-light text-dark border fw-bold">{{ $s->employee_id }}</span></td>
+                        <td class="text-center"><span class="badge bg-primary-subtle text-primary">{{ $s->department->name ?? 'Academics' }}</span></td>
                         <td><div class="small fw-semibold">{{ $s->designation }}</div></td>
                         <td>
                             <small class="d-block fw-semibold text-secondary">{{ $s->qualification }}</small>
                             <small class="text-muted">{{ $s->specialization }}</small>
                         </td>
-                        <td>
+                        <td class="text-center">
                             @if($s->classesAsTeacher->count() > 0)
                                 <span class="badge bg-success-subtle text-success border border-success">
                                     {{ $s->classesAsTeacher->first()->name }}
@@ -93,9 +93,19 @@
                             </div>
                         </td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">No faculty or staff records registered.</td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
+
+    @if($staffMembers->hasPages())
+        <div class="p-3 border-top">
+            {{ $staffMembers->links() }}
+        </div>
+    @endif
 </div>
 @endsection

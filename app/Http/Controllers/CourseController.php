@@ -14,10 +14,31 @@ class CourseController extends Controller
 {
     public function index()
     {
-        $courses = Course::with(['teacher.user', 'schoolClass', 'subject', 'materials'])->paginate(12);
+        $user = auth()->user();
         $classes = SchoolClass::all();
         $subjects = Subject::all();
         $teachers = Staff::with('user')->get();
+
+        $query = Course::with(['teacher.user', 'schoolClass', 'subject', 'materials']);
+
+        // Role-based scoping: Students only see courses of their enrolled cohort
+        if ($user && $user->isStudent()) {
+            $student = $user->student;
+            if ($student && $student->school_class_id) {
+                $query->where('school_class_id', $student->school_class_id);
+            }
+        } elseif ($user && $user->isParent()) {
+            // Guardians see courses relevant to their registered wards' cohorts
+            $guardian = $user->guardian;
+            if ($guardian) {
+                $wardClassIds = $guardian->students->pluck('school_class_id')->filter()->unique()->toArray();
+                if (!empty($wardClassIds)) {
+                    $query->whereIn('school_class_id', $wardClassIds);
+                }
+            }
+        }
+
+        $courses = $query->paginate(12);
 
         return view('portals.courses.index', compact('courses', 'classes', 'subjects', 'teachers'));
     }
@@ -39,6 +60,8 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
+        $user = auth()->user();
+
         $validated = $request->validate([
             'title' => 'required|string|max:200',
             'code' => 'required|string|unique:courses,code|max:50',
@@ -50,6 +73,11 @@ class CourseController extends Controller
             'total_lessons' => 'nullable|integer|min:1|max:100',
             'description' => 'nullable|string',
         ]);
+
+        // If a teacher provisions a course, enforce assignment to their own staff profile
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $validated['teacher_id'] = $user->staff?->id ?? $validated['teacher_id'];
+        }
 
         $validated['thumbnail'] = 'scholar/assets/images/course-01.jpg';
         $validated['is_published'] = true;
@@ -70,6 +98,13 @@ class CourseController extends Controller
     public function edit($id)
     {
         $course = Course::findOrFail($id);
+        $user = auth()->user();
+
+        // Enforce ownership: Only Admin or the assigned course faculty can edit syllabus
+        if (!$user->isAdmin() && (!$user->isTeacher() || $user->staff?->id !== $course->teacher_id)) {
+            abort(403, 'Unauthorized: Only the assigned instructor or an administrator can modify this course syllabus.');
+        }
+
         $classes = SchoolClass::all();
         $subjects = Subject::all();
         $teachers = Staff::with('user')->get();
@@ -80,6 +115,12 @@ class CourseController extends Controller
     public function update(Request $request, $id)
     {
         $course = Course::findOrFail($id);
+        $user = auth()->user();
+
+        // Enforce ownership
+        if (!$user->isAdmin() && (!$user->isTeacher() || $user->staff?->id !== $course->teacher_id)) {
+            abort(403, 'Unauthorized: Only the assigned instructor or an administrator can modify this course syllabus.');
+        }
 
         $validated = $request->validate([
             'title' => 'required|string|max:200',
@@ -93,6 +134,10 @@ class CourseController extends Controller
             'is_published' => 'required|boolean',
             'description' => 'nullable|string',
         ]);
+
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $validated['teacher_id'] = $course->teacher_id; // prevent teacher from changing instructor ownership
+        }
 
         $oldValues = [
             'title' => $course->title,
@@ -116,6 +161,13 @@ class CourseController extends Controller
 
     public function destroy($id)
     {
+        $user = auth()->user();
+
+        // Purging courses from catalog is strictly an administrator privilege
+        if (!$user->isAdmin()) {
+            abort(403, 'Unauthorized: Course deletion is restricted to System Administrators.');
+        }
+
         $course = Course::findOrFail($id);
         $title = $course->title;
         $code = $course->code;
@@ -135,6 +187,12 @@ class CourseController extends Controller
     public function storeMaterial(Request $request, $courseId)
     {
         $course = Course::findOrFail($courseId);
+        $user = auth()->user();
+
+        // Only Admin or the assigned course teacher can upload materials
+        if (!$user->isAdmin() && (!$user->isTeacher() || $user->staff?->id !== $course->teacher_id)) {
+            abort(403, 'Unauthorized: Only the assigned course instructor or an administrator can publish course materials.');
+        }
 
         $validated = $request->validate([
             'title' => 'required|string|max:200',
@@ -200,7 +258,14 @@ class CourseController extends Controller
 
     public function destroyMaterial($id)
     {
-        $material = CourseMaterial::findOrFail($id);
+        $material = CourseMaterial::with('course')->findOrFail($id);
+        $user = auth()->user();
+
+        // Enforce ownership: Only Admin or the assigned course faculty can delete materials
+        if (!$user->isAdmin() && (!$user->isTeacher() || $user->staff?->id !== $material->course?->teacher_id)) {
+            abort(403, 'Unauthorized: Only the assigned instructor or an administrator can delete course materials.');
+        }
+
         $courseId = $material->course_id;
         $title = $material->title;
 

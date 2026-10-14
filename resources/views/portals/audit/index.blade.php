@@ -60,11 +60,11 @@
             <thead>
                 <tr>
                     <th>Timestamp</th>
-                    <th>Action</th>
+                    <th class="text-center">Action</th>
                     <th>Actor / Operator</th>
                     <th>Description</th>
-                    <th>IP / Endpoint</th>
-                    <th>Cryptographic SHA-256 Hash</th>
+                    <th class="text-center">IP / Endpoint</th>
+                    <th class="text-center">Cryptographic SHA-256 Hash</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,7 +74,7 @@
                             <strong class="d-block small text-dark">{{ $log->created_at->format('M d, Y') }}</strong>
                             <small class="text-muted">{{ $log->created_at->format('H:i:s') }}</small>
                         </td>
-                        <td>
+                        <td class="text-center">
                             <span class="badge bg-light text-dark border fw-bold">{{ $log->action }}</span>
                         </td>
                         <td>
@@ -84,9 +84,9 @@
                         <td>
                             <span class="small">{{ $log->description }}</span>
                         </td>
-                        <td><small class="text-muted">{{ $log->ip_address }}</small></td>
-                        <td>
-                            <div class="text-truncate" style="max-width: 200px; font-family: monospace; font-size: 11px;" title="{{ $log->record_hash }}">
+                        <td class="text-center"><small class="text-muted">{{ $log->ip_address }}</small></td>
+                        <td class="text-center">
+                            <div class="d-inline-block text-truncate" style="max-width: 200px; font-family: monospace; font-size: 11px;" title="{{ $log->record_hash }}">
                                 <span class="badge bg-dark-subtle text-dark border">{{ substr($log->record_hash, 0, 16) }}...</span>
                             </div>
                         </td>
@@ -99,8 +99,11 @@
     </div>
 
     @if($audits->hasPages())
-        <div class="p-3 border-top">
-            {{ $audits->links() }}
+        <div class="p-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <small class="text-muted">Showing {{ $audits->firstItem() }} to {{ $audits->lastItem() }} of {{ $audits->total() }} audit events</small>
+            <div>
+                {{ $audits->links() }}
+            </div>
         </div>
     @endif
 </div>

@@ -79,20 +79,20 @@
                     <thead>
                         <tr class="text-muted small">
                             <th>Date</th>
-                            <th>Status</th>
-                            <th>Verification</th>
+                            <th class="text-center">Status</th>
+                            <th class="text-center">Verification</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($attendances as $att)
                             <tr>
                                 <td class="small">{{ \Carbon\Carbon::parse($att->date)->format('M d, Y') }}</td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-{{ $att->status === 'present' ? 'success' : ($att->status === 'late' ? 'warning text-dark' : 'danger') }} text-capitalize">
                                         {{ $att->status }}
                                     </span>
                                 </td>
-                                <td><small class="text-muted">{{ ucfirst($att->method) }}</small></td>
+                                <td class="text-center"><small class="text-muted">{{ ucfirst($att->method) }}</small></td>
                             </tr>
                         @empty
                             <tr><td colspan="3" class="text-center text-muted py-3">No attendance records yet.</td></tr>
@@ -106,19 +106,32 @@
 
 <!-- Broadcasts Noticeboard -->
 <div class="portal-card p-4">
-    <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullhorn text-warning me-2"></i>School Announcements & Comms</h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0"><i class="fa-solid fa-bullhorn text-warning me-2"></i>Campus Announcements & Bulletins</h5>
+        <a href="{{ route('broadcasts.index') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+            Noticeboard <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+    </div>
     <div class="row g-3">
-        @foreach($broadcasts as $b)
+        @forelse($broadcasts as $b)
             <div class="col-md-6">
-                <div class="p-3 bg-light rounded-3 border h-100">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="text-dark small">{{ $b->title }}</strong>
-                        <small class="text-muted">{{ $b->created_at->diffForHumans() }}</small>
+                <a href="{{ route('broadcasts.show', $b->id) }}" class="text-decoration-none">
+                    <div class="p-3 bg-light rounded-3 border h-100 hover-shadow transition">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="text-dark small">{{ $b->title }}</strong>
+                            <small class="text-muted">{{ $b->created_at->diffForHumans() }}</small>
+                        </div>
+                        <p class="text-muted small mb-0">{{ Str::limit($b->message, 120) }}</p>
                     </div>
-                    <p class="text-muted small mb-0">{{ $b->message }}</p>
+                </a>
+            </div>
+        @empty
+            <div class="col-12">
+                <div class="p-3 bg-light rounded-3 text-center text-muted small">
+                    No active cohort bulletins at this time.
                 </div>
             </div>
-        @endforeach
+        @endforelse
     </div>
 </div>
 @endsection

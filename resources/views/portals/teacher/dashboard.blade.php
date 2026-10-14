@@ -98,16 +98,25 @@
 
     <div class="col-lg-6">
         <div class="portal-card p-4">
-            <h5 class="fw-bold mb-3"><i class="fa-solid fa-bullhorn text-danger me-2"></i>Campus Notices & Broadcasts</h5>
-            @foreach($broadcasts as $b)
-                <div class="p-3 bg-light rounded-3 mb-2">
-                    <div class="d-flex justify-content-between align-items-center mb-1">
-                        <strong class="small text-dark">{{ $b->title }}</strong>
-                        <span class="badge bg-{{ $b->priority === 'urgent' ? 'danger' : 'primary' }}">{{ $b->priority }}</span>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="fw-bold mb-0"><i class="fa-solid fa-bullhorn text-danger me-2"></i>Campus Notices & Broadcasts</h5>
+                <a href="{{ route('broadcasts.index') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                    Noticeboard <i class="fa-solid fa-arrow-right ms-1"></i>
+                </a>
+            </div>
+            @forelse($broadcasts as $b)
+                <a href="{{ route('broadcasts.show', $b->id) }}" class="text-decoration-none">
+                    <div class="p-3 bg-light rounded-3 mb-2 hover-shadow transition">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <strong class="small text-dark">{{ $b->title }}</strong>
+                            <span class="badge bg-{{ $b->priority === 'urgent' ? 'danger' : 'primary' }}">{{ $b->priority }}</span>
+                        </div>
+                        <p class="text-muted small mb-0">{{ Str::limit($b->message, 100) }}</p>
                     </div>
-                    <p class="text-muted small mb-0">{{ Str::limit($b->message, 100) }}</p>
-                </div>
-            @endforeach
+                </a>
+            @empty
+                <div class="text-muted text-center py-3">No active faculty announcements.</div>
+            @endforelse
         </div>
     </div>
 </div>

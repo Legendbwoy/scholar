@@ -19,8 +19,19 @@ class GradebookController extends Controller
      */
     public function index(Request $request)
     {
+        $user = Auth::user();
         $classes = SchoolClass::with('classTeacher.user')->get();
-        $selectedClassId = $request->get('class_id', $classes->first()?->id);
+
+        // Default cohort: For teachers, prioritize their assigned cohort
+        $defaultClassId = $classes->first()?->id;
+        if ($user && $user->isTeacher() && $user->staff) {
+            $myClass = $classes->firstWhere('class_teacher_id', $user->staff->id);
+            if ($myClass) {
+                $defaultClassId = $myClass->id;
+            }
+        }
+
+        $selectedClassId = $request->get('class_id', $defaultClassId);
         $selectedTerm = $request->get('term', 'Term 1');
         $selectedSubjectId = $request->get('subject_id');
 
@@ -103,6 +114,13 @@ class GradebookController extends Controller
     public function destroy($id)
     {
         $assessment = Assessment::findOrFail($id);
+        $user = Auth::user();
+
+        // Enforce ownership: Admin or assigned teacher
+        if (!$user->isAdmin() && (!$user->isTeacher() || $user->staff?->id !== $assessment->teacher_id)) {
+            abort(403, 'Unauthorized: Only the assigned assessment instructor or an administrator can delete assessments.');
+        }
+
         $title = $assessment->title;
         $assessment->delete();
 
@@ -122,6 +140,19 @@ class GradebookController extends Controller
     public function sheet($id)
     {
         $assessment = Assessment::with(['subject', 'schoolClass', 'teacher.user'])->findOrFail($id);
+        $user = Auth::user();
+
+        // Enforce assignment: Teacher must instruct this assessment, subject, or class
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $staff = $user->staff;
+            $isAssigned = ($assessment->teacher_id === $staff?->id) ||
+                ($assessment->schoolClass->class_teacher_id === $staff?->id) ||
+                ($assessment->subject->teacher_id === $staff?->id);
+            if (!$isAssigned) {
+                abort(403, 'Access Denied: You are not authorized to grade assessments for this subject or cohort.');
+            }
+        }
+
         $students = Student::where('school_class_id', $assessment->school_class_id)
             ->with(['user', 'grades' => function ($q) use ($assessment) {
                 $q->where('assessment_id', $assessment->id);
@@ -136,7 +167,20 @@ class GradebookController extends Controller
      */
     public function updateBatch(Request $request, $id)
     {
-        $assessment = Assessment::findOrFail($id);
+        $assessment = Assessment::with(['subject', 'schoolClass'])->findOrFail($id);
+        $user = Auth::user();
+
+        // Enforce assignment
+        if (!$user->isAdmin() && $user->isTeacher()) {
+            $staff = $user->staff;
+            $isAssigned = ($assessment->teacher_id === $staff?->id) ||
+                ($assessment->schoolClass->class_teacher_id === $staff?->id) ||
+                ($assessment->subject->teacher_id === $staff?->id);
+            if (!$isAssigned) {
+                abort(403, 'Access Denied: You are not authorized to record student grades for this assessment.');
+            }
+        }
+
         $scoresData = $request->input('grades', []);
         if (is_string($scoresData)) {
             $scoresData = json_decode($scoresData, true) ?? [];

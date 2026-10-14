@@ -20,6 +20,8 @@
             <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#uploadMaterialModal">
                 <i class="fa-solid fa-cloud-arrow-up me-1"></i> Upload Material
             </button>
+            @endif
+            @if(auth()->user()->isAdmin())
             <form action="{{ route('courses.destroy', $course->id) }}" method="POST" class="d-inline confirm-action" 
                   data-confirm-title="Delete Academic Course?" 
                   data-confirm-text="Deleting '{{ $course->title }}' ({{ $course->code }}) will purge associated course files and syllabi from student portals." 
@@ -120,6 +122,7 @@
     </div>
 </div>
 
+@if(auth()->user()->isAdmin() || (auth()->user()->isTeacher() && auth()->user()->staff?->id == $course->teacher_id))
 <!-- Upload Material Modal -->
 <div class="modal fade" id="uploadMaterialModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -317,4 +320,5 @@
     }
 </script>
 @endsection
+@endif
 @endsection
