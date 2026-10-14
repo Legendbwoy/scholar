@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Scholar SMS — Comprehensive Executive Summary & Systems Blueprint</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 18mm 16mm 20mm 16mm;
+            @bottom-right {
+                content: "Page " counter(page) " of " counter(pages);
+                font-size: 8.5pt;
+                color: #64748b;
+                font-family: 'Segoe UI', Arial, sans-serif;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            font-size: 9.5pt;
+            line-height: 1.55;
+            color: #1e293b;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cover Page */
+        .cover-page {
+            height: 100vh;
+            min-height: 250mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            page-break-after: always;
+            padding: 20mm 10mm 15mm 10mm;
+            position: relative;
+        }
+
+        .cover-top-badge {
+            display: inline-block;
+            background: #009961;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 9pt;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+        }
+
+        .cover-title {
+            font-size: 32pt;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.15;
+            margin: 0 0 12px 0;
+        }
+
+        .cover-subtitle {
+            font-size: 14pt;
+            font-weight: 500;
+            color: #009961;
+            margin: 0 0 25px 0;
+            line-height: 1.4;
+        }
+
+        .cover-desc {
+            font-size: 10.5pt;
+            color: #475569;
+            line-height: 1.6;
+            max-width: 90%;
+            border-left: 3px solid #009961;
+            padding-left: 18px;
+            margin-bottom: 40px;
+        }
+
+        .cover-meta-grid {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .meta-item label {
+            display: block;
+            font-size: 7.5pt;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #64748b;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+        }
+
+        .meta-item span {
+            font-size: 9.5pt;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .cover-footer {
+            border-top: 1px solid #e2e8f0;
+            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8.5pt;
+            color: #64748b;
+        }
+
+        /* General Typography & Structure */
+        h1, h2, h3, h4, h5 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-top: 0;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #009961;
+            padding-bottom: 6px;
+            margin: 28px 0 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .section-header h2 {
+            font-size: 15pt;
+            font-weight: 800;
+            color: #0f172a;
+            margin: 0;
+            letter-spacing: -0.2px;
+        }
+
+        .section-tag {
+            font-size: 7.5pt;
+            text-transform: uppercase;
+            font-weight: 700;
+            background: #e6f7ef;
+            color: #009961;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        h3 {
+            font-size: 11.5pt;
+            margin: 18px 0 8px 0;
+            color: #1e293b;
+        }
+
+        p {
+            margin: 0 0 10px 0;
+            color: #334155;
+            text-align: justify;
+        }
+
+        /* Card Elements */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 14px;
+            break-inside: avoid;
+        }
+
+        .card.accent {
+            border-left: 4px solid #009961;
+            background: #fafdfb;
+        }
+
+        .card.info {
+            border-left: 4px solid #2563eb;
+            background: #f8fafc;
+        }
+
+        .card.warning {
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+        }
+
+        /* Role Badges */
+        .role-badge {
+            display: inline-block;
+            font-size: 7.5pt;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 6px;
+        }
+        .badge-admin { background: #0f172a; color: #ffffff; }
+        .badge-teacher { background: #009961; color: #ffffff; }
+        .badge-student { background: #2563eb; color: #ffffff; }
+        .badge-parent { background: #7c3aed; color: #ffffff; }
+        .badge-public { background: #64748b; color: #ffffff; }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 16px 0;
+            font-size: 8.5pt;
+            break-inside: avoid;
+        }
+
+        th {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 8px 10px;
+            border: 1px solid #0f172a;
+        }
+
+        td {
+            padding: 7px 10px;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Feature Matrix Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+            break-inside: avoid;
+        }
+
+        .feature-box {
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 14px;
+            background: #ffffff;
+            break-inside: avoid;
+        }
+
+        .feature-box h4 {
+            font-size: 9.5pt;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+            color: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .feature-box p {
+            font-size: 8.5pt;
+            margin: 0;
+            color: #475569;
+            text-align: left;
+        }
+
+        .bullet-list {
+            margin: 4px 0 8px 18px;
+            padding: 0;
+            font-size: 8.8pt;
+            color: #334155;
+        }
+
+        .bullet-list li {
+            margin-bottom: 4px;
+        }
+
+        .page-break {
+            page-break-after: always;
+        }
+
+        .kpi-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 16px;
+            break-inside: avoid;
+        }
+
+        .kpi-card {
+            flex: 1;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .kpi-card .val {
+            font-size: 18pt;
+            font-weight: 800;
+            color: #009961;
+            line-height: 1.1;
+        }
+
+        .kpi-card .lbl {
+            font-size: 7.5pt;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== COVER PAGE ==================== -->
+    <div class="cover-page">
+        <div>
+            <div class="cover-top-badge">Official Institutional Blueprint</div>
+            <h1 class="cover-title">Scholar SMS & LMS Suite</h1>
+            <div class="cover-subtitle">Enterprise-Grade Modular School Management System & CBT Digital Campus</div>
+            
+            <div class="cover-desc">
+                A fully comprehensive operational, pedagogical, and technical executive overview detailing multi-role workflows, digital examination terminals, dual-grading models, attendance safeguards, and omnichannel communications.
+            </div>
+
+            <div class="cover-meta-grid">
+                <div class="meta-item">
+                    <label>Document Reference</label>
+                    <span>SCH-DOC-EXEC-2026-V2</span>
+                </div>
+                <div class="meta-item">
+                    <label>Target Audience</label>
+                    <span>Academic Boards, Executive Directors & IT Steering</span>
+                </div>
+                <div class="meta-item">
+                    <label>Operational Roles Covered</label>
+                    <span>Super Admin, Faculty, Student, Guardian, Public</span>
+                </div>
+                <div class="meta-item">
+                    <label>Primary Technological Architecture</label>
+                    <span>Modular Monolith, RBAC & SHA-256 Chained Ledger</span>
+                </div>
+                <div class="meta-item">
+                    <label>Examination System (CBT)</label>
+                    <span>5 Question Types, Countdown & Live Auto-Save</span>
+                </div>
+                <div class="meta-item">
+                    <label>Publication Date</label>
+                    <span>Academic Year 2026/2027</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="cover-footer">
+            <span>Scholar Educational Technologies Inc. &copy; 2026. All Rights Reserved.</span>
+            <span>Confidential & Proprietary Institutional Document</span>
+        </div>
+    </div>
+
+    <!-- ==================== EXECUTIVE SUMMARY & VISION ==================== -->
+    <div class="section-header">
+        <h2>1. Strategic Vision & Executive Summary</h2>
+        <span class="section-tag">Strategic Core</span>
+    </div>
+
+    <p>
+        <strong>Scholar SMS</strong> represents an enterprise-grade, integrated institutional solution engineered to eliminate administrative fragmentation in modern primary, secondary, and tertiary educational organizations. Traditionally, institutions grapple with disparate software packages for student registration, staff payroll, daily roll call, online examinations, report card generation, and guardian communication. Scholar SMS consolidates these disparate functions into a unified, secure, high-performance ecosystem.
+    </p>
+
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <div class="val">5</div>
+            <div class="lbl">Authorized User Roles</div>
+        </div>
+        <div class="kpi-card">
+            <div class="val">100%</div>
+            <div class="lbl">Automated Grading Sync</div>
+        </div>
+        <div class="kpi-card">
+            <div class="val">4</div>
+            <div class="lbl">Communication Gateways</div>
+        </div>
+        <div class="kpi-card">
+            <div class="val">SHA-256</div>
+            <div class="lbl">Cryptographic Audit</div>
+        </div>
+    </div>
+
+    <div class="card accent">
+        <h4 style="margin: 0 0 6px 0; color: #009961;">Core Institutional Objectives</h4>
+        <ul class="bullet-list" style="margin-bottom: 0;">
+            <li><strong>Pedagogical Continuity:</strong> Seamless bridging of physical classroom instruction with digital learning materials, interactive computer-based assessments, and instant solution reviews.</li>
+            <li><strong>Uncompromising Governance:</strong> Cryptographically verifiable audit trails where every grade modification, attendance seal, and enrollment action is immutably linked in a chained ledger.</li>
+            <li><strong>Parental Transparency:</strong> Real-time automated visibility for guardians into their ward's academic trajectory, attendance punctuality, behavioral notes, and fee standing.</li>
+            <li><strong>Administrative Efficiency:</strong> Automated holiday calendars ensuring that national and school-declared recesses never skew daily attendance analytics or report card metrics.</li>
+        </ul>
+    </div>
+
+    <!-- ==================== ROLE-BASED ECOSYSTEM ==================== -->
+    <div class="section-header">
+        <h2>2. Role-Segregated Operational Ecosystem</h2>
+        <span class="section-tag">Governance & RBAC</span>
+    </div>
+
+    <p>
+        The platform operates on strict Role-Based Access Control (RBAC). User interfaces, navigation hierarchies, and mutation endpoints are strictly segregated to prevent privilege escalation or data leakage across personas.
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th style="width: 20%;">Operational Role</th>
+                <th style="width: 45%;">Core Workspace & Responsibilities</th>
+                <th style="width: 35%;">Key System Capabilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="role-badge badge-admin">Super Administrator</span></td>
+                <td>Executive oversight of all institutional domains, human resources, system configuration, academic calendars, and audit ledger integrity.</td>
+                <td>
+                    Student bulk Excel onboarding, staff onboarding, holiday calendars, dual-grading policy setup, API gateway credentials, audit verification.
+                </td>
+            </tr>
+            <tr>
+                <td><span class="role-badge badge-teacher">Faculty / Instructor</span></td>
+                <td>Curriculum execution, student continuous assessments, roll-call attendance, LMS course authoring, and examination grading.</td>
+                <td>
+                    Course syllabus authoring, digital material distribution, Q&A question studio authoring, rubric essay scoring, QR roll-call scanning.
+                </td>
+            </tr>
+            <tr>
+                <td><span class="role-badge badge-student">Student Candidate</span></td>
+                <td>Digital classroom engagement, learning material consumption, interactive CBT testing, and attendance monitoring.</td>
+                <td>
+                    Enrolled course access, interactive timed examination terminal, real-time question palette, immediate score reports, personal 360 profile.
+                </td>
+            </tr>
+            <tr>
+                <td><span class="role-badge badge-parent">Guardian / Parent</span></td>
+                <td>Family oversight of registered wards, progress tracking, attendance safety notifications, and administrative advisories.</td>
+                <td>
+                    Multi-ward toggle, real-time arrival/absence alerts, terminal report card inspection, faculty comments, campus announcements.
+                </td>
+            </tr>
+            <tr>
+                <td><span class="role-badge badge-public">Public Visitor</span></td>
+                <td>Public community discovery, curriculum inquiries, event exploration, and multimedia campus showcases.</td>
+                <td>
+                    Dynamic course catalog, campus life media gallery, institutional event calendar, digital admission inquiry terminal.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== DIGITAL LMS & EXAMINATIONS SUITE ==================== -->
+    <div class="section-header">
+        <h2>3. Modern LMS Tests, Quizzes & Examinations Suite</h2>
+        <span class="section-tag">Pedagogical Technology</span>
+    </div>
+
+    <p>
+        The LMS suite incorporates a comprehensive Computer-Based Testing (CBT) engine designed to support high-stakes formal examinations (Midterms, Final Semesters) as well as continuous formative assessments (Weekly Quizzes, Practice Drills).
+    </p>
+
+    <div class="grid-2">
+        <div class="feature-box">
+            <h4><span class="role-badge badge-teacher">Studio</span> Q&A Authoring Studio</h4>
+            <p>
+                An intuitive workspace enabling faculty to author questions across <strong>5 distinct formats</strong>:
+            </p>
+            <ul class="bullet-list" style="margin-top: 6px;">
+                <li><strong>Single-Choice MCQ:</strong> Standard choice with exactly one validated correct option.</li>
+                <li><strong>Multi-Select MCQ:</strong> Multi-answer selection requiring all correct choices for credit.</li>
+                <li><strong>True / False:</strong> Dedicated tactile truth-value validation.</li>
+                <li><strong>Short Answer:</strong> Pattern and comma-separated keyword matching engine.</li>
+                <li><strong>Long Essay:</strong> Subjective analytical submissions reserved for instructor rubric review.</li>
+            </ul>
+        </div>
+        <div class="feature-box">
+            <h4><span class="role-badge badge-student">CBT</span> Student Examination Terminal</h4>
+            <p>
+                A distraction-free exam player built for strict focus and reliability:
+            </p>
+            <ul class="bullet-list" style="margin-top: 6px;">
+                <li><strong>Synchronized Countdown:</strong> Real-time timer with server-backed duration checks.</li>
+                <li><strong>Question Palette:</strong> Visual matrix showing answered, current, and unanswered items.</li>
+                <li><strong>Asynchronous Auto-Save:</strong> Background auto-saving prevents data loss on network drops.</li>
+                <li><strong>Anti-Cheating Safeguards:</strong> Question order randomization and choice shuffling.</li>
+                <li><strong>Zero-Timer Enforcement:</strong> Automatic answer freeze and submission when time expires.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div class="feature-box">
+            <h4><span class="role-badge badge-teacher">Grading</span> Rubric Review & Submissions Console</h4>
+            <p>
+                Centralized evaluation interface displaying candidate attempt rosters, submission timestamps, and automated scores. Provides dedicated mark-allocation inputs and qualitative feedback fields for subjective essay prompts.
+            </p>
+        </div>
+        <div class="feature-box">
+            <h4><span class="role-badge badge-student">Report</span> Candidate Performance Report Card</h4>
+            <p>
+                Post-submission diagnostic report providing total marks, percentage, pass/fail status, duration taken, attempt counting, and solution explanations (when permitted by instructor policy).
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== DUAL GRADING & ACADEMIC CALENDAR ==================== -->
+    <div class="section-header">
+        <h2>4. Dual-Grading Scheme & Holiday Calendar Safeguards</h2>
+        <span class="section-tag">Academic Architecture</span>
+    </div>
+
+    <p>
+        To bridge digital learning with traditional physical classroom activities, Scholar SMS pioneers an integrated <strong>Dual-Grading Matrix</strong> paired with an intelligent <strong>Academic Calendar Engine</strong>.
+    </p>
+
+    <div class="card info">
+        <h4 style="margin: 0 0 6px 0; color: #1e40af;">Dual-Grading Framework (Continuous LMS + Classroom Offline)</h4>
+        <p style="margin-bottom: 8px;">
+            Recognizing that education occurs both in digital labs and physical lecture halls, the platform allows academic administrators to configure custom evaluation weighting per course:
+        </p>
+        <table style="margin: 0; background: #ffffff;">
+            <thead>
+                <tr>
+                    <th>Grading Component</th>
+                    <th>Standard Allocation</th>
+                    <th>Data Source & Evaluation Channel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Online Digital LMS</strong></td>
+                    <td><strong>30% – 50%</strong></td>
+                    <td>Interactive CBT Quizzes, Module Knowledge Checks, Automated Objective Grading.</td>
+                </tr>
+                <tr>
+                    <td><strong>Offline Classroom Coursework</strong></td>
+                    <td><strong>50% – 70%</strong></td>
+                    <td>Physical Midterms, Laboratory Practicals, Written Final Papers, Oral Presentations.</td>
+                </tr>
+                <tr>
+                    <td><strong>Terminal Synthesis</strong></td>
+                    <td><strong>100%</strong></td>
+                    <td>Automated weighted composite calculated dynamically on Official Terminal Report Cards.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card warning">
+        <h4 style="margin: 0 0 6px 0; color: #b45309;">Intelligent Calendar & Attendance Safeguards</h4>
+        <p style="margin-bottom: 0;">
+            The academic calendar module registers <strong>National Holidays</strong>, <strong>Regional Holidays</strong>, and <strong>Institutional Non-Instructional Days</strong>. The daily attendance roll call engine cross-references this calendar automatically—ensuring that students are never recorded as absent during school breaks and overall institutional attendance percentages remain accurate.
+        </p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== COMMUNICATIONS & GATEWAYS ==================== -->
+    <div class="section-header">
+        <h2>5. Omnichannel Communications & Gateway Engine</h2>
+        <span class="section-tag">Institutional Connectivity</span>
+    </div>
+
+    <p>
+        Scholar SMS features an enterprise multi-channel notification engine capable of instant and scheduled broadcasting across four critical communications vectors:
+    </p>
+
+    <div class="grid-2">
+        <div class="feature-box">
+            <h4><i class="fa-solid fa-envelope"></i> SMTP & Transactional Email</h4>
+            <p>
+                Full configuration of institutional mail transfer agents with support for custom host, port, authentication credentials, and modern encryption standards (TLS/SSL).
+            </p>
+        </div>
+        <div class="feature-box">
+            <h4><i class="fa-solid fa-comment-sms"></i> SMS Gateway Integration</h4>
+            <p>
+                Direct carrier integration supporting global telecom providers (Twilio, Infobip) for mission-critical notifications such as unexcused absence alerts and emergency announcements.
+            </p>
+        </div>
+        <div class="feature-box">
+            <h4><i class="fa-brands fa-whatsapp"></i> WhatsApp Cloud API</h4>
+            <p>
+                Native integration with Meta's WhatsApp Cloud API infrastructure, enabling conversational parent updates, academic reminders, and automated bulletin delivery directly to parent handsets.
+            </p>
+        </div>
+        <div class="feature-box">
+            <h4><i class="fa-solid fa-file-lines"></i> Broadcast Template Engine</h4>
+            <p>
+                Curated template repository for religious, seasonal, gender-specific, and emergency greetings with automated date-triggered sending capabilities.
+            </p>
+        </div>
+    </div>
+
+    <!-- ==================== ADMINISTRATIVE REGISTRY & AUDIT ==================== -->
+    <div class="section-header">
+        <h2>6. Academic Registry, Security & Cryptographic Audit</h2>
+        <span class="section-tag">Integrity & Governance</span>
+    </div>
+
+    <div class="grid-2">
+        <div class="feature-box">
+            <h4><span class="role-badge badge-admin">SIS</span> Student Information System</h4>
+            <ul class="bullet-list">
+                <li>Automated institutional admission numbering (e.g. <code>SCH-2026-001</code>).</li>
+                <li>Cohort allocation and guardian linkage.</li>
+                <li>Bulk Excel onboarding with automated column validation.</li>
+                <li>Student 360 profile tracking academic, attendance, and disciplinary histories.</li>
+            </ul>
+        </div>
+        <div class="feature-box">
+            <h4><span class="role-badge badge-admin">HR</span> Faculty & Staff HR Management</h4>
+            <ul class="bullet-list">
+                <li>Automated employee code generation (e.g. <code>EMP-2026-001</code>).</li>
+                <li>Departmental assignment and academic qualification logging.</li>
+                <li>Form-teacher classroom leadership and subject accreditation.</li>
+                <li>Compensation tracking and active employment status toggles.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="card accent">
+        <h4 style="margin: 0 0 6px 0; color: #009961;">Cryptographically Chained (SHA-256) Audit Trail</h4>
+        <p>
+            Scholar SMS guarantees institutional transparency through a tamper-evident cryptographic ledger modeled on Merkle chaining principles. Every significant administrative action—including student enrollment, grade modification, attendance sealing, and broadcast dispatch—is cryptographically hashed with the preceding block's hash:
+        </p>
+        <p style="text-align: center; font-weight: 700; color: #0f172a; margin: 8px 0; background: #e2e8f0; padding: 6px; border-radius: 4px; font-family: monospace; font-size: 8.5pt;">
+            Current_Hash = SHA-256(Previous_Hash + Actor_ID + Action_Type + Entity_Payload + Timestamp)
+        </p>
+        <p style="margin-bottom: 0;">
+            An interactive <strong>Audit Verification Console</strong> allows administrators and external auditors to recalculate the chain from the Genesis block to the tip in real time, detecting unauthorized database mutations instantly.
+        </p>
+    </div>
+
+    <!-- ==================== PUBLIC PORTAL & CMS ==================== -->
+    <div class="section-header">
+        <h2>7. Public Engagement Showcase & Dynamic CMS</h2>
+        <span class="section-tag">Marketing & Community</span>
+    </div>
+
+    <p>
+        Complementing the private portal workspaces, Scholar SMS includes a public web landing page built on the Scholar v1.0.0 aesthetic framework:
+    </p>
+
+    <ul class="bullet-list">
+        <li><strong>Dynamic Campus Events Showcase:</strong> Administrative CRUD enabling real-time publication of symposiums, athletic meets, and open days directly to the public portal without code updates.</li>
+        <li><strong>Categorized Campus Media Gallery:</strong> Image upload and categorization engine allowing prospective parents and visitors to explore campus facilities, STEM laboratories, and ceremonies.</li>
+        <li><strong>Public Course Curriculum Catalog:</strong> Prospective students can explore available academic subjects, syllabi summaries, and instructor credentials.</li>
+        <li><strong>Interactive Inquiries Desk:</strong> Direct admission inquiry form capturing prospective guardian details directly into the administrative CRM.</li>
+        <li><strong>User Profile Avatar Engine:</strong> Self-service profile image management across all authenticated user accounts, ensuring personalized dashboards.</li>
+    </ul>
+
+    <div class="page-break"></div>
+
+    <!-- ==================== SUMMARY COMPARISON & CONCLUSION ==================== -->
+    <div class="section-header">
+        <h2>8. Role Capability Matrix</h2>
+        <span class="section-tag">System Functional Matrix</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Functional Module</th>
+                <th style="text-align: center;">Super Admin</th>
+                <th style="text-align: center;">Faculty / Teacher</th>
+                <th style="text-align: center;">Student</th>
+                <th style="text-align: center;">Guardian / Parent</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Executive Dashboard & Analytics</strong></td>
+                <td style="text-align: center;">&#10004; (Full System)</td>
+                <td style="text-align: center;">&#10004; (Assigned Cohort)</td>
+                <td style="text-align: center;">&#10004; (Personal)</td>
+                <td style="text-align: center;">&#10004; (Linked Wards)</td>
+            </tr>
+            <tr>
+                <td><strong>Student Enrollment & Bulk Excel Upload</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Faculty Onboarding & Staff Directory</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004; (Directory Read)</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Academic Terms & Holiday Calendar Setup</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>LMS Course Curriculum & File Materials</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004; (Download)</td>
+                <td style="text-align: center;">&#10004; (Overview)</td>
+            </tr>
+            <tr>
+                <td><strong>CBT Question Authoring Studio (5 Types)</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Interactive Examination Player Terminal</strong></td>
+                <td style="text-align: center;">&#10004; (Preview)</td>
+                <td style="text-align: center;">&#10004; (Preview)</td>
+                <td style="text-align: center;">&#10004; (Take Exam)</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Teacher Rubric Essay Grading Console</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Dual-Grading Matrix & Terminal Report Cards</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004; (View Own)</td>
+                <td style="text-align: center;">&#10004; (View Ward)</td>
+            </tr>
+            <tr>
+                <td><strong>Roll-Call & Contactless QR Scanner</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Omnichannel Gateways (SMTP/SMS/WhatsApp)</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Public Events & Gallery CMS</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+            <tr>
+                <td><strong>Cryptographic SHA-256 Audit Verification</strong></td>
+                <td style="text-align: center;">&#10004;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+                <td style="text-align: center;">&#10008;</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- ==================== CONCLUSION & SIGN-OFF ==================== -->
+    <div class="section-header">
+        <h2>9. Institutional Sign-Off & Operational Readiness</h2>
+        <span class="section-tag">Certification</span>
+    </div>
+
+    <p>
+        The <strong>Scholar SMS & LMS Suite</strong> has completed end-to-end unit, integration, and user-acceptance validation across all functional domains. The application stands in a state of full operational readiness for immediate institutional deployment, onboarding, and semester commencement.
+    </p>
+
+    <div class="grid-2" style="margin-top: 25px;">
+        <div style="border-top: 1px solid #94a3b8; padding-top: 8px;">
+            <span style="font-size: 8pt; text-transform: uppercase; color: #64748b; font-weight: 700;">Executive Academic Board Approval</span>
+            <div style="font-size: 10.5pt; font-weight: 800; color: #0f172a; margin-top: 4px;">Office of the Academic Registrar</div>
+            <div style="font-size: 8.5pt; color: #64748b;">Scholar Educational Technologies</div>
+        </div>
+        <div style="border-top: 1px solid #94a3b8; padding-top: 8px;">
+            <span style="font-size: 8pt; text-transform: uppercase; color: #64748b; font-weight: 700;">Technical Verification & Systems Sign-off</span>
+            <div style="font-size: 10.5pt; font-weight: 800; color: #0f172a; margin-top: 4px;">Lead Systems Architect</div>
+            <div style="font-size: 8.5pt; color: #64748b;">Enterprise Systems Group</div>
+        </div>
+    </div>
+
+</body>
+</html>
