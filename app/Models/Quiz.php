@@ -107,12 +107,8 @@ class Quiz extends Model
     public function getTypeBadgeAttribute(): string
     {
         return match ($this->type) {
-            'quiz' => 'bg-info text-dark',
-            'test' => 'bg-primary text-white',
-            'midterm' => 'bg-warning text-dark',
-            'final_exam' => 'bg-danger text-white',
-            'practice' => 'bg-success text-white',
-            default => 'bg-secondary text-white',
+            'practice' => 'bg-light text-dark border',
+            default => 'bg-dark text-white',
         };
     }
 
@@ -122,12 +118,12 @@ class Quiz extends Model
     public function getTypeMetaAttribute(): array
     {
         return match ($this->type) {
-            'quiz' => ['label' => 'Quiz', 'class' => 'bg-info text-dark', 'icon' => 'fa-solid fa-stopwatch'],
-            'test' => ['label' => 'Unit Test', 'class' => 'bg-primary text-white', 'icon' => 'fa-solid fa-file-lines'],
-            'midterm' => ['label' => 'Midterm Exam', 'class' => 'bg-warning text-dark', 'icon' => 'fa-solid fa-award'],
-            'final_exam' => ['label' => 'Final Exam', 'class' => 'bg-danger text-white', 'icon' => 'fa-solid fa-graduation-cap'],
-            'practice' => ['label' => 'Practice Drill', 'class' => 'bg-success text-white', 'icon' => 'fa-solid fa-dumbbell'],
-            default => ['label' => ucfirst($this->type), 'class' => 'bg-secondary text-white', 'icon' => 'fa-solid fa-question'],
+            'quiz' => ['label' => 'Quiz', 'class' => 'bg-dark text-white', 'icon' => 'fa-solid fa-stopwatch'],
+            'test' => ['label' => 'Unit Test', 'class' => 'bg-dark text-white', 'icon' => 'fa-solid fa-file-lines'],
+            'midterm' => ['label' => 'Midterm Exam', 'class' => 'bg-dark text-white', 'icon' => 'fa-solid fa-award'],
+            'final_exam' => ['label' => 'Final Exam', 'class' => 'bg-dark text-white', 'icon' => 'fa-solid fa-graduation-cap'],
+            'practice' => ['label' => 'Practice Drill', 'class' => 'bg-light text-dark border', 'icon' => 'fa-solid fa-dumbbell'],
+            default => ['label' => ucfirst($this->type), 'class' => 'bg-dark text-white', 'icon' => 'fa-solid fa-question'],
         };
     }
 }

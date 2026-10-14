@@ -48,8 +48,9 @@ class CourseController extends Controller
         $classes = SchoolClass::all();
         $subjects = Subject::all();
         $teachers = Staff::with('user')->get();
+        $activeTerm = \App\Models\AcademicTerm::current();
 
-        return view('portals.courses.create', compact('classes', 'subjects', 'teachers'));
+        return view('portals.courses.create', compact('classes', 'subjects', 'teachers', 'activeTerm'));
     }
 
     public function show($id)

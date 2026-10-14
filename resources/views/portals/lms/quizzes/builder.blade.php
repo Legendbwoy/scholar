@@ -24,29 +24,29 @@
             <p class="text-muted mb-0">Author and curate questions, assign mark weightings, specify correct choices, and provide model answers.</p>
         </div>
         <div class="d-flex gap-2 flex-wrap">
-            <button type="button" class="btn btn-success rounded-pill px-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+            <button type="button" class="btn btn-emerald rounded-pill px-3 fw-bold shadow-sm" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
                 <i class="fa-solid fa-plus-circle me-1"></i> Add Question
             </button>
-            <button type="button" class="btn btn-outline-success rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
-                <i class="fa-solid fa-file-excel me-1"></i> Bulk Upload (Excel/CSV)
+            <button type="button" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm" data-bs-toggle="modal" data-bs-target="#bulkUploadModal">
+                <i class="fa-solid fa-file-excel text-emerald me-1"></i> Bulk Upload (Excel/CSV)
             </button>
-            <button type="button" class="btn btn-outline-primary rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#importFromBankModal">
-                <i class="fa-solid fa-cloud-arrow-down me-1"></i> Import from Bank
+            <button type="button" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm" data-bs-toggle="modal" data-bs-target="#importFromBankModal">
+                <i class="fa-solid fa-cloud-arrow-down text-secondary me-1"></i> Import from Bank
             </button>
-            <button type="button" class="btn btn-outline-warning rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#saveToBankModal">
-                <i class="fa-solid fa-box-archive me-1"></i> Save to Bank
+            <button type="button" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm" data-bs-toggle="modal" data-bs-target="#saveToBankModal">
+                <i class="fa-solid fa-box-archive text-secondary me-1"></i> Save to Bank
             </button>
             <form action="{{ route('lms.quizzes.start', $quiz->id) }}" method="POST" class="d-inline">
                 @csrf
-                <button type="submit" class="btn btn-outline-dark rounded-pill px-3">
+                <button type="submit" class="btn btn-dark rounded-pill px-3 fw-semibold shadow-sm">
                     <i class="fa-solid fa-play me-1"></i> Preview Exam
                 </button>
             </form>
-            <a href="{{ route('lms.quizzes.submissions', $quiz->id) }}" class="btn btn-outline-info rounded-pill px-3">
-                <i class="fa-solid fa-users me-1"></i> Submissions
+            <a href="{{ route('lms.quizzes.submissions', $quiz->id) }}" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm">
+                <i class="fa-solid fa-users text-secondary me-1"></i> Submissions
             </a>
-            <a href="{{ route('lms.quizzes.edit', $quiz->id) }}" class="btn btn-outline-secondary rounded-pill px-3">
-                <i class="fa-solid fa-gear me-1"></i> Settings
+            <a href="{{ route('lms.quizzes.edit', $quiz->id) }}" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm">
+                <i class="fa-solid fa-gear text-secondary me-1"></i> Settings
             </a>
         </div>
     </div>
@@ -87,30 +87,30 @@
 <!-- Questions List -->
 <div class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list-ol text-primary me-2"></i>Curated Questions ({{ $quiz->questions->count() }})</h4>
-        <button type="button" class="btn btn-sm btn-success rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
+        <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list-ol text-emerald me-2"></i>Curated Questions ({{ $quiz->questions->count() }})</h4>
+        <button type="button" class="btn btn-sm btn-emerald rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#addQuestionModal">
             <i class="fa-solid fa-plus me-1"></i> Add Another Question
         </button>
     </div>
 
     @forelse($quiz->questions as $index => $q)
-        <div class="portal-card p-4 mb-3 border-start border-4 {{ $q->question_type === 'essay' ? 'border-warning' : ($q->question_type === 'true_false' ? 'border-info' : 'border-success') }}">
+        <div class="portal-card p-4 mb-3 border">
             <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-2">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <span class="badge bg-dark rounded-pill px-3 py-2 fw-bold">Question #{{ $index + 1 }}</span>
+                    <span class="badge bg-dark rounded-pill px-3 py-1.5 fw-bold">Question #{{ $index + 1 }}</span>
                     @php
-                        $typeBadges = [
-                            'mcq_single' => ['badge bg-primary', 'Single Choice MCQ'],
-                            'mcq_multi' => ['badge bg-info text-dark', 'Multiple Select MCQ'],
-                            'true_false' => ['badge bg-secondary', 'True / False'],
-                            'short_answer' => ['badge bg-dark', 'Short Answer'],
-                            'essay' => ['badge bg-warning text-dark', 'Essay / Rubric'],
+                        $typeNames = [
+                            'mcq_single' => 'Single Choice MCQ',
+                            'mcq_multi' => 'Multiple Select MCQ',
+                            'true_false' => 'True / False',
+                            'short_answer' => 'Short Answer',
+                            'essay' => 'Essay / Rubric',
                         ];
-                        $badgeMeta = $typeBadges[$q->question_type] ?? ['badge bg-secondary', 'General'];
+                        $typeName = $typeNames[$q->question_type] ?? 'General';
                     @endphp
-                    <span class="{{ $badgeMeta[0] }}">{{ $badgeMeta[1] }}</span>
-                    <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2 py-1">
-                        <i class="fa-solid fa-award me-1"></i>{{ $q->points }} Points
+                    <span class="badge bg-light text-dark border px-2.5 py-1.5 fw-semibold">{{ $typeName }}</span>
+                    <span class="badge bg-emerald-subtle border border-emerald-subtle fw-bold px-2 py-1">
+                        <i class="fa-solid fa-award text-emerald me-1"></i>{{ $q->points }} Points
                     </span>
                 </div>
                 <div>

@@ -356,6 +356,103 @@
             transform: translateY(-1px);
         }
 
+        /* Unified Theme Standardizations (KnightOne / Scholar SMS) */
+        .btn-emerald {
+            background-color: var(--portal-primary) !important;
+            border-color: var(--portal-primary) !important;
+            color: #ffffff !important;
+        }
+        .btn-emerald:hover, .btn-emerald:focus {
+            background-color: var(--portal-primary-dark) !important;
+            border-color: var(--portal-primary-dark) !important;
+            color: #ffffff !important;
+        }
+        .btn-outline-emerald {
+            color: var(--portal-primary) !important;
+            border-color: var(--portal-primary) !important;
+            background-color: transparent !important;
+        }
+        .btn-outline-emerald:hover {
+            background-color: var(--portal-primary) !important;
+            border-color: var(--portal-primary) !important;
+            color: #ffffff !important;
+        }
+        .text-emerald {
+            color: var(--portal-primary) !important;
+        }
+        .bg-emerald-subtle {
+            background-color: rgba(0, 153, 97, 0.08) !important;
+            color: var(--portal-primary) !important;
+        }
+        .border-emerald-subtle {
+            border-color: rgba(0, 153, 97, 0.25) !important;
+        }
+
+        /* Enforce theme consistency on default Bootstrap buttons */
+        .btn-success {
+            background-color: var(--portal-primary);
+            border-color: var(--portal-primary);
+        }
+        .btn-success:hover, .btn-success:focus, .btn-success:active {
+            background-color: var(--portal-primary-dark) !important;
+            border-color: var(--portal-primary-dark) !important;
+        }
+        .btn-outline-success {
+            color: var(--portal-primary);
+            border-color: var(--portal-primary);
+        }
+        .btn-outline-success:hover {
+            background-color: var(--portal-primary);
+            border-color: var(--portal-primary);
+            color: #fff;
+        }
+
+        /* Standardized KPI Metric Card */
+        .metric-card-standard {
+            background: #ffffff;
+            border-radius: 14px;
+            border: 1px solid var(--portal-border);
+            padding: 1.25rem 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+            position: relative;
+            height: 100%;
+        }
+        .metric-card-standard:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+        .metric-card-standard .metric-icon-wrap {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: rgba(0, 153, 97, 0.08);
+            color: var(--portal-primary);
+            flex-shrink: 0;
+        }
+        .metric-card-standard h3 {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin: 4px 0 0;
+            color: #0f172a;
+        }
+        .metric-card-standard span.metric-label {
+            color: #64748b;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+        }
+
         .demo-switcher-dropdown .dropdown-item {
             font-size: 13px;
             padding: 8px 16px;
@@ -466,50 +563,50 @@
                 </button>
                 <div class="d-none d-md-flex align-items-center gap-2">
                     @if(auth()->user()->isAdmin())
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-circle text-success me-1" style="font-size: 8px;"></i> API: Ready
+                        <span class="badge bg-light text-secondary border px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-circle text-emerald me-1" style="font-size: 8px;"></i> API: Ready
                         </span>
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-shield-halved me-1"></i> Ledger: SHA-256 Chained
+                        <span class="badge bg-light text-secondary border px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-shield-halved text-secondary me-1"></i> Ledger: SHA-256 Chained
                         </span>
                     @elseif(auth()->user()->isTeacher())
-                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-id-badge me-1"></i> {{ auth()->user()->staff?->employee_id ?? 'EMP' }}
+                        <span class="badge bg-light text-dark border px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-id-badge text-secondary me-1"></i> {{ auth()->user()->staff?->employee_id ?? 'EMP' }}
                         </span>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-chalkboard me-1"></i> Faculty Standing: Active
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-circle-check text-emerald me-1"></i> Faculty Standing: Active
                         </span>
                     @elseif(auth()->user()->isStudent())
-                        <span class="badge bg-warning-subtle text-dark border border-warning-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-id-card me-1"></i> {{ auth()->user()->student?->admission_number ?? 'SCH' }}
+                        <span class="badge bg-light text-dark border px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-id-card text-secondary me-1"></i> {{ auth()->user()->student?->admission_number ?? 'SCH' }}
                         </span>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-calendar-check me-1"></i> Attendance: {{ auth()->user()->student?->attendance_rate ?? 100 }}%
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-calendar-check text-emerald me-1"></i> Attendance: {{ auth()->user()->student?->attendance_rate ?? 100 }}%
                         </span>
                     @elseif(auth()->user()->isParent())
-                        <span class="badge bg-info-subtle text-info border border-info-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-people-roof me-1"></i> Verified Guardian
+                        <span class="badge bg-light text-dark border px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-people-roof text-secondary me-1"></i> Verified Guardian
                         </span>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small">
-                            <i class="fa-solid fa-bell me-1"></i> Instant SMS Active
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle px-2.5 py-1.5 small fw-semibold">
+                            <i class="fa-solid fa-bell text-emerald me-1"></i> Instant SMS Active
                         </span>
                     @endif
                 </div>
             </div>
 
             <!-- Topbar Right Tools -->
-            <div class="d-flex align-items-center gap-3">
-                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 text-muted d-none d-lg-inline-flex align-items-center gap-2 shadow-sm" onclick="openCommandPalette()" title="Press Ctrl + K anytime">
-                    <i class="fa-solid fa-magnifying-glass text-primary"></i>
+            <div class="d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 text-secondary d-none d-lg-inline-flex align-items-center gap-2 shadow-sm" onclick="openCommandPalette()" title="Press Ctrl + K anytime">
+                    <i class="fa-solid fa-magnifying-glass text-secondary"></i>
                     <span class="small">Search portal...</span>
                     <kbd class="bg-white border text-dark px-1.5 py-0.5 rounded shadow-sm fw-semibold" style="font-size: 10px;">Ctrl + K</kbd>
                 </button>
                 @if(auth()->user()->isAdmin() || auth()->user()->isTeacher())
-                <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold d-none d-md-inline-flex align-items-center gap-1 shadow-sm" data-bs-toggle="modal" data-bs-target="#globalQuickQrModal">
-                    <i class="fa-solid fa-qrcode"></i> Quick QR Check-In
+                <button type="button" class="btn btn-sm btn-light border rounded-pill px-3 fw-semibold text-dark shadow-sm d-none d-md-inline-flex align-items-center gap-1.5" data-bs-toggle="modal" data-bs-target="#globalQuickQrModal">
+                    <i class="fa-solid fa-qrcode text-secondary"></i> Quick QR Check-In
                 </button>
-                <a href="{{ route('broadcasts.create') }}" class="btn btn-sm btn-warning rounded-pill px-3 fw-bold shadow-sm d-none d-sm-inline-flex align-items-center gap-1">
-                    <i class="fa-solid fa-bullhorn"></i> Broadcast Alert
+                <a href="{{ route('broadcasts.create') }}" class="btn btn-sm btn-dark rounded-pill px-3 fw-semibold shadow-sm d-none d-sm-inline-flex align-items-center gap-1.5">
+                    <i class="fa-solid fa-bullhorn text-warning"></i> Broadcast Alert
                 </a>
                 @endif
 
@@ -517,24 +614,38 @@
                 <div class="dropdown">
                     <button class="btn btn-light rounded-circle position-relative" type="button" data-bs-toggle="dropdown" style="width: 42px; height: 42px;">
                         <i class="fa-regular fa-bell"></i>
+                        @if(isset($recentAlerts) && $recentAlerts->count() > 0)
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">
-                            3
+                            {{ $recentAlerts->count() }}
                         </span>
+                        @endif
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg p-2" style="width: 320px;">
                         <li><h6 class="dropdown-header fw-bold">Recent Institutional Alerts</h6></li>
-                        <li>
-                            <a class="dropdown-item rounded-3 p-2 small mb-1" href="{{ route('broadcasts.index') }}">
-                                <div class="fw-bold text-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i> Severe Weather Alert</div>
-                                <div class="text-muted" style="font-size: 11px;">Campus buses departing at 3:15 PM today.</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item rounded-3 p-2 small mb-1" href="{{ route('broadcasts.index') }}">
-                                <div class="fw-bold text-primary"><i class="fa-solid fa-book-open me-1"></i> Midterm Syllabus Posted</div>
-                                <div class="text-muted" style="font-size: 11px;">Grade 10 Mathematics review guide online.</div>
-                            </a>
-                        </li>
+                        @if(isset($recentAlerts) && $recentAlerts->count() > 0)
+                            @foreach($recentAlerts as $alert)
+                            <li>
+                                <a class="dropdown-item rounded-3 p-2 small mb-1" href="{{ route('broadcasts.index') }}">
+                                    <div class="fw-bold text-dark text-truncate">
+                                        <i class="fa-solid fa-bullhorn text-primary me-1"></i> {{ $alert->title }}
+                                    </div>
+                                    <div class="text-muted text-truncate" style="font-size: 11px;">
+                                        {{ Str::limit(strip_tags($alert->message), 45) }}
+                                    </div>
+                                    <div class="text-secondary" style="font-size: 10px;">
+                                        {{ $alert->created_at->diffForHumans() }}
+                                    </div>
+                                </a>
+                            </li>
+                            @endforeach
+                        @else
+                            <li>
+                                <div class="p-3 text-center text-muted small">
+                                    <i class="fa-regular fa-bell-slash d-block mb-1 fs-5"></i>
+                                    No new alerts
+                                </div>
+                            </li>
+                        @endif
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-center small text-primary fw-semibold" href="{{ route('broadcasts.index') }}">View All in Comms Hub</a></li>
                     </ul>

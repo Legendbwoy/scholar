@@ -48,27 +48,27 @@
 <!-- Stats Counters -->
 <div class="row g-3 mb-4">
     <div class="col-md-3 col-6">
-        <div class="portal-card p-3 border-start border-4 border-primary">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Total Events</small>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Total Events</span>
             <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['total'] }}</div>
         </div>
     </div>
     <div class="col-md-3 col-6">
-        <div class="portal-card p-3 border-start border-4 border-success">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Upcoming Calendar</small>
-            <div class="fs-4 fw-bold text-success mt-1">{{ $stats['upcoming'] }}</div>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Upcoming Calendar</span>
+            <div class="fs-4 fw-bold text-emerald mt-1">{{ $stats['upcoming'] }}</div>
         </div>
     </div>
     <div class="col-md-3 col-6">
-        <div class="portal-card p-3 border-start border-4 border-info">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Published Live</small>
-            <div class="fs-4 fw-bold text-info mt-1">{{ $stats['published'] }}</div>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Published Live</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['published'] }}</div>
         </div>
     </div>
     <div class="col-md-3 col-6">
-        <div class="portal-card p-3 border-start border-4 border-warning">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Featured Highlights</small>
-            <div class="fs-4 fw-bold text-warning mt-1">{{ $stats['featured'] }}</div>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Featured Highlights</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['featured'] }}</div>
         </div>
     </div>
 </div>

@@ -19,12 +19,12 @@
 <div class="row g-4">
     @forelse($broadcasts as $b)
         <div class="col-lg-6">
-            <div class="portal-card h-100 p-4 d-flex flex-column border-start border-4 {{ $b->priority === 'emergency' ? 'border-danger' : ($b->priority === 'urgent' ? 'border-warning' : 'border-primary') }} position-relative">
+            <div class="portal-card h-100 p-4 d-flex flex-column border {{ $b->priority === 'emergency' ? 'border-danger' : ($b->priority === 'urgent' ? 'border-warning' : '') }} position-relative">
                 <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
                     <div>
                         <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                            <span class="badge bg-{{ $b->priority === 'emergency' ? 'danger' : ($b->priority === 'urgent' ? 'warning text-dark' : 'primary-subtle text-primary') }} text-uppercase" style="font-size: 11px;">
-                                <i class="fa-solid {{ $b->priority === 'emergency' ? 'fa-triangle-exclamation' : ($b->priority === 'urgent' ? 'fa-bell' : 'fa-circle-info') }} me-1"></i>
+                            <span class="badge bg-{{ $b->priority === 'emergency' ? 'danger' : ($b->priority === 'urgent' ? 'warning text-dark' : 'dark') }} text-uppercase" style="font-size: 11px;">
+                                <i class="fa-solid {{ $b->priority === 'emergency' ? 'fa-triangle-exclamation' : ($b->priority === 'urgent' ? 'fa-bell' : 'fa-bullhorn') }} me-1"></i>
                                 {{ $b->priority }} Notice
                             </span>
                             <span class="badge bg-light text-muted border text-capitalize" style="font-size: 11px;">

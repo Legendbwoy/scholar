@@ -66,10 +66,10 @@
             color: var(--primary-accent);
         }
         .q-matrix-btn.active {
-            border-color: #2563eb !important;
-            background-color: #2563eb !important;
+            border-color: #0f172a !important;
+            background-color: #0f172a !important;
             color: #ffffff !important;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.2);
         }
         .q-matrix-btn.answered {
             border-color: var(--primary-accent) !important;
@@ -453,7 +453,7 @@
             .then(res => res.json())
             .then(data => {
                 if (statusEl) {
-                    statusEl.innerHTML = '<i class="fa-solid fa-cloud-arrow-up text-success me-1"></i> Saved to cloud ✓';
+                    statusEl.innerHTML = '<i class="fa-solid fa-cloud-arrow-up text-success me-1"></i> Saved to cloud';
                 }
             })
             .catch(err => {

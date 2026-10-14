@@ -69,7 +69,7 @@
                             <optgroup label="{{ $catLabels[$category] ?? ucfirst($category) }}">
                                 @foreach($catTemplates as $tpl)
                                     <option value="{{ $tpl->id }}" {{ ($selectedTemplate && $selectedTemplate->id == $tpl->id) ? 'selected' : '' }}>
-                                        {{ $tpl->title }} {{ $tpl->is_auto_send ? '⚡ [Auto-Send]' : '' }}
+                                        {{ $tpl->title }} {{ $tpl->is_auto_send ? '[Auto-Send]' : '' }}
                                     </option>
                                 @endforeach
                             </optgroup>

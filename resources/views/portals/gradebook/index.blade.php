@@ -256,7 +256,7 @@
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold small text-dark">Academic Year <span class="text-danger">*</span></label>
-                            <input type="text" name="academic_year" class="form-control border-light shadow-sm" value="2026-2027" required>
+                            <input type="text" name="academic_year" class="form-control border-light shadow-sm" value="{{ \App\Models\AcademicYear::current()?->name ?? (date('Y') . '-' . (date('Y') + 1)) }}" required>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label fw-semibold small text-dark">Maximum Points <span class="text-danger">*</span></label>

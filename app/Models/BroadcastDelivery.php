@@ -29,6 +29,11 @@ class BroadcastDelivery extends Model
         return $this->belongsTo(BroadcastMessage::class);
     }
 
+    public function broadcast()
+    {
+        return $this->belongsTo(BroadcastMessage::class, 'broadcast_message_id');
+    }
+
     public function recipient()
     {
         return $this->belongsTo(User::class, 'recipient_id');

@@ -30,21 +30,36 @@
 <!-- Metrics Strip -->
 <div class="row g-3 mb-4">
     <div class="col-sm-6 col-xl-4">
-        <div class="portal-card p-3 border-start border-4 border-success">
-            <span class="text-muted small text-uppercase fw-bold">Active Question Banks</span>
-            <h3 class="fw-bold mb-0 text-dark">{{ $totalBanks }}</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Active Question Banks</span>
+                <h3 class="mb-0">{{ $totalBanks }}</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-folder-open"></i>
+            </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-4">
-        <div class="portal-card p-3 border-start border-4 border-primary">
-            <span class="text-muted small text-uppercase fw-bold">Archived Reusable Questions</span>
-            <h3 class="fw-bold mb-0 text-primary">{{ $totalQuestions }}</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Archived Reusable Questions</span>
+                <h3 class="mb-0">{{ $totalQuestions }}</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-box-archive"></i>
+            </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-4">
-        <div class="portal-card p-3 border-start border-4 border-info">
-            <span class="text-muted small text-uppercase fw-bold">Supported Formats</span>
-            <h3 class="fw-bold mb-0 text-dark">5 Question Types</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Supported Formats</span>
+                <h3 class="mb-0">5 Types</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-layer-group"></i>
+            </div>
         </div>
     </div>
 </div>

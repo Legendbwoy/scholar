@@ -581,7 +581,7 @@ class DatabaseSeeder extends Seeder
         // 13. Gallery Items
         $galleryItems = [
             [
-                'title' => 'Robotics & AI Innovation Lab',
+                'title' => 'Robotics & Computing Innovation Lab',
                 'category' => 'Laboratories',
                 'image_path' => 'scholar/assets/images/course-01.jpg',
                 'caption' => 'Students collaborating on autonomous obstacle rovers with optical sensors.',

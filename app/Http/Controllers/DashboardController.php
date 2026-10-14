@@ -74,8 +74,10 @@ class DashboardController extends Controller
         $attendanceToday = Attendance::whereIn('school_class_id', $classIds)->where('date', $today)->get();
 
         $broadcasts = BroadcastMessage::latest()->take(4)->get();
+        $activeYear = \App\Models\AcademicYear::current();
+        $activeTerm = \App\Models\AcademicTerm::current();
 
-        return view('portals.teacher.dashboard', compact('user', 'staff', 'myCourses', 'myClasses', 'recentMaterials', 'attendanceToday', 'broadcasts'));
+        return view('portals.teacher.dashboard', compact('user', 'staff', 'myCourses', 'myClasses', 'recentMaterials', 'attendanceToday', 'broadcasts', 'activeYear', 'activeTerm'));
     }
 
     private function studentDashboard(User $user)

@@ -48,41 +48,41 @@
 <!-- Stats Counters -->
 <div class="row g-3 mb-4">
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-primary h-100">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Total Templates</small>
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Total Templates</span>
             <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['total'] }}</div>
         </div>
     </div>
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-success h-100">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Auto-Send Active</small>
-            <div class="fs-4 fw-bold text-success mt-1">
-                <i class="fa-solid fa-bolt me-1 text-success small"></i>{{ $stats['auto_send_active'] }}
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Auto-Send Active</span>
+            <div class="fs-4 fw-bold text-emerald mt-1">
+                <i class="fa-solid fa-bolt me-1 text-emerald small"></i>{{ $stats['auto_send_active'] }}
             </div>
         </div>
     </div>
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-info h-100">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Seasonal Greetings</small>
-            <div class="fs-4 fw-bold text-info mt-1">{{ $stats['seasonal'] }}</div>
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Seasonal Greetings</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['seasonal'] }}</div>
         </div>
     </div>
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-warning h-100">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Religious Events</small>
-            <div class="fs-4 fw-bold text-warning mt-1">{{ $stats['religious'] }}</div>
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Religious Events</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['religious'] }}</div>
         </div>
     </div>
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-purple h-100" style="border-color: #6f42c1 !important;">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Gender & Inclusion</small>
-            <div class="fs-4 fw-bold mt-1" style="color: #6f42c1;">{{ $stats['gender_event'] }}</div>
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Gender & Inclusion</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['gender_event'] }}</div>
         </div>
     </div>
     <div class="col-xl-2 col-md-4 col-6">
-        <div class="portal-card p-3 border-start border-4 border-danger h-100">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Holiday Notices</small>
-            <div class="fs-4 fw-bold text-danger mt-1">{{ $stats['holiday_notification'] }}</div>
+        <div class="portal-card p-3 border h-100">
+            <span class="metric-label" style="font-size: 11px;">Holiday Notices</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['holiday_notification'] }}</div>
         </div>
     </div>
 </div>

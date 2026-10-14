@@ -41,12 +41,12 @@
                     <i class="fa-solid fa-school fs-3"></i>
                 </div>
                 <div class="text-start">
-                    <h2 class="fw-bolder mb-0 text-dark tracking-wide" style="font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">SCHOLAR ACADEMY OF ADVANCED SCIENCES</h2>
+                    <h2 class="fw-bolder mb-0 text-dark tracking-wide text-uppercase" style="font-family: 'Outfit', sans-serif; letter-spacing: -0.5px;">{{ setting('school_name', 'Scholar Academy of Advanced Sciences') }}</h2>
                     <div class="text-muted small fw-semibold text-uppercase" style="letter-spacing: 1px;">Office of Institutional Examination & Academic Records</div>
                 </div>
             </div>
             <div class="text-muted small">
-                100 University Boulevard &bull; Accredited Institutional Board of Secondary Education &bull; License #SCH-9941
+                {{ setting('school_address', '100 University Boulevard') }} &bull; Accredited Institutional Board of Secondary Education &bull; {{ setting('school_license', 'License #SCH-9941') }}
             </div>
             <div class="badge bg-dark text-white text-uppercase px-3 py-1.5 mt-2 fw-bold tracking-wider" style="letter-spacing: 1.5px; font-size: 11px;">
                 Official Scholastic Record & Bullion Transcript
@@ -238,8 +238,8 @@
                         </div>
                     </div>
                     <div class="border-top pt-2 mt-2">
-                        <div class="fw-bold small text-dark">Dr. Evelyn Vance, Ph.D.</div>
-                        <small class="text-muted d-block" style="font-size: 10px;">Dean of Examination & Academic Affairs</small>
+                        <div class="fw-bold small text-dark">{{ setting('school_principal', 'Dr. Evelyn Vance, Ph.D.') }}</div>
+                        <small class="text-muted d-block" style="font-size: 10px;">{{ setting('school_principal_title', 'Dean of Examination & Academic Affairs') }}</small>
                     </div>
                 </div>
             </div>

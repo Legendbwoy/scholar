@@ -284,10 +284,10 @@
                         Scholar SMS is an enterprise-class School Management Platform & Digital Learning Ecosystem uniting faculty, students, and guardians through verified accountability, real-time communications, and academic excellence.
                     </p>
                     <div class="d-flex gap-2 social-links">
-                        <a href="#" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" title="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" title="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://twitter.com" target="_blank" rel="noopener" title="X (Twitter)"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener" title="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener" title="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="https://linkedin.com" target="_blank" rel="noopener" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
 
@@ -315,9 +315,9 @@
 
                 <div class="col-lg-4 col-md-12 footer-contact">
                     <h4>Campus Secretariat</h4>
-                    <p class="small mb-2" style="color: #cbd5e1;"><i class="bi bi-geo-alt text-success me-2 fs-6"></i> 100 University Boulevard, Academic District, Suite 500</p>
-                    <p class="small mb-2" style="color: #cbd5e1;"><i class="bi bi-telephone text-success me-2 fs-6"></i> +1 (555) 234-5678 / +1 (555) 234-8900</p>
-                    <p class="small mb-3" style="color: #cbd5e1;"><i class="bi bi-envelope text-success me-2 fs-6"></i> admissions@scholar-academy.edu</p>
+                    <p class="small mb-2" style="color: #cbd5e1;"><i class="bi bi-geo-alt text-success me-2 fs-6"></i> {{ setting('school_address', '100 University Boulevard, Academic District, Suite 500') }}</p>
+                    <p class="small mb-2" style="color: #cbd5e1;"><i class="bi bi-telephone text-success me-2 fs-6"></i> {{ setting('school_phone', '+1 (555) 234-5678 / +1 (555) 234-8900') }}</p>
+                    <p class="small mb-3" style="color: #cbd5e1;"><i class="bi bi-envelope text-success me-2 fs-6"></i> {{ setting('school_email', 'admissions@scholar-academy.edu') }}</p>
                     <div class="footer-audit-box">
                         <strong class="text-white d-block mb-1 fs-6"><i class="fa-solid fa-shield-halved text-success me-2"></i> Security & Cryptographic Audit</strong>
                         <span style="color: #cbd5e1; font-size: 12px; line-height: 1.5;" class="d-block">All institutional audit chains verified with SHA-256 tamper-proof ledger hashing.</span>
@@ -327,16 +327,106 @@
 
             <div class="pt-4 border-top border-secondary border-opacity-25 text-center small" style="color: #94a3b8;">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <div>&copy; {{ date('Y') }} <strong class="text-white">Scholar Academy SMS</strong>. Powered by KnightOne Architecture. All Rights Reserved.</div>
+                    <div>&copy; {{ date('Y') }} <strong class="text-white">{{ setting('school_name', 'Scholar Academy SMS') }}</strong>. Powered by KnightOne Architecture. All Rights Reserved.</div>
                     <div class="d-flex gap-3">
-                        <a href="#">Privacy Policy</a>
-                        <a href="#">Terms of Enrollment</a>
-                        <a href="#">Audit Compliance</a>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#privacyModal" class="text-decoration-none" style="color: #94a3b8;">Privacy Policy</a>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#termsModal" class="text-decoration-none" style="color: #94a3b8;">Terms of Enrollment</a>
+                        <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#auditComplianceModal" class="text-decoration-none" style="color: #94a3b8;">Audit Compliance</a>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- Institutional Policy Modals -->
+    <!-- Privacy Policy Modal -->
+    <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-header border-bottom px-4 pt-4 pb-3">
+                    <h5 class="modal-title fw-bold text-dark" id="privacyModalLabel">
+                        <i class="fa-solid fa-user-shield text-success me-2"></i> Institutional Privacy Policy & FERPA Compliance
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-3 small text-muted" style="line-height: 1.7; max-height: 60vh; overflow-y: auto;">
+                    <h6 class="fw-bold text-dark mb-1">1. Information We Collect & Academic Records</h6>
+                    <p>Scholar SMS processes official student registration records, daily roll-call attendance logs, examination performance metrics, and verified guardian emergency contacts strictly for educational stewardship and safety administration.</p>
+                    
+                    <h6 class="fw-bold text-dark mb-1">2. Data Security & Cryptographic Ledgering</h6>
+                    <p>All sensitive academic records, continuous assessment score entries, and administrative mutations are immutably logged with SHA-256 cryptographic hashes. Passwords utilize Bcrypt encryption, and communications are served exclusively over Transport Layer Security (TLS).</p>
+                    
+                    <h6 class="fw-bold text-dark mb-1">3. Parental Rights & Access Transparency</h6>
+                    <p>Guardians have 24/7 self-service visibility into their ward's official academic trajectories, behavioral commendations, attendance standings, and terminal report cards through the Guardian Desk portal.</p>
+                </div>
+                <div class="modal-footer border-top px-4 py-3">
+                    <button type="button" class="btn btn-dark rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms of Enrollment Modal -->
+    <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-header border-bottom px-4 pt-4 pb-3">
+                    <h5 class="modal-title fw-bold text-dark" id="termsModalLabel">
+                        <i class="fa-solid fa-file-contract text-primary me-2"></i> Terms of Enrollment & Academic Honor Code
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-3 small text-muted" style="line-height: 1.7; max-height: 60vh; overflow-y: auto;">
+                    <h6 class="fw-bold text-dark mb-1">1. Academic Integrity & CBT Examination Conduct</h6>
+                    <p>Candidates partaking in digital assessments, midterms, or practice quizzes through the LMS testing terminal agree to uphold the institutional honor code. Multi-window navigation tracking and countdown zero-expiry locks are enforced to preserve fairness.</p>
+                    
+                    <h6 class="fw-bold text-dark mb-1">2. Daily Attendance Punctuality</h6>
+                    <p>Regular roll-call presence is mandatory. Absences and tardiness are automatically logged into the student 360 profile and summarized on end-of-term certification transcripts.</p>
+                    
+                    <h6 class="fw-bold text-dark mb-1">3. Code of Conduct & Respectful Communications</h6>
+                    <p>Platform portals and noticeboards must be utilized solely for curriculum collaboration, institutional notices, and respectful guardian-faculty inquiries.</p>
+                </div>
+                <div class="modal-footer border-top px-4 py-3">
+                    <button type="button" class="btn btn-dark rounded-pill px-4" data-bs-dismiss="modal">I Understand</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audit Compliance Modal -->
+    <div class="modal fade" id="auditComplianceModal" tabindex="-1" aria-labelledby="complianceModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+                <div class="modal-header border-bottom px-4 pt-4 pb-3">
+                    <h5 class="modal-title fw-bold text-dark" id="complianceModalLabel">
+                        <i class="fa-solid fa-shield-halved text-success me-2"></i> Cryptographic Audit Ledger & Compliance Framework
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body px-4 py-3 small text-muted" style="line-height: 1.7; max-height: 60vh; overflow-y: auto;">
+                    <div class="p-3 bg-light rounded-3 border mb-3">
+                        <div class="d-flex align-items-center gap-2 text-dark fw-bold mb-1">
+                            <i class="fa-solid fa-link text-success"></i> SHA-256 Chained Hash Verification
+                        </div>
+                        <div>Each administrative action generates a deterministic cryptographic hash computed from previous record state, user signature, and UTC timestamp, preventing retro-active alteration of grades or records.</div>
+                    </div>
+
+                    <h6 class="fw-bold text-dark mb-1">Regulatory Standards Met:</h6>
+                    <ul class="bullet-list mb-3">
+                        <li><strong>FERPA / GDPR:</strong> Granular role-segregated authorization protecting minor student PII.</li>
+                        <li><strong>Academic Auditability:</strong> Full traceability of score overrides, exam submissions, and staff actions.</li>
+                        <li><strong>System Uptime & Failover:</strong> Robust relational transactions with automated recovery fail-safes.</li>
+                    </ul>
+                </div>
+                <div class="modal-footer border-top px-4 py-3 d-flex justify-content-between">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+                    <a href="{{ route('audit.verify') }}" class="btn btn-success rounded-pill px-4 fw-bold">
+                        <i class="fa-solid fa-magnifying-glass me-1"></i> Launch Audit Ledger Verification
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Scroll Top Button -->
     <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">

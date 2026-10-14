@@ -82,7 +82,8 @@ class StudentController extends Controller
         ]);
 
         $nextNum = Student::count() + 1;
-        $admNumber = 'SCH-2026-' . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
+        $prefix = setting('admission_number_prefix', 'SCH-') . date('Y') . '-';
+        $admNumber = $prefix . str_pad($nextNum, 3, '0', STR_PAD_LEFT);
 
         $student = Student::create([
             'user_id' => $user->id,
@@ -424,7 +425,8 @@ class StudentController extends Controller
             $processedBatchEmails[] = $email;
 
             $currentTotal = Student::count() + 1;
-            $admNumber = 'SCH-2026-' . str_pad($currentTotal, 3, '0', STR_PAD_LEFT);
+            $prefix = setting('admission_number_prefix', 'SCH-') . date('Y') . '-';
+            $admNumber = $prefix . str_pad($currentTotal, 3, '0', STR_PAD_LEFT);
             $rollNumber = 'R-' . $currentTotal;
 
             $student = Student::create([

@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h1 align="center">🎓 Scholar SMS</h1>
+<h1 align="center">Scholar SMS</h1>
 <h3 align="center">Enterprise-Grade Modular School Management System & Modern Digital LMS Suite</h3>
 
 <p align="center">
@@ -19,7 +19,7 @@
 
 ---
 
-## 📖 Executive Summary
+## Executive Summary
 
 **Scholar SMS** is a modern, modular monolith web application designed to unify academic administration, classroom instruction, student testing, parent-school transparency, and institutional marketing.
 
@@ -27,7 +27,7 @@ Built on **Laravel 11** and customized with the vibrant **Scholar v1.0.0** theme
 
 ---
 
-## 🏛️ System Architecture
+## ️ System Architecture
 
 Scholar SMS follows a **Domain-Driven Modular Monolith** architecture:
 ```
@@ -69,9 +69,9 @@ school-management-system/
 
 ---
 
-## ✨ Key Features & Capabilities
+## Key Features & Capabilities
 
-### 1. 🎓 Modern LMS Assessments, Quizzes & Examinations Suite
+### 1.  Modern LMS Assessments, Quizzes & Examinations Suite
 - **Interactive Student Testing Terminal (CBT)**:
   - Clean examination environment with live countdown timer and animated visual alert when under 5 minutes.
   - Asynchronous background auto-saving via AJAX so candidate progress is preserved across network interruptions.
@@ -94,11 +94,11 @@ school-management-system/
     5. **Subjective Long Essay** (with scoring rubrics and teacher feedback commentary)
   - Configure mark weights, randomize question orders, and shuffle MCQ option choices to prevent cheating.
   - Provide model answers and solution explanations displayed to students upon completion.
-- **📚 Centralized Question Banks & Reusable Repositories**:
+- ** Centralized Question Banks & Reusable Repositories**:
   - Dedicated Question Bank library categorized by Subject, Grade Level, and Difficulty.
   - Export active quizzes/exams directly into Question Banks for archival or cross-cohort reuse.
   - Selectively import curated questions from Question Banks into any quiz, test, or examination in one click.
-- **📊 Bulk Questions Upload & Downloadable Spreadsheet Template**:
+- ** Bulk Questions Upload & Downloadable Spreadsheet Template**:
   - Downloadable standardized Excel / CSV question authoring template (`/lms/quizzes/template/download`) with full column specifications.
   - Batch upload hundreds of questions (MCQ Single, MCQ Multi, True/False, Short Answer, Essay) with automatic choice mapping, option validation, and assessment point recalculation.
 - **⏱️ Timed Assessment Access Gates & Publishing Enforcement**:
@@ -114,7 +114,7 @@ school-management-system/
 
 ---
 
-### 2. 📅 Academic Period, Calendar & Holiday Configuration
+### 2.  Academic Period, Calendar & Holiday Configuration
 - **Term & Semester Calendars**:
   - Configure academic years, semester terms, and operational date windows.
 - **Holiday & Non-Instructional Safeguards**:
@@ -126,7 +126,7 @@ school-management-system/
 
 ---
 
-### 3. ⚙️ Communication Gateways & API Configuration
+### 3. ️ Communication Gateways & API Configuration
 - **Centralized Admin Gateway Settings**:
   - **Email / SMTP Setup**: Configure SMTP host, port, authentication credentials, and encryption protocols (`TLS` / `SSL`).
   - **SMS Gateway**: Configure API providers (Twilio, Infobip, etc.), API keys, sender IDs, and balance thresholds.
@@ -136,7 +136,7 @@ school-management-system/
 
 ---
 
-### 4. 📢 Multi-Channel Broadcast Template Engine
+### 4.  Multi-Channel Broadcast Template Engine
 - **Pre-Built & Custom Templates**:
   - Create and curate reusable notification templates for:
     - Seasonal & holiday greetings (Christmas, Eid, New Year)
@@ -148,7 +148,7 @@ school-management-system/
 
 ---
 
-### 5. 🖼️ Dynamic Events & Campus Life Gallery CRUD
+### 5. ️ Dynamic Events & Campus Life Gallery CRUD
 - **Institutional Event Management**:
   - Full CRUD interface for campus events (symposiums, sports meets, open days) with title, date, venue, category, and publishing status.
   - Synchronizes with the public landing page events section.
@@ -158,14 +158,14 @@ school-management-system/
 
 ---
 
-### 6. 👤 User Profile & Custom Avatar Picture Management
+### 6.  User Profile & Custom Avatar Picture Management
 - **Role-Wide Avatar Uploads**:
   - Self-service avatar picture upload and removal for Administrators, Teachers, Students, and Parents.
   - Automatically replaces placeholder graphics across portal sidebars, student 360 files, and header bars.
 
 ---
 
-### 7. 🗂️ Collapsible Parent-Sub Sidebar Navigation
+### 7. ️ Collapsible Parent-Sub Sidebar Navigation
 - **Accordion Dropdown Menus**:
   - Organized portal navigation menus with parent-sub hierarchy:
     - *Registry & Faculty HR* (Students Roster, Enroll Student, Bulk Excel, Faculty Directory, Onboard Faculty)
@@ -177,7 +177,7 @@ school-management-system/
 
 ---
 
-### 8. 🛡️ Role-Based Access Control (RBAC) & Cryptographic Audit
+### 8. ️ Role-Based Access Control (RBAC) & Cryptographic Audit
 - **Strict Role-Segregated Views**:
   - Protected by `CheckRole` middleware (`admin`, `teacher`, `student`, `parent`).
   - Unauthorized access attempts trigger `403 Forbidden` errors.
@@ -187,7 +187,7 @@ school-management-system/
 
 ---
 
-## 👥 Demo User Accounts & Personas
+## Demo User Accounts & Personas
 
 All accounts use the default password: **`password`**
 
@@ -198,11 +198,11 @@ All accounts use the default password: **`password`**
 | **Student** | `student@scholar.edu` | `student` | Student Workspace, Student 360, Enrolled LMS Courses, Interactive Exam Testing Terminal (CBT), Exam Results, Attendance Record, Noticeboard |
 | **Parent / Guardian** | `parent@scholar.edu` | `parent` | Guardian Desk, Linked Wards' 360 Profiles, Term Report Cards, Attendance & Safety Oversight, School Advisories |
 
-> 💡 **Quick Switching:** You can switch between any persona in 1 click using the role selector dropdown below your avatar in the sidebar.
+> **Quick Switching:** You can switch between any persona in 1 click using the role selector dropdown below your avatar in the sidebar.
 
 ---
 
-## 🚀 Quickstart Installation Guide
+## Quickstart Installation Guide
 
 ### Prerequisites
 - **PHP** >= 8.2 with `pdo_mysql`, `mbstring`, `openssl`, `curl`
@@ -252,7 +252,7 @@ Portal Login:    http://127.0.0.1:8088/login
 
 ---
 
-## 🔌 Core Web & REST API Endpoints
+## Core Web & REST API Endpoints
 
 ### LMS Quizzes & Examinations
 | Method | Route | Description |
@@ -285,7 +285,7 @@ Portal Login:    http://127.0.0.1:8088/login
 
 ---
 
-## 🔒 Security & Compliance
+## Security & Compliance
 
 - **Role Guardrails**: Strict route protection via `App\Http\Middleware\CheckRole`. Unauthorized URL access returns `403 Forbidden`.
 - **Exam Integrity**: Server-enforced countdown timer, question & option randomization, and session expiry locking.
@@ -295,7 +295,7 @@ Portal Login:    http://127.0.0.1:8088/login
 
 ---
 
-## 📄 License
+## License
 
 This software is released under the **[MIT License](LICENSE)**.
 

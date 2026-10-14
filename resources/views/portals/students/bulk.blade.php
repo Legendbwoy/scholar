@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Bulk Student Onboarding â€” Scholar SMS')
+@section('title', 'Bulk Student Onboarding — Scholar SMS')
 
 @section('content')
 <!-- Header Area -->

@@ -37,7 +37,7 @@
             <div>
                 <p>Certified Faculty</p>
                 <h3>{{ $stats['total_staff'] }}</h3>
-                <small class="text-muted">4 Academic Departments</small>
+                <small class="text-muted">{{ \App\Models\Department::count() }} Academic Departments</small>
             </div>
             <div class="icon-box bg-success-subtle text-success">
                 <i class="fa-solid fa-chalkboard-user"></i>

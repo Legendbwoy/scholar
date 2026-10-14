@@ -306,10 +306,10 @@
                         <div class="col-md-6">
                             <label class="form-label fw-semibold small text-dark">Material Category <span class="text-danger">*</span></label>
                             <select name="file_type" id="materialTypeSelect" class="form-select border-light shadow-sm" required>
-                                <option value="pdf">📄 PDF Document (.pdf)</option>
-                                <option value="slides">📊 Slide Deck (.pptx / .ppt)</option>
-                                <option value="document">📦 Worksheet / Document / Archive (.docx / .zip)</option>
-                                <option value="video">🎥 Multimedia Video Stream (.mp4)</option>
+                                <option value="pdf">PDF Document (.pdf)</option>
+                                <option value="slides">Slide Deck (.pptx / .ppt)</option>
+                                <option value="document">Worksheet / Document / Archive (.docx / .zip)</option>
+                                <option value="video">Multimedia Video Stream (.mp4)</option>
                             </select>
                         </div>
                         <div class="col-md-3">

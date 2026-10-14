@@ -57,10 +57,10 @@
 <div class="row g-3 mb-4">
     <!-- Email Status Card -->
     <div class="col-md-4">
-        <div class="portal-card p-3 h-100 border-start border-4 border-info">
+        <div class="portal-card p-3 h-100 border">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle bg-info bg-opacity-10 text-info d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <div class="rounded-circle bg-light text-secondary d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                         <i class="fa-solid fa-envelope fs-5"></i>
                     </div>
                     <div>
@@ -70,9 +70,9 @@
                 </div>
                 <div>
                     @if($emailGateway->is_active)
-                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Active</span>
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle rounded-pill">Active</span>
                     @else
-                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">Disabled</span>
+                        <span class="badge bg-light text-secondary border rounded-pill">Disabled</span>
                     @endif
                 </div>
             </div>
@@ -81,7 +81,7 @@
                 <div><i class="fa-solid fa-server me-1"></i> {{ $emailGateway->getCredential('smtp_host', 'localhost') }}:{{ $emailGateway->getCredential('smtp_port', '587') }}</div>
             </div>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                <span class="badge {{ $emailGateway->sandbox_mode ? 'bg-warning-subtle text-warning' : 'bg-primary-subtle text-primary' }}">
+                <span class="badge {{ $emailGateway->sandbox_mode ? 'bg-light text-secondary border' : 'bg-dark text-white' }}">
                     {{ $emailGateway->sandbox_mode ? 'Sandbox Mode' : 'Production Live' }}
                 </span>
                 <small class="text-muted">
@@ -97,10 +97,10 @@
 
     <!-- SMS Status Card -->
     <div class="col-md-4">
-        <div class="portal-card p-3 h-100 border-start border-4 border-primary">
+        <div class="portal-card p-3 h-100 border">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <div class="rounded-circle bg-light text-secondary d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                         <i class="fa-solid fa-comment-sms fs-5"></i>
                     </div>
                     <div>
@@ -110,9 +110,9 @@
                 </div>
                 <div>
                     @if($smsGateway->is_active)
-                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Active</span>
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle rounded-pill">Active</span>
                     @else
-                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">Disabled</span>
+                        <span class="badge bg-light text-secondary border rounded-pill">Disabled</span>
                     @endif
                 </div>
             </div>
@@ -121,7 +121,7 @@
                 <div><i class="fa-solid fa-phone me-1"></i> {{ $smsGateway->from_address ?: 'Shortcode default' }}</div>
             </div>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                <span class="badge {{ $smsGateway->sandbox_mode ? 'bg-warning-subtle text-warning' : 'bg-primary-subtle text-primary' }}">
+                <span class="badge {{ $smsGateway->sandbox_mode ? 'bg-light text-secondary border' : 'bg-dark text-white' }}">
                     {{ $smsGateway->sandbox_mode ? 'Sandbox Mode' : 'Production Live' }}
                 </span>
                 <small class="text-muted">
@@ -137,10 +137,10 @@
 
     <!-- WhatsApp Status Card -->
     <div class="col-md-4">
-        <div class="portal-card p-3 h-100 border-start border-4 border-success">
+        <div class="portal-card p-3 h-100 border">
             <div class="d-flex justify-content-between align-items-start mb-2">
                 <div class="d-flex align-items-center gap-2">
-                    <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                    <div class="rounded-circle bg-emerald-subtle text-emerald d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
                         <i class="fa-brands fa-whatsapp fs-5"></i>
                     </div>
                     <div>
@@ -150,9 +150,9 @@
                 </div>
                 <div>
                     @if($whatsappGateway->is_active)
-                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Active</span>
+                        <span class="badge bg-emerald-subtle border border-emerald-subtle rounded-pill">Active</span>
                     @else
-                        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">Disabled</span>
+                        <span class="badge bg-light text-secondary border rounded-pill">Disabled</span>
                     @endif
                 </div>
             </div>
@@ -161,7 +161,7 @@
                 <div><i class="fa-solid fa-hashtag me-1"></i> ID: {{ $whatsappGateway->getCredential('phone_number_id', 'Unset') }}</div>
             </div>
             <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                <span class="badge {{ $whatsappGateway->sandbox_mode ? 'bg-warning-subtle text-warning' : 'bg-primary-subtle text-primary' }}">
+                <span class="badge {{ $whatsappGateway->sandbox_mode ? 'bg-light text-secondary border' : 'bg-dark text-white' }}">
                     {{ $whatsappGateway->sandbox_mode ? 'Sandbox Mode' : 'Production Live' }}
                 </span>
                 <small class="text-muted">

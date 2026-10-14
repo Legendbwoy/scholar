@@ -18,14 +18,14 @@
                 <span class="badge bg-dark">{{ $quiz->course->code ?? 'LMS' }}</span>
                 <span class="badge {{ $quiz->type_badge }} text-uppercase">{{ $quiz->type }}</span>
             </div>
-            <h2 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-users-viewfinder text-info me-2"></i>Candidate Submissions: {{ $quiz->title }}</h2>
+            <h2 class="fw-bold mb-1 text-dark"><i class="fa-solid fa-users text-emerald me-2"></i>Candidate Submissions: {{ $quiz->title }}</h2>
             <p class="text-muted mb-0">Evaluate student attempt outcomes, inspect answer sheets, grade essay submissions, and commit marks to gradebook.</p>
         </div>
         <div class="d-flex gap-2">
-            <a href="{{ route('lms.quizzes.builder', $quiz->id) }}" class="btn btn-outline-primary rounded-pill px-3">
+            <a href="{{ route('lms.quizzes.builder', $quiz->id) }}" class="btn btn-dark rounded-pill px-3 fw-semibold">
                 <i class="fa-solid fa-sliders me-1"></i> Question Studio
             </a>
-            <a href="{{ route('lms.quizzes.index') }}" class="btn btn-outline-secondary rounded-pill px-3">
+            <a href="{{ route('lms.quizzes.index') }}" class="btn btn-light border rounded-pill px-3 fw-semibold text-dark">
                 <i class="fa-solid fa-arrow-left me-1"></i> Back to Assessments
             </a>
         </div>
@@ -35,27 +35,47 @@
 <!-- Metrics Bar -->
 <div class="row g-3 mb-4">
     <div class="col-sm-6 col-xl-3">
-        <div class="portal-card p-3 border-start border-4 border-info">
-            <span class="text-muted small text-uppercase fw-bold">Total Attempts</span>
-            <h3 class="fw-bold mb-0 text-dark">{{ $totalSubmissions }}</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Total Attempts</span>
+                <h3 class="mb-0">{{ $totalSubmissions }}</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-clipboard-list"></i>
+            </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="portal-card p-3 border-start border-4 border-success">
-            <span class="text-muted small text-uppercase fw-bold">Graded / Completed</span>
-            <h3 class="fw-bold mb-0 text-dark">{{ $completedCount }}</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Graded / Completed</span>
+                <h3 class="mb-0">{{ $completedCount }}</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="portal-card p-3 border-start border-4 border-warning">
-            <span class="text-muted small text-uppercase fw-bold">Awaiting Essay Grading</span>
-            <h3 class="fw-bold mb-0 text-warning">{{ $pendingGrading }}</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Awaiting Essay Grading</span>
+                <h3 class="mb-0">{{ $pendingGrading }}</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-pen-to-square"></i>
+            </div>
         </div>
     </div>
     <div class="col-sm-6 col-xl-3">
-        <div class="portal-card p-3 border-start border-4 border-primary">
-            <span class="text-muted small text-uppercase fw-bold">Cohort Average Score</span>
-            <h3 class="fw-bold mb-0 text-primary">{{ round($avgScore, 1) }}%</h3>
+        <div class="metric-card-standard">
+            <div>
+                <span class="metric-label">Cohort Average Score</span>
+                <h3 class="mb-0">{{ round($avgScore, 1) }}%</h3>
+            </div>
+            <div class="metric-icon-wrap">
+                <i class="fa-solid fa-chart-line"></i>
+            </div>
         </div>
     </div>
 </div>

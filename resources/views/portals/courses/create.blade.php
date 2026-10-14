@@ -63,7 +63,7 @@
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Academic Term / Semester *</label>
-                <input type="text" name="semester" class="form-control" value="{{ old('semester', 'Fall 2026') }}" required>
+                <input type="text" name="semester" class="form-control" value="{{ old('semester', $activeTerm->name ?? 'Term 1') }}" required>
             </div>
             <div class="col-md-3">
                 <label class="form-label fw-semibold">Academic Track / Category *</label>

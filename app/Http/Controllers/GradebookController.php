@@ -31,8 +31,8 @@ class GradebookController extends Controller
             }
         }
 
-        $selectedClassId = $request->get('class_id', $defaultClassId);
-        $selectedTerm = $request->get('term', 'Term 1');
+        $currentTerm = \App\Models\AcademicTerm::current();
+        $selectedTerm = $request->get('term', $currentTerm->name ?? 'Term 1');
         $selectedSubjectId = $request->get('subject_id');
 
         $subjectsQuery = Subject::query();
@@ -233,8 +233,10 @@ class GradebookController extends Controller
     {
         $classes = SchoolClass::with('classTeacher.user')->get();
         $selectedClassId = $request->get('class_id', $classes->first()?->id);
-        $selectedTerm = $request->get('term', 'Term 1');
-        $selectedYear = $request->get('academic_year', '2026-2027');
+        $currentTerm = \App\Models\AcademicTerm::current();
+        $currentYear = \App\Models\AcademicYear::current();
+        $selectedTerm = $request->get('term', $currentTerm->name ?? 'Term 1');
+        $selectedYear = $request->get('academic_year', $currentYear->name ?? date('Y') . '-' . (date('Y') + 1));
 
         $students = collect();
         $classReports = [];
@@ -275,8 +277,10 @@ class GradebookController extends Controller
             abort(403, 'Unauthorized access: Ward report records only.');
         }
 
-        $term = $request->get('term', 'Term 1');
-        $year = $request->get('academic_year', '2026-2027');
+        $currentTerm = \App\Models\AcademicTerm::current();
+        $currentYear = \App\Models\AcademicYear::current();
+        $term = $request->get('term', $currentTerm->name ?? 'Term 1');
+        $year = $request->get('academic_year', $currentYear->name ?? date('Y') . '-' . (date('Y') + 1));
 
         $reportData = $student->calculateTermReport($term, $year);
 

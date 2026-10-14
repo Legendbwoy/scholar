@@ -38,28 +38,28 @@
 <!-- Questions in Bank -->
 <div class="mb-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list-check text-primary me-2"></i>Curated Bank Items ({{ $bank->questions->count() }})</h4>
+        <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-list-check text-emerald me-2"></i>Curated Bank Items ({{ $bank->questions->count() }})</h4>
         <span class="text-muted small">These items are ready to be cloned into any quiz, test, or examination.</span>
     </div>
 
     @forelse($bank->questions as $index => $q)
-        <div class="portal-card p-4 mb-3 border-start border-4 {{ $q->question_type === 'essay' ? 'border-warning' : ($q->question_type === 'true_false' ? 'border-info' : 'border-success') }}">
+        <div class="portal-card p-4 mb-3 border">
             <div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-2">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <span class="badge bg-dark rounded-pill px-3 py-2 fw-bold">Item #{{ $index + 1 }}</span>
+                    <span class="badge bg-dark rounded-pill px-3 py-1.5 fw-bold">Item #{{ $index + 1 }}</span>
                     @php
-                        $typeBadges = [
-                            'mcq_single' => ['badge bg-primary', 'Single Choice MCQ'],
-                            'mcq_multi' => ['badge bg-info text-dark', 'Multiple Select MCQ'],
-                            'true_false' => ['badge bg-secondary', 'True / False'],
-                            'short_answer' => ['badge bg-dark', 'Short Answer'],
-                            'essay' => ['badge bg-warning text-dark', 'Essay / Rubric'],
+                        $typeNames = [
+                            'mcq_single' => 'Single Choice MCQ',
+                            'mcq_multi' => 'Multiple Select MCQ',
+                            'true_false' => 'True / False',
+                            'short_answer' => 'Short Answer',
+                            'essay' => 'Essay / Rubric',
                         ];
-                        $badgeMeta = $typeBadges[$q->question_type] ?? ['badge bg-secondary', 'General'];
+                        $typeName = $typeNames[$q->question_type] ?? 'General';
                     @endphp
-                    <span class="{{ $badgeMeta[0] }}">{{ $badgeMeta[1] }}</span>
-                    <span class="badge bg-success bg-opacity-10 text-success fw-bold px-2 py-1">
-                        <i class="fa-solid fa-award me-1"></i>{{ $q->points }} Points
+                    <span class="badge bg-light text-dark border px-2.5 py-1.5 fw-semibold">{{ $typeName }}</span>
+                    <span class="badge bg-emerald-subtle border border-emerald-subtle fw-bold px-2 py-1">
+                        <i class="fa-solid fa-award text-emerald me-1"></i>{{ $q->points }} Points
                     </span>
                 </div>
                 <div>

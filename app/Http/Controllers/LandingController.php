@@ -23,12 +23,17 @@ class LandingController extends Controller
         $events = Event::published()->upcoming()->take(4)->get();
         $staffMembers = Staff::with(['user', 'department'])->take(4)->get();
 
+        // Calculate dynamic real attendance rate if records exist
+        $totalAttendance = \App\Models\Attendance::count();
+        $presentAttendance = \App\Models\Attendance::whereIn('status', ['present', 'late'])->count();
+        $calculatedRate = $totalAttendance > 0 ? round(($presentAttendance / $totalAttendance) * 100, 1) . '%' : '98.5%';
+
         $stats = [
-            'students' => Student::count() + 1250, // Display realistic institutional count
-            'faculty' => Staff::count() + 85,
-            'courses' => Course::count() + 45,
-            'awards' => 28,
-            'attendance_rate' => '98.6%',
+            'students' => setting('landing_stats_students') ? (int)setting('landing_stats_students') : Student::count(),
+            'faculty' => setting('landing_stats_faculty') ? (int)setting('landing_stats_faculty') : Staff::count(),
+            'courses' => setting('landing_stats_courses') ? (int)setting('landing_stats_courses') : Course::count(),
+            'awards' => (int)setting('landing_stats_awards', 28),
+            'attendance_rate' => setting('landing_stats_attendance', $calculatedRate),
         ];
 
         return view('landing.index', compact('courses', 'galleryItems', 'events', 'staffMembers', 'stats'));

@@ -71,8 +71,11 @@ class Student extends Model
         return round(($present / $total) * 100, 1);
     }
 
-    public function calculateTermReport($term = 'Term 1', $academicYear = '2026-2027')
+    public function calculateTermReport($term = null, $academicYear = null)
     {
+        $term = $term ?: (AcademicTerm::current()?->name ?? 'Term 1');
+        $academicYear = $academicYear ?: (AcademicYear::current()?->name ?? (date('Y') . '-' . (date('Y') + 1)));
+
         $classId = $this->school_class_id;
         $subjects = Subject::where('school_class_id', $classId)
             ->with(['teacher.user'])

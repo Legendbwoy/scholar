@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Student Profile 360 â€” Scholar SMS')
+@section('title', 'Student Profile 360 — Scholar SMS')
 
 @section('content')
 <div class="mb-4">
@@ -12,7 +12,7 @@
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
         <div>
             <h2 class="fw-bold mb-0">Student Profile 360: {{ $student->user->name }}</h2>
-            <p class="text-muted mb-0">Admission No: <strong>{{ $student->admission_number }}</strong> â€¢ Cohort: <strong>{{ $student->schoolClass->name ?? 'Enrolled' }}</strong></p>
+            <p class="text-muted mb-0">Admission No: <strong>{{ $student->admission_number }}</strong> • Cohort: <strong>{{ $student->schoolClass->name ?? 'Enrolled' }}</strong></p>
         </div>
         <div class="d-flex gap-2 align-items-center">
             <span class="badge bg-{{ $student->status === 'active' ? 'success' : 'danger' }}-subtle text-{{ $student->status === 'active' ? 'success' : 'danger' }} fs-6 px-3 py-2 border">

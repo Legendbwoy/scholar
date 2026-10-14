@@ -48,21 +48,21 @@
 <!-- Stats Counters -->
 <div class="row g-3 mb-4">
     <div class="col-md-4">
-        <div class="portal-card p-3 border-start border-4 border-primary">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Total Media Assets</small>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Total Media Assets</span>
             <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['total'] }}</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="portal-card p-3 border-start border-4 border-warning">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Featured On Landing Page</small>
-            <div class="fs-4 fw-bold text-warning mt-1">{{ $stats['featured'] }}</div>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Featured On Landing Page</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['featured'] }}</div>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="portal-card p-3 border-start border-4 border-info">
-            <small class="text-muted text-uppercase fw-bold" style="font-size: 11px;">Campus Facility Categories</small>
-            <div class="fs-4 fw-bold text-info mt-1">{{ $stats['categories_count'] }}</div>
+        <div class="portal-card p-3 border">
+            <span class="metric-label" style="font-size: 11px;">Campus Facility Categories</span>
+            <div class="fs-4 fw-bold text-dark mt-1">{{ $stats['categories_count'] }}</div>
         </div>
     </div>
 </div>

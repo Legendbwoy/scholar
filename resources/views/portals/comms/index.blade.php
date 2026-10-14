@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Comms Hub & Broadcasts â€” Scholar SMS')
+@section('title', 'Comms Hub & Broadcasts — Scholar SMS')
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">

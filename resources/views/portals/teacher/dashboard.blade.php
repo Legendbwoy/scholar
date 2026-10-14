@@ -11,7 +11,7 @@
             <p class="mb-0 opacity-75">{{ $staff->designation ?? 'Faculty Instructor' }} • Employee ID: <strong>{{ $staff->employee_id ?? 'EMP' }}</strong></p>
         </div>
         <div class="col-md-4 text-md-end">
-            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Active Term: Fall 2026</span>
+            <span class="badge bg-warning text-dark px-3 py-2 fw-bold">Active Term: {{ $activeTerm->name ?? 'Term 1' }} ({{ $activeYear->name ?? date('Y') }})</span>
         </div>
     </div>
 </div>

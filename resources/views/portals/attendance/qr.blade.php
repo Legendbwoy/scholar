@@ -30,13 +30,25 @@
                 </select>
             </div>
 
+            @php
+                $firstStudent = null;
+                $firstClass = null;
+                foreach($classes as $c) {
+                    if ($c->students->isNotEmpty()) {
+                        $firstStudent = $c->students->first();
+                        $firstClass = $c;
+                        break;
+                    }
+                }
+            @endphp
+
             <!-- Simulated QR Visual Card -->
             <div class="p-4 bg-light rounded-4 border d-inline-block text-center shadow-sm mb-4" style="min-width: 280px;">
                 <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block mb-3">
-                    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=SCHOLAR_PASS_2026_001" alt="QR Code" style="width: 160px; height: 160px;">
+                    <img id="qrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data={{ urlencode('SCHOLAR_PASS_' . ($firstStudent->admission_number ?? '001')) }}" alt="QR Code" style="width: 160px; height: 160px;">
                 </div>
-                <h5 id="qrStudentName" class="fw-bold mb-1 text-dark">Alexander Cole</h5>
-                <p id="qrAdmNum" class="text-muted small mb-0">SCH-2026-001 • Grade 10 - Alpha</p>
+                <h5 id="qrStudentName" class="fw-bold mb-1 text-dark">{{ $firstStudent->user->name ?? 'Student Pass' }}</h5>
+                <p id="qrAdmNum" class="text-muted small mb-0">{{ $firstStudent->admission_number ?? 'SCH-000' }} • {{ $firstClass->name ?? 'Cohort' }}</p>
                 <span class="badge bg-success-subtle text-success border border-success mt-2">Active Student Token</span>
             </div>
 
