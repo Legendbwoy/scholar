@@ -312,65 +312,76 @@
     </div>
 
     <div class="container">
-        <div class="row gy-4">
+        <div class="row gy-4 align-items-stretch">
             <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-                <div class="pricing-item p-4 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div class="pricing-item p-4 p-xl-5 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between position-relative">
                     <div>
-                        <span class="badge bg-light text-dark border mb-2 px-3 py-1">Junior Secondary</span>
-                        <h4 class="fw-bold text-dark">Foundational Division</h4>
+                        <span class="badge bg-light text-dark border mb-2 px-3 py-1.5 fw-semibold">Junior Secondary</span>
+                        <h4 class="fw-bold text-dark mb-1">Foundational Division</h4>
                         <div class="my-3">
                             <span class="fs-4 fw-bold text-success">Grades 7 — 9</span>
                             <span class="text-muted small"> / Core Literacy & STEM</span>
                         </div>
-                        <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Comprehensive Sciences & Applied Algebra</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> World Literature & Rhetoric Fundamentals</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Introductory Coding & Computational Logic</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Daily Biometric / QR Attendance Logging</li>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Comprehensive Sciences & Applied Algebra</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>World Literature & Rhetoric Fundamentals</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Introductory Coding & Computational Logic</span></li>
+                            <li class="d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Daily Biometric / QR Attendance Logging</span></li>
                         </ul>
                     </div>
-                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold mt-4">Inquire Admissions</a>
+                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold py-2.5 mt-4 d-inline-flex align-items-center justify-content-center">
+                        <span>Inquire Admissions</span>
+                        <i class="fa-solid fa-arrow-right ms-2 small"></i>
+                    </a>
                 </div>
             </div>
 
             <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="200">
-                <div class="pricing-item featured p-4 bg-white rounded-4 border border-2 shadow h-100 d-flex flex-column justify-content-between position-relative" style="border-color: #009961 !important;">
-                    <span class="badge position-absolute top-0 start-50 translate-middle rounded-pill px-3 py-1.5 fw-bold" style="background-color: #009961; color: #fff;">MOST POPULAR</span>
-                    <div>
-                        <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-3 py-1">Senior Division</span>
-                        <h4 class="fw-bold text-dark">Science & Technology Honors</h4>
+                <div class="pricing-item featured pt-5 pb-4 px-4 px-xl-5 bg-white rounded-4 border border-2 shadow-lg h-100 d-flex flex-column justify-content-between position-relative" style="border-color: #009961 !important;">
+                    <span class="badge position-absolute top-0 start-50 translate-middle rounded-pill px-3 py-2 fw-bold shadow" style="background: linear-gradient(135deg, #009961, #00b874); color: #fff; font-size: 11px; letter-spacing: 0.8px; border: 2px solid #ffffff;">
+                        <i class="fa-solid fa-fire me-1"></i> MOST POPULAR
+                    </span>
+                    <div class="mt-2">
+                        <span class="badge bg-success-subtle text-success border border-success-subtle mb-2 px-3 py-1.5 fw-semibold">Senior Division</span>
+                        <h4 class="fw-bold text-dark mb-1">Science & Technology Honors</h4>
                         <div class="my-3">
                             <span class="fs-4 fw-bold text-success">Grades 10 — 12</span>
                             <span class="text-muted small"> / Pre-Collegiate Honors</span>
                         </div>
-                        <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Advanced Mathematics (MTH-201) & Modern Physics</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> University-Level Computer Science (CSC-301)</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Weighted Continuous Assessment Gradebook (4.0 GPA)</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Instant Multi-Channel Guardian Broadcast Sync</li>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Advanced Mathematics (MTH-201) & Modern Physics</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>University-Level Computer Science (CSC-301)</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Weighted Continuous Assessment Gradebook (4.0 GPA)</span></li>
+                            <li class="d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Instant Multi-Channel Guardian Broadcast Sync</span></li>
                         </ul>
                     </div>
-                    <a href="#contact" class="btn btn-success rounded-pill w-100 fw-bold mt-4" style="background-color: #009961; border: none;">Apply for Cohort</a>
+                    <a href="#contact" class="btn btn-success rounded-pill w-100 fw-bold py-2.5 mt-4 d-inline-flex align-items-center justify-content-center shadow" style="background: linear-gradient(135deg, #009961, #00b874); border: none;">
+                        <span>Apply for Cohort</span>
+                        <i class="fa-solid fa-arrow-right ms-2 small"></i>
+                    </a>
                 </div>
             </div>
 
             <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
-                <div class="pricing-item p-4 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between">
+                <div class="pricing-item p-4 p-xl-5 bg-white rounded-4 border shadow-sm h-100 d-flex flex-column justify-content-between position-relative">
                     <div>
-                        <span class="badge bg-light text-dark border mb-2 px-3 py-1">Advanced Diploma</span>
-                        <h4 class="fw-bold text-dark">International Baccalaureate</h4>
+                        <span class="badge bg-light text-dark border mb-2 px-3 py-1.5 fw-semibold">Advanced Diploma</span>
+                        <h4 class="fw-bold text-dark mb-1">International Baccalaureate</h4>
                         <div class="my-3">
                             <span class="fs-4 fw-bold text-success">AP & IB Prep</span>
                             <span class="text-muted small"> / Global Matriculation</span>
                         </div>
-                        <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Independent Senior Thesis & Lab Fellowships</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Cryptographic Verified Transcripts for Universities</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Dedicated Academic Advisor & Faculty Mentorship</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Full Access to Digital LMS Resource Library</li>
+                        <ul class="list-unstyled small text-muted mb-0">
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Independent Senior Thesis & Lab Fellowships</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Cryptographic Verified Transcripts for Universities</span></li>
+                            <li class="mb-2.5 d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Dedicated Academic Advisor & Faculty Mentorship</span></li>
+                            <li class="d-flex align-items-start"><i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i><span>Full Access to Digital LMS Resource Library</span></li>
                         </ul>
                     </div>
-                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold mt-4">Inquire Admissions</a>
+                    <a href="#contact" class="btn btn-outline-success rounded-pill w-100 fw-bold py-2.5 mt-4 d-inline-flex align-items-center justify-content-center">
+                        <span>Inquire Admissions</span>
+                        <i class="fa-solid fa-arrow-right ms-2 small"></i>
+                    </a>
                 </div>
             </div>
         </div>
