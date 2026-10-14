@@ -9,6 +9,8 @@ use App\Models\Attendance;
 use App\Models\BroadcastMessage;
 use App\Models\BroadcastDelivery;
 use App\Models\AuditTrail;
+use App\Models\AcademicTerm;
+use App\Models\SchoolCalendarHoliday;
 
 class AttendanceController extends Controller
 {
@@ -83,12 +85,21 @@ class AttendanceController extends Controller
 
         $date = $request->input('date', now()->toDateString());
 
+        // Validate date against Academic Calendar and Holidays
+        $currentTerm = AcademicTerm::current();
+        $calendarCheck = $currentTerm ? $currentTerm->isDateInstructional($date, $classId) : [
+            'is_instructional' => true,
+            'reason' => 'Official Instructional Day',
+            'type' => 'instructional',
+            'holiday' => null,
+        ];
+
         $existing = Attendance::where('school_class_id', $classId)
             ->where('date', $date)
             ->get()
             ->keyBy('student_id');
 
-        return view('portals.attendance.mark', compact('class', 'date', 'existing'));
+        return view('portals.attendance.mark', compact('class', 'date', 'existing', 'calendarCheck'));
     }
 
     public function storeMark(Request $request)
@@ -114,6 +125,13 @@ class AttendanceController extends Controller
         }
 
         $date = $request->date;
+
+        // Calendar Holiday Guard: Prevent overriding official campus closures
+        $currentTerm = AcademicTerm::current();
+        $calendarCheck = $currentTerm ? $currentTerm->isDateInstructional($date, $classId) : ['is_instructional' => true];
+        if (!$calendarCheck['is_instructional'] && isset($calendarCheck['holiday']) && $calendarCheck['holiday']->attendance_policy === 'closed_no_register') {
+            return redirect()->back()->with('error', "Cannot record attendance: {$calendarCheck['reason']}. Daily attendance marking is frozen during official campus closures.");
+        }
         $records = $request->attendances;
         $remarks = $request->remarks ?? [];
 
@@ -201,6 +219,17 @@ class AttendanceController extends Controller
             return response()->json(['success' => false, 'message' => 'Student pass not found in institutional registry.'], 404);
         }
         $date = now()->toDateString();
+
+        // Calendar Standby Guard: Prevent check-ins on official campus closures
+        $currentTerm = AcademicTerm::current();
+        $calendarCheck = $currentTerm ? $currentTerm->isDateInstructional($date, $student->school_class_id) : ['is_instructional' => true];
+        if (!$calendarCheck['is_instructional'] && isset($calendarCheck['holiday']) && $calendarCheck['holiday']->attendance_policy === 'closed_no_register') {
+            return response()->json([
+                'success' => false,
+                'message' => "Terminal Standby: {$calendarCheck['reason']}. Check-ins paused on official closures.",
+                'status' => 'Standby',
+            ], 422);
+        }
 
         $att = Attendance::updateOrCreate(
             [

@@ -202,38 +202,32 @@
             </ul>
 
             <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
-                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-campus">
+                @forelse($galleryItems as $item)
+                @php
+                    $catLower = strtolower($item->category);
+                    $filterClass = 'filter-campus';
+                    if (str_contains($catLower, 'lab') || str_contains($catLower, 'stem')) {
+                        $filterClass = 'filter-labs';
+                    } elseif (str_contains($catLower, 'sport') || str_contains($catLower, 'athletic')) {
+                        $filterClass = 'filter-sports';
+                    }
+                @endphp
+                <div class="col-lg-4 col-md-6 portfolio-item isotope-item {{ $filterClass }}">
                     <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
-                        <img src="{{ asset('knightone/img/portfolio/portfolio-1.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Main Academic Quadrangle">
+                        <img src="{{ $item->image_url }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="{{ $item->title }}">
                         <div class="portfolio-info p-3 bg-white">
-                            <h6 class="fw-bold mb-1">Main Academic Quadrangle</h6>
-                            <p class="text-muted small mb-0">Historic architecture meeting cutting-edge digital learning spaces.</p>
-                            <a href="{{ asset('knightone/img/portfolio/portfolio-1.jpg') }}" title="Main Academic Quadrangle" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
+                            <span class="badge bg-light text-dark border mb-1" style="font-size: 10px;">{{ $item->category }}</span>
+                            <h6 class="fw-bold mb-1">{{ $item->title }}</h6>
+                            <p class="text-muted small mb-0">{{ $item->caption ?: 'Experiential learning and campus facilities.' }}</p>
+                            <a href="{{ $item->image_url }}" title="{{ $item->title }}" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-labs">
-                    <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
-                        <img src="{{ asset('knightone/img/portfolio/portfolio-2.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Robotics & Biotechnology Lab">
-                        <div class="portfolio-info p-3 bg-white">
-                            <h6 class="fw-bold mb-1">Robotics & Biotechnology Lab</h6>
-                            <p class="text-muted small mb-0">Advanced laboratory protocols and experiential STEM research.</p>
-                            <a href="{{ asset('knightone/img/portfolio/portfolio-2.jpg') }}" title="Robotics & Biotechnology Lab" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                        </div>
-                    </div>
+                @empty
+                <div class="col-12 text-center py-4 text-muted">
+                    <p>No gallery photographs published yet.</p>
                 </div>
-
-                <div class="col-lg-4 col-md-6 portfolio-item isotope-item filter-sports">
-                    <div class="portfolio-content h-100 rounded-4 overflow-hidden border shadow-sm position-relative">
-                        <img src="{{ asset('knightone/img/portfolio/portfolio-3.jpg') }}" class="img-fluid w-100" style="height: 250px; object-fit: cover;" alt="Championship Aquatic Center">
-                        <div class="portfolio-info p-3 bg-white">
-                            <h6 class="fw-bold mb-1">Championship Aquatic Center</h6>
-                            <p class="text-muted small mb-0">Olympic-standard athletic training and varsity swimming programs.</p>
-                            <a href="{{ asset('knightone/img/portfolio/portfolio-3.jpg') }}" title="Championship Aquatic Center" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
             </div>
 
             <div class="text-center mt-5">
@@ -241,6 +235,70 @@
                     <i class="bi bi-images me-1"></i> Explore Complete Institutional Gallery
                 </a>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events & Academic Symposiums Section -->
+<section id="events" class="events section py-5" style="background-color: #f8fafc;">
+    <div class="container section-title text-center" data-aos="fade-up">
+        <span class="text-uppercase fw-bold text-success small" style="letter-spacing: 1.5px;">Institutional Calendar</span>
+        <h2 class="fw-bold text-dark">Upcoming Events & Academic Symposiums</h2>
+        <p class="text-muted">Campus assemblies, science competitions, sports galas, and parent-faculty conferences scheduled for this academic term.</p>
+    </div>
+
+    <div class="container">
+        <div class="row g-4" data-aos="fade-up" data-aos-delay="100">
+            @forelse($events as $event)
+            <div class="col-lg-6">
+                <div class="card h-100 border-0 rounded-4 shadow-sm overflow-hidden bg-white d-flex flex-column flex-md-row">
+                    <!-- Banner on left for md+ -->
+                    <div class="position-relative" style="min-width: 200px; max-width: 220px; height: 100%; min-height: 220px; background-color: #eef2f6;">
+                        <img src="{{ $event->banner_url }}" class="w-100 h-100 object-fit-cover" alt="{{ $event->title }}" style="position: absolute; top: 0; left: 0; height: 100%;">
+                        <div class="position-absolute top-0 start-0 m-2 text-center bg-white rounded-3 shadow-sm px-2.5 py-1.5" style="min-width: 54px;">
+                            <span class="d-block fw-bold text-success text-uppercase" style="font-size: 11px;">{{ $event->event_date->format('M') }}</span>
+                            <span class="d-block fw-bolder fs-4 text-dark lh-1">{{ $event->event_date->format('d') }}</span>
+                            <span class="d-block text-muted" style="font-size: 9px;">{{ $event->event_date->format('D') }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Details on right -->
+                    <div class="card-body p-4 d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5 py-1">
+                                    {{ $event->category }}
+                                </span>
+                                <small class="text-muted">
+                                    <i class="bi bi-clock me-1"></i> {{ $event->event_date->format('g:i A') }}
+                                </small>
+                            </div>
+
+                            <h5 class="fw-bold text-dark mb-2">{{ $event->title }}</h5>
+                            <p class="text-muted small mb-3">{{ Str::limit($event->description, 130) }}</p>
+                        </div>
+
+                        <div class="pt-2 border-top d-flex justify-content-between align-items-center">
+                            <small class="text-muted text-truncate me-2">
+                                <i class="bi bi-geo-alt-fill text-danger me-1"></i> {{ $event->venue }}
+                            </small>
+                            @if($event->registration_link)
+                                <a href="{{ $event->registration_link }}" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-semibold">
+                                    Register <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                            @else
+                                <span class="badge bg-light text-dark border">Open Entry</span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @empty
+            <div class="col-12 text-center py-5 text-muted">
+                <i class="bi bi-calendar-x fs-1 text-secondary mb-2 d-block"></i>
+                <p>No upcoming institutional events scheduled currently. Please check back shortly.</p>
+            </div>
+            @endforelse
         </div>
     </div>
 </section>

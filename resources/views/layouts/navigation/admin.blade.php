@@ -47,6 +47,16 @@
 
 <li class="nav-category">Cohorts & Curriculum</li>
 <li>
+    <a href="{{ route('academic.calendar') }}" class="{{ request()->routeIs('academic.calendar*') ? 'active' : '' }}">
+        <i class="fa-solid fa-calendar-days"></i> <span>Academic Calendar</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('academic.grading-policies') }}" class="{{ request()->routeIs('academic.grading-policies*') ? 'active' : '' }}">
+        <i class="fa-solid fa-scale-balanced"></i> <span>Grading Policies</span>
+    </a>
+</li>
+<li>
     <a href="{{ route('academic.classes') }}" class="{{ request()->routeIs('academic.classes') ? 'active' : '' }}">
         <i class="fa-solid fa-school"></i> <span>Cohorts & Classes</span>
     </a>
@@ -90,6 +100,28 @@
 <li>
     <a href="{{ route('broadcasts.create') }}" class="{{ request()->routeIs('broadcasts.create') ? 'active' : '' }}">
         <i class="fa-solid fa-paper-plane"></i> <span>Compose Broadcast</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('broadcasts.templates.index') }}" class="{{ request()->routeIs('broadcasts.templates.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-shapes"></i> <span>Message Templates</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('gateways.index') }}" class="{{ request()->routeIs('gateways.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-tower-broadcast"></i> <span>Gateway & API Configs</span>
+    </a>
+</li>
+
+<li class="nav-category">Portal Media & Events</li>
+<li>
+    <a href="{{ route('content.events.index') }}" class="{{ request()->routeIs('content.events.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-calendar-star"></i> <span>Events & Symposiums</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('content.gallery.index') }}" class="{{ request()->routeIs('content.gallery.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-images"></i> <span>Campus Life Gallery</span>
     </a>
 </li>
 

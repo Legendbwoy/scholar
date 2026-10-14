@@ -46,7 +46,7 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="{{ asset($s->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle" style="width: 44px; height: 44px; object-fit: cover;">
+                                <img src="{{ $s->user->avatar_url }}" class="rounded-circle" style="width: 44px; height: 44px; object-fit: cover;">
                                 <div>
                                     <div class="fw-bold text-dark">{{ $s->user->name }}</div>
                                     <small class="text-muted">{{ $s->user->email }}</small>

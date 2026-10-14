@@ -10,11 +10,16 @@
 </div>
 
 <div class="portal-card p-4 p-md-5">
-    <form action="{{ route('students.store') }}" method="POST">
+    <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-4">
             <div class="col-12">
                 <h5 class="fw-bold text-primary border-bottom pb-2">1. Student Identity & Contact</h5>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Profile Photograph</label>
+                <input type="file" name="avatar" class="form-control" accept="image/*">
+                <small class="text-muted">Student passport photo (JPG/PNG/WEBP, Max 3MB)</small>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Full Legal Name *</label>

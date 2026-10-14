@@ -63,13 +63,21 @@ class StudentController extends Controller
             'password' => 'nullable|string|min:6',
         ]);
 
+        $avatarPath = 'scholar/assets/images/event-01.jpg';
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'avatar_student_' . time() . '_' . \Illuminate\Support\Str::random(4) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('avatars', $filename, 'public');
+            $avatarPath = 'storage/' . $path;
+        }
+
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => 'student',
             'password' => Hash::make($validated['password'] ?? 'password'),
-            'avatar' => 'scholar/assets/images/event-01.jpg',
+            'avatar' => $avatarPath,
             'status' => 'active',
         ]);
 
@@ -505,13 +513,22 @@ class StudentController extends Controller
             'status' => $student->status,
         ];
 
-        // Update User
-        $student->user->update([
+        $userData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'status' => $validated['status'] === 'active' ? 'active' : 'inactive',
-        ]);
+        ];
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'avatar_student_' . time() . '_' . \Illuminate\Support\Str::random(4) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('avatars', $filename, 'public');
+            $userData['avatar'] = 'storage/' . $path;
+        }
+
+        // Update User
+        $student->user->update($userData);
 
         // Update Student
         $student->update([

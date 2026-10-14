@@ -19,8 +19,18 @@ class Course extends Model
         'description',
         'thumbnail',
         'category',
+        'grading_mode',
+        'lms_weight',
+        'offline_weight',
         'total_lessons',
         'is_published',
+    ];
+
+    protected $casts = [
+        'lms_weight' => 'integer',
+        'offline_weight' => 'integer',
+        'total_lessons' => 'integer',
+        'is_published' => 'boolean',
     ];
 
     public function subject()

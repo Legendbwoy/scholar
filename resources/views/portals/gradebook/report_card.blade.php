@@ -121,49 +121,66 @@
                 <div class="p-3 bg-white rounded-3 border shadow-2xs">
                     <span class="text-muted small fw-semibold d-block">Punctuality & Presence</span>
                     <h3 class="fw-bold mb-0 text-info">{{ $reportData['attendance_rate'] }}%</h3>
-                    <small class="text-muted" style="font-size: 11px;">Verified Register</small>
+                    <small class="text-muted" style="font-size: 11px;">
+                        {{ $reportData['present_days'] ?? 0 }} / {{ $reportData['eligible_instructional_days'] ?? 90 }} Instructional Days
+                    </small>
                 </div>
             </div>
         </div>
 
         <!-- Curriculum Subject Breakdown Table -->
         <div class="mb-4">
-            <h5 class="fw-bold text-dark mb-3"><i class="fa-solid fa-book-bookmark text-primary me-2"></i> Curriculum Performance Breakdown</h5>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="fw-bold text-dark mb-0"><i class="fa-solid fa-book-bookmark text-primary me-2"></i> Dual-Assessment Curriculum Performance Breakdown</h5>
+                <span class="badge bg-light text-dark border small">Multi-Channel Ingestion: LMS + Offline Proctored</span>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered align-middle mb-0" style="font-size: 13px;">
                     <thead class="table-light text-center">
                         <tr>
-                            <th class="text-start" style="width: 28%;">Curriculum Subject</th>
+                            <th class="text-start" style="width: 28%;">Curriculum Subject & Faculty</th>
                             <th style="width: 7%;">Credits</th>
-                            <th style="width: 14%;">Quiz (20%)</th>
-                            <th style="width: 14%;">Midterm (30%)</th>
-                            <th style="width: 14%;">Final (50%)</th>
-                            <th style="width: 10%;">Total %</th>
+                            <th style="width: 20%;">LMS Digital Activities</th>
+                            <th style="width: 20%;">Offline Proctored Exams</th>
+                            <th style="width: 11%;">Composite %</th>
                             <th style="width: 7%;">Grade</th>
-                            <th style="width: 6%;">GPA</th>
+                            <th style="width: 7%;">GPA</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($reportData['subjects'] as $subRes)
-                            @php
-                                $quizScore = null;
-                                $midtermScore = null;
-                                $finalScore = null;
-                                foreach ($subRes['assessments'] as $a) {
-                                    if ($a['type'] === 'quiz') $quizScore = $a['percentage'] . '%';
-                                    if ($a['type'] === 'midterm') $midtermScore = $a['percentage'] . '%';
-                                    if ($a['type'] === 'final') $finalScore = $a['percentage'] . '%';
-                                }
-                            @endphp
                             <tr>
                                 <td>
                                     <strong class="text-dark d-block">{{ $subRes['subject']->name }}</strong>
                                     <small class="text-muted">{{ $subRes['subject']->code }} &bull; Instructor: {{ $subRes['teacher'] }}</small>
                                 </td>
                                 <td class="text-center fw-semibold">{{ $subRes['credits'] }}</td>
-                                <td class="text-center">{{ $quizScore ?? 'N/A' }}</td>
-                                <td class="text-center">{{ $midtermScore ?? 'N/A' }}</td>
-                                <td class="text-center">{{ $finalScore ?? 'N/A' }}</td>
+                                <td class="text-center">
+                                    @if(($subRes['grading_mode'] ?? 'dual') === 'offline_only')
+                                        <span class="badge bg-light text-muted border">N/A (Offline Only)</span>
+                                    @else
+                                        <div class="d-inline-flex align-items-center gap-1.5">
+                                            <span class="fw-bold text-dark">{{ $subRes['lms_percentage'] }}%</span>
+                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-1.5 py-0.5" style="font-size: 10px;">
+                                                {{ $subRes['lms_letter'] }}
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block" style="font-size: 10px;">Weight: {{ $subRes['lms_weight'] }}%</small>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if(($subRes['grading_mode'] ?? 'dual') === 'lms_only')
+                                        <span class="badge bg-light text-muted border">N/A (LMS Only)</span>
+                                    @else
+                                        <div class="d-inline-flex align-items-center gap-1.5">
+                                            <span class="fw-bold text-dark">{{ $subRes['offline_percentage'] }}%</span>
+                                            <span class="badge bg-success-subtle text-success border border-success-subtle px-1.5 py-0.5" style="font-size: 10px;">
+                                                {{ $subRes['offline_letter'] }}
+                                            </span>
+                                        </div>
+                                        <small class="text-muted d-block" style="font-size: 10px;">Weight: {{ $subRes['offline_weight'] }}%</small>
+                                    @endif
+                                </td>
                                 <td class="text-center fw-bold fs-6 text-dark">{{ $subRes['final_percentage'] }}%</td>
                                 <td class="text-center">
                                     <span class="badge bg-{{ in_array($subRes['letter_grade'], ['A+', 'A']) ? 'success' : (in_array($subRes['letter_grade'], ['B', 'C']) ? 'primary' : 'warning text-dark') }} fw-bold px-2 py-1">
@@ -176,7 +193,7 @@
                     </tbody>
                     <tfoot class="table-light fw-bold">
                         <tr>
-                            <td colspan="5" class="text-end">Aggregate Weighted Evaluation:</td>
+                            <td colspan="4" class="text-end">Aggregate Weighted Evaluation:</td>
                             <td class="text-center fs-6 text-dark">{{ $reportData['overall_percentage'] }}%</td>
                             <td class="text-center text-success">{{ $reportData['overall_letter'] }}</td>
                             <td class="text-center text-primary fs-6">{{ number_format($reportData['cumulative_gpa'], 2) }}</td>

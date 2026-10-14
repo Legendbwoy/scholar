@@ -38,13 +38,21 @@ class StaffController extends Controller
             'salary' => 'nullable|numeric',
         ]);
 
+        $avatarPath = 'scholar/assets/images/member-02.jpg';
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'avatar_staff_' . time() . '_' . \Illuminate\Support\Str::random(4) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('avatars', $filename, 'public');
+            $avatarPath = 'storage/' . $path;
+        }
+
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'role' => 'teacher',
             'password' => Hash::make('password'),
-            'avatar' => 'scholar/assets/images/member-02.jpg',
+            'avatar' => $avatarPath,
             'status' => 'active',
         ]);
 
@@ -106,12 +114,21 @@ class StaffController extends Controller
             'designation' => $staff->designation,
         ];
 
-        // Update user
-        $staff->user->update([
+        $userData = [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
-        ]);
+        ];
+
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = 'avatar_staff_' . time() . '_' . \Illuminate\Support\Str::random(4) . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('avatars', $filename, 'public');
+            $userData['avatar'] = 'storage/' . $path;
+        }
+
+        // Update user
+        $staff->user->update($userData);
 
         // Update staff
         $staff->update([

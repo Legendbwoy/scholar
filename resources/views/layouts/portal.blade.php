@@ -307,9 +307,11 @@
 
         <!-- User Profile Chip with 1-Click Role Switcher -->
         <div class="user-chip">
-            <img src="{{ asset(auth()->user()->avatar ?? 'scholar/assets/images/member-01.jpg') }}" alt="{{ auth()->user()->name }}">
+            <a href="{{ route('profile.show') }}" title="Manage Profile & Photo">
+                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="rounded-circle">
+            </a>
             <div class="flex-grow-1 overflow-hidden">
-                <div class="fw-bold text-truncate small">{{ auth()->user()->name }}</div>
+                <a href="{{ route('profile.show') }}" class="text-white text-decoration-none fw-bold text-truncate small d-block">{{ auth()->user()->name }}</a>
                 <div class="dropdown demo-switcher-dropdown">
                     <button class="btn btn-sm p-0 text-white-50 dropdown-toggle small text-capitalize" type="button" data-bs-toggle="dropdown" style="font-size: 11px;">
                         <span class="badge role-badge-{{ auth()->user()->role }} me-1">{{ ucfirst(auth()->user()->role) }}</span> Switch
@@ -443,7 +445,7 @@
                 <!-- User Dropdown -->
                 <div class="dropdown">
                     <button class="btn p-0 border-0 d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown">
-                        <img src="{{ asset(auth()->user()->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle" style="width: 38px; height: 38px; object-fit: cover;">
+                        <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle" style="width: 38px; height: 38px; object-fit: cover;">
                         <div class="text-start d-none d-md-block">
                             <span class="fw-bold small d-block">{{ auth()->user()->name }}</span>
                             <span class="text-muted text-capitalize" style="font-size: 11px;">{{ auth()->user()->role }}</span>
@@ -451,6 +453,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end shadow-lg">
                         <li><h6 class="dropdown-header small">{{ auth()->user()->email }}</h6></li>
+                        <li><a class="dropdown-item" href="{{ route('profile.show') }}"><i class="fa-solid fa-user-gear me-2 text-primary"></i> Profile & Avatar Settings</a></li>
                         <li><a class="dropdown-item" href="{{ route('dashboard') }}"><i class="fa-solid fa-gauge-high me-2 text-muted"></i> Dashboard</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>

@@ -64,7 +64,7 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center gap-3">
-                                <img src="{{ asset($s->user->avatar ?? 'scholar/assets/images/event-01.jpg') }}" class="rounded-circle shadow-sm" style="width: 42px; height: 42px; object-fit: cover;">
+                                <img src="{{ $s->user->avatar_url }}" class="rounded-circle shadow-sm" style="width: 42px; height: 42px; object-fit: cover;">
                                 <div>
                                     <div class="fw-bold text-dark">{{ $s->user->name }}</div>
                                     <small class="text-muted">{{ $s->user->email }}</small>
@@ -101,7 +101,7 @@
                                     data-id="{{ $s->id }}"
                                     data-name="{{ $s->user->name }}"
                                     data-email="{{ $s->user->email }}"
-                                    data-avatar="{{ asset($s->user->avatar ?? 'scholar/assets/images/event-01.jpg') }}"
+                                    data-avatar="{{ $s->user->avatar_url }}"
                                     data-admission="{{ $s->admission_number }}"
                                     data-cohort="{{ ($s->schoolClass->name ?? 'Unassigned') }} (Section {{ ($s->schoolClass->section ?? 'N/A') }})"
                                     data-roll="{{ $s->roll_number ?? 'N/A' }}"

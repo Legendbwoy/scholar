@@ -45,7 +45,7 @@
     <div class="col-lg-4">
         <!-- Identity Card -->
         <div class="portal-card p-4 text-center">
-            <img src="{{ asset($student->user->avatar ?? 'scholar/assets/images/event-01.jpg') }}" class="rounded-circle shadow-sm mb-3" style="width: 110px; height: 110px; object-fit: cover; border: 4px solid #eef0f6;">
+            <img src="{{ $student->user->avatar_url }}" class="rounded-circle shadow-sm mb-3" style="width: 110px; height: 110px; object-fit: cover; border: 4px solid #eef0f6;">
             <h4 class="fw-bold mb-1">{{ $student->user->name }}</h4>
             <p class="text-muted small mb-3">{{ $student->user->email }}</p>
 

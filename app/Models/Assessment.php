@@ -12,6 +12,8 @@ class Assessment extends Model
     protected $fillable = [
         'title',
         'type',
+        'delivery_mode',
+        'category_group',
         'term',
         'academic_year',
         'school_class_id',
@@ -19,6 +21,7 @@ class Assessment extends Model
         'teacher_id',
         'max_marks',
         'weightage',
+        'weightage_in_component',
         'date',
         'status',
         'description',
@@ -28,6 +31,7 @@ class Assessment extends Model
         'date' => 'date',
         'max_marks' => 'integer',
         'weightage' => 'integer',
+        'weightage_in_component' => 'integer',
     ];
 
     public function schoolClass()

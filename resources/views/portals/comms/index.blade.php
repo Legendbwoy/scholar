@@ -9,9 +9,14 @@
         <p class="text-muted mb-0">Multi-Channel Broadcast Engine: SMS, WhatsApp, Email & In-App Alerts</p>
     </div>
     @if(auth()->user()->isAdmin() || auth()->user()->isTeacher())
-    <a href="{{ route('broadcasts.create') }}" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
-        <i class="fa-solid fa-paper-plane me-1"></i> Compose Broadcast
-    </a>
+    <div class="d-flex align-items-center gap-2">
+        <a href="{{ route('broadcasts.templates.index') }}" class="btn btn-outline-primary rounded-pill px-3 fw-semibold shadow-sm">
+            <i class="fa-solid fa-shapes me-1"></i> Message Templates
+        </a>
+        <a href="{{ route('broadcasts.create') }}" class="btn btn-warning rounded-pill px-4 fw-bold shadow-sm">
+            <i class="fa-solid fa-paper-plane me-1"></i> Compose Broadcast
+        </a>
+    </div>
     @endif
 </div>
 
@@ -80,7 +85,23 @@
                 @forelse($broadcasts as $b)
                     <tr>
                         <td>
-                            <div class="fw-bold text-dark">{{ $b->title }}</div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="fw-bold text-dark">{{ $b->title }}</span>
+                                @if($b->status === 'scheduled')
+                                    <span class="badge bg-info-subtle text-info border border-info-subtle">
+                                        <i class="fa-regular fa-clock me-1"></i> Scheduled ({{ $b->scheduled_at ? $b->scheduled_at->format('M d, H:i') : 'Auto' }})
+                                    </span>
+                                @elseif($b->send_mode === 'auto_holiday')
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                                        <i class="fa-solid fa-bolt me-1"></i> Holiday Auto
+                                    </span>
+                                @endif
+                                @if($b->template)
+                                    <span class="badge bg-light text-muted border" style="font-size: 10px;">
+                                        <i class="fa-solid fa-shapes me-1"></i> {{ Str::limit($b->template->title, 20) }}
+                                    </span>
+                                @endif
+                            </div>
                             <small class="text-muted">{{ Str::limit($b->message, 80) }}</small>
                         </td>
                         <td>

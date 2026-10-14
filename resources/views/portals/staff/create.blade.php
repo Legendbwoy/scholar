@@ -10,9 +10,14 @@
 </div>
 
 <div class="portal-card p-4 p-md-5">
-    <form action="{{ route('staff.store') }}" method="POST">
+    <form action="{{ route('staff.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row g-4">
+            <div class="col-12">
+                <label class="form-label fw-semibold">Faculty Profile Photograph</label>
+                <input type="file" name="avatar" class="form-control" accept="image/*">
+                <small class="text-muted">Faculty headshot or identity photo (JPG/PNG/WEBP, Max 3MB)</small>
+            </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Faculty Legal Name *</label>
                 <input type="text" name="name" class="form-control" placeholder="e.g. Dr. Julian Croft" required>

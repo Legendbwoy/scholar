@@ -1,4 +1,4 @@
-﻿{{-- ================= TEACHER / FACULTY NAVIGATION ================= --}}
+{{-- ================= TEACHER / FACULTY NAVIGATION ================= --}}
 <li class="nav-category">Faculty Desk</li>
 <li>
     <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('dashboard') ? 'active' : '' }}">
@@ -68,5 +68,10 @@
 <li>
     <a href="{{ route('broadcasts.create') }}" class="{{ request()->routeIs('broadcasts.create') ? 'active' : '' }}">
         <i class="fa-solid fa-paper-plane"></i> <span>Compose Announcement</span>
+    </a>
+</li>
+<li>
+    <a href="{{ route('broadcasts.templates.index') }}" class="{{ request()->routeIs('broadcasts.templates.*') ? 'active' : '' }}">
+        <i class="fa-solid fa-shapes"></i> <span>Message Templates</span>
     </a>
 </li>

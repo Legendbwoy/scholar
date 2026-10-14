@@ -34,7 +34,7 @@
 <div class="row g-4">
     <div class="col-lg-4">
         <div class="portal-card p-4 text-center">
-            <img src="{{ asset($staff->user->avatar ?? 'scholar/assets/images/member-01.jpg') }}" class="rounded-circle shadow-sm mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #f0f2f8;">
+            <img src="{{ $staff->user->avatar_url }}" class="rounded-circle shadow-sm mb-3" style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #f0f2f8;">
             <h4 class="fw-bold mb-1">{{ $staff->user->name }}</h4>
             <p class="text-muted small mb-2">{{ $staff->designation }}</p>
             <span class="badge bg-primary-subtle text-primary mb-3">{{ $staff->department->name ?? 'Academics' }}</span>

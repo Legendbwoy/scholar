@@ -77,4 +77,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(BroadcastDelivery::class, 'recipient_id');
     }
+
+    public function getAvatarUrlAttribute(): string
+    {
+        if (empty($this->avatar)) {
+            return asset('scholar/assets/images/member-01.jpg');
+        }
+        if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://')) {
+            return $this->avatar;
+        }
+        return asset($this->avatar);
+    }
 }

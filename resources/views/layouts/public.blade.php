@@ -100,6 +100,7 @@
                     <li><a href="{{ route('home') }}#services">Academic Pillars</a></li>
                     <li><a href="{{ route('home') }}#features">Platform Capabilities</a></li>
                     <li><a href="{{ route('landing.gallery') }}" class="{{ request()->routeIs('landing.gallery') ? 'active' : '' }}">Campus Gallery</a></li>
+                    <li><a href="{{ route('home') }}#events">Events Calendar</a></li>
                     <li><a href="{{ route('home') }}#stats">Institutional Reach</a></li>
                     <li><a href="{{ route('home') }}#pricing">Cohorts</a></li>
                     <li><a href="{{ route('home') }}#faq">FAQ</a></li>

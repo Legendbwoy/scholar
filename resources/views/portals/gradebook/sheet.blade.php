@@ -9,8 +9,12 @@
     </a>
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
         <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
+            <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                 <span class="badge bg-primary text-uppercase px-2.5 py-1">{{ $assessment->type }}</span>
+                <span class="badge bg-{{ ($assessment->delivery_mode ?? 'offline_coursework') === 'lms_online' ? 'primary-subtle text-primary border border-primary-subtle' : 'success-subtle text-success border border-success-subtle' }} px-2.5 py-1 fw-bold">
+                    <i class="fa-solid {{ ($assessment->delivery_mode ?? 'offline_coursework') === 'lms_online' ? 'fa-laptop-code' : 'fa-pen-clip' }} me-1"></i>
+                    {{ ($assessment->delivery_mode ?? 'offline_coursework') === 'lms_online' ? 'LMS Digital Assessment' : 'Offline Coursework / Exam' }}
+                </span>
                 <span class="badge bg-light text-dark border">{{ $assessment->term }} &bull; {{ $assessment->academic_year }}</span>
                 <span class="badge bg-warning text-dark border fw-bold">{{ $assessment->weightage }}% Weight</span>
             </div>

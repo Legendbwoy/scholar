@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\GalleryItem;
+use App\Models\Event;
 use App\Models\Staff;
 use App\Models\Student;
 use App\Models\SchoolClass;
@@ -18,7 +19,8 @@ class LandingController extends Controller
             ->where('is_published', true)
             ->get();
 
-        $galleryItems = GalleryItem::orderBy('is_featured', 'desc')->get();
+        $galleryItems = GalleryItem::orderBy('is_featured', 'desc')->take(9)->get();
+        $events = Event::published()->upcoming()->take(4)->get();
         $staffMembers = Staff::with(['user', 'department'])->take(4)->get();
 
         $stats = [
@@ -29,7 +31,7 @@ class LandingController extends Controller
             'attendance_rate' => '98.6%',
         ];
 
-        return view('landing.index', compact('courses', 'galleryItems', 'staffMembers', 'stats'));
+        return view('landing.index', compact('courses', 'galleryItems', 'events', 'staffMembers', 'stats'));
     }
 
     public function gallery()

@@ -15,13 +15,23 @@
 </div>
 
 <div class="portal-card p-4 p-md-5">
-    <form action="{{ route('students.update', $student->id) }}" method="POST">
+    <form action="{{ route('students.update', $student->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div class="row g-4">
             <div class="col-12">
                 <h5 class="fw-bold text-primary border-bottom pb-2">1. Personal & Contact Information</h5>
+            </div>
+            <div class="col-12">
+                <label class="form-label fw-semibold">Profile Photograph</label>
+                <div class="d-flex align-items-center gap-3">
+                    <img src="{{ $student->user->avatar_url }}" class="rounded-circle border shadow-sm" style="width: 58px; height: 58px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <input type="file" name="avatar" class="form-control" accept="image/*">
+                        <small class="text-muted">Choose new photograph to replace current avatar (JPG/PNG/WEBP, Max 3MB)</small>
+                    </div>
+                </div>
             </div>
             <div class="col-md-6">
                 <label class="form-label fw-semibold">Student Full Name *</label>
